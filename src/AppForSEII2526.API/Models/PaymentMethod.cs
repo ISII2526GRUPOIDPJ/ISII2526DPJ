@@ -1,6 +1,6 @@
 ﻿namespace AppForSEII2526.API.Models
 {
-    public abstract class PaymentMethod
+    public class PaymentMethod
     {
         public int Id { get; set; }
     }
