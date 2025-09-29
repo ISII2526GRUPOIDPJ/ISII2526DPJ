@@ -7,6 +7,8 @@
         public string Description { get; set; }
         public string HealthIssues { get; set; }
         public string Name { get; set; }
+
+        [Precision(10,2)]
         public decimal TotalPrice { get; set; }
         public int Weeks { get; set; }
 
