@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public int Capacity { get; set; }
         public DateTime Date { get; set; }
+        [Precision(10, 2)]
         public decimal Price { get; set; }
     }
 }

@@ -6,6 +6,7 @@
         public int ClassId { get; set; }
         public string Goal { get; set; }
         public int PlanId { get; set; }
+        [Precision(10, 2)]
         public decimal Price { get; set; }
 
         public Plan Plan { get; set; }
