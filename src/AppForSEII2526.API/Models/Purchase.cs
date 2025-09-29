@@ -9,5 +9,6 @@
         public string Description { get; set; }
         public string Street { get; set; }
         public decimal Total_price { get; set; }
+        public IList<PurchaseItem> PurchaseItems { get; set; }
     }
 }
