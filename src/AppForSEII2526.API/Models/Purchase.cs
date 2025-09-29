@@ -8,6 +8,8 @@
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public string Street { get; set; }
+        [Precision(10,2)]
         public decimal Total_price { get; set; }
+        public IList<PurchaseItem> PurchaseItems { get; set; }
     }
 }
