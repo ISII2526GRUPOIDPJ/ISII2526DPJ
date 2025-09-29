@@ -13,11 +13,11 @@
   <Class Name="AppForSEII2526.API.Models.PurchaseItem">
     <Position X="7.75" Y="2.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAABQAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAABQAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\PurchaseItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="PurchaseId" />
+      <Property Name="Purchase" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
