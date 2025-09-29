@@ -13,5 +13,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<PlanItem> PlanItems { get; set; }
     public DbSet<Plan> Plans { get; set; }
     public DbSet<PurchaseItem> PurchaseItems { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 }
 
