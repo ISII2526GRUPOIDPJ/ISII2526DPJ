@@ -8,5 +8,7 @@
         public DateTime Date { get; set; }
         [Precision(10, 2)]
         public decimal Price { get; set; }
+
+        public IList<PlanItem> PlanItems { get; set; }
     }
 }

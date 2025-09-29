@@ -10,5 +10,6 @@
         public decimal Price { get; set; }
 
         public Plan Plan { get; set; }
+        public Class Class { get; set; }
     }
 }
