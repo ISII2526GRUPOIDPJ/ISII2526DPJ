@@ -9,5 +9,7 @@
         public string Name { get; set; }
         public decimal TotalPrice { get; set; }
         public int Weeks { get; set; }
+
+        public IList<PlanItem> PlanItems { get; set; }
     }
 }
