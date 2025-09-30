@@ -1,8 +1,10 @@
-﻿namespace AppForSEII2526.API.Models
+﻿using System.Numerics;
+
+namespace AppForSEII2526.API.Models
 {
+    [PrimaryKey(nameof(ItemId), nameof(PurchaseId))]
     public class PurchaseItem
     {
-        [Key]
         public int ItemId { get; set; }
         public int Amount_bought { get; set; }
         [Precision(10,2)]
