@@ -9,5 +9,6 @@
         public decimal Price { get; set; }
         public int PurchaseId { get; set; }
         public Purchase Purchase { get; set; }
+        public Item Item { get; set; }
     }
 }
