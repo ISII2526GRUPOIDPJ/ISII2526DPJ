@@ -10,5 +10,6 @@
         public decimal Price { get; set; }
 
         public IList<PlanItem> PlanItems { get; set; }
+        public IList<TypeItem> TypeItems { get; set; }
     }
 }
