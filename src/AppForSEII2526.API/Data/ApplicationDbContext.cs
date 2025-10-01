@@ -14,5 +14,26 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Plan> Plans { get; set; }
     public DbSet<PurchaseItem> PurchaseItems { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+    public DbSet<Item> Items { get; set; }  
+    public DbSet<Brand> Brands { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder) {
+        base.OnModelCreating(builder);
+
+
+        builder.Entity<Brand>()
+            .HasMany(b => b.Items)
+            .WithOne(c => c.Brand)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<TypeItem>()
+            .HasMany(b => b.Items)
+            .WithOne(c => c.TypeItem)
+            .OnDelete(DeleteBehavior.NoAction);
+
+    }
+
+
 }
 
