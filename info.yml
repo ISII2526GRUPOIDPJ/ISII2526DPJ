@@ -7,14 +7,14 @@ project:
     email: 'JoseAngel.Sotoca@alu.uclm.es,Pablo.sanchez36@alu.uclm.es,daniel.felix@alu.uclm.es'
   members:
     member1:
-      name: 'JosÈ ¡ngel'
-      surname: 'Sotoca PulpÛn' 
+      name: 'Jos√© √Ångel'
+      surname: 'Sotoca Pulp√≥n' 
       githubUsername: 'JoseAngelsp'
     member2:
       name: 'Daniel'
-      surname: 'FÈlix Moya' 
+      surname: 'F√©lix Moya' 
       githubUsername: 'Daniel-Felix-Moya'
     member3:
       name: 'Pablo'
-      surname: 'S·nchez-Multiterno Guerrero' 
-      githubUsername: 'pabloMultiterno' 
+      surname: 'S√°nchez-Muliterno Guerrero' 
+      githubUsername: 'pabloMuliterno' 
