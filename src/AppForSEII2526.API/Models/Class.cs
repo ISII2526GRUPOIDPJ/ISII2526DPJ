@@ -11,5 +11,6 @@
 
         public IList<PlanItem> PlanItems { get; set; }
         public IList<TypeItem> TypeItems { get; set; }
+        public Brand Brand { get; set; }
     }
 }

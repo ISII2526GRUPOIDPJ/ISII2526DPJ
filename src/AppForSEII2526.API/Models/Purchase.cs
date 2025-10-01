@@ -11,5 +11,6 @@
         [Precision(10,2)]
         public decimal Total_price { get; set; }
         public IList<PurchaseItem> PurchaseItems { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
     }
 }
