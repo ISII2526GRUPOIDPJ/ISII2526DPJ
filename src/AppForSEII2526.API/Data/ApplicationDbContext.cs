@@ -20,6 +20,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Bizum> Bizums { get; set; }
     public DbSet<CreditCard> CreditCards { get; set; }
     public DbSet<PayPal> PayPals { get; set; }
+    public DbSet<ItemForExercise> ItemForExercises { get; set; }
+    public DbSet<Incident> Incidents { get; set; }
+    public DbSet<IncidentItem> IncidentItems { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder) {
         base.OnModelCreating(builder);

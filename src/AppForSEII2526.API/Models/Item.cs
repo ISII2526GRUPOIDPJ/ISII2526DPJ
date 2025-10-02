@@ -1,5 +1,7 @@
 ﻿namespace AppForSEII2526.API.Models
+
 {
+    [PrimaryKey(nameof(Id))]
     public class Item
     {
         public int Id { get; set; }
