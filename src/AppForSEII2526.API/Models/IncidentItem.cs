@@ -7,4 +7,8 @@ public class IncidentItem
 	public int IncidentId { get; set; }
 	public int ItemId { get; set; }
 	public Incident Incident { get; set; }
-} }
+
+	public ItemForExercise ItemForExercise { get; set; }
+        
+	public IncidentPriority IncidentPriority { get; set; }
+    } }

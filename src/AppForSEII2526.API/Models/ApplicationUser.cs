@@ -8,4 +8,5 @@ public class ApplicationUser : IdentityUser {
     public string Surname { get; set; }
     public IList<PaymentMethod> PaymentMethods { get; set; }
     public IList<Restock> Restocks { get; set; }
+    public IList<Incident> Incidents { get; set; }
 }   
