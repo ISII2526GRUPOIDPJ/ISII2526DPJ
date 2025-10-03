@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="AppForSEII2526.API.Models.TypeItem">
+    <Position X="15.25" Y="5.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAACAAAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TypeItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="0.5" Y="5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACQAAAAQAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Incidents" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.Brand">
+    <Position X="15.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Brand.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.Item">
+    <Position X="10.75" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACARgAAAAAABAAAQAAAAAABAAAAIAAAABAAA=</HashCode>
+      <FileName>Models\Item.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Brand" />
+      <Property Name="TypeItem" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.Incident">
+    <Position X="0.5" Y="1.5" Width="2.75" />
+    <AssociationLine Name="IncidentState" Type="AppForSEII2526.API.Models.IncidentState" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="3.25" />
+        <Point X="5.5" Y="3.25" />
+        <Point X="5.5" Y="3.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAADQAAEAAAgAEAQAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Incident.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="IncidentState" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="IncidentItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.IncidentItem">
+    <Position X="7" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAQAAAgAAAAAQAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IncidentItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Incident" />
+      <Property Name="ItemForExercise" />
+      <Property Name="IncidentPriority" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ItemForExercise">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ItemForExercise.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Item" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="IncidentItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="AppForSEII2526.API.Models.IncidentPriority">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Models\IncidentPriority.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AppForSEII2526.API.Models.IncidentState">
+    <Position X="4.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\IncidentState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="10" />
+</ClassDiagram>
