@@ -3,9 +3,12 @@
   <Class Name="AppForSEII2526.API.Models.Plan">
     <Position X="4.25" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAACgAAAAAAgAAAAAAAAAAQAAAAAQAACAgAAAAAAAAE=</HashCode>
+      <HashCode>AAADgAAAAAAgAAAAAAAAAAQAAAAAQAACAgAAAAAAAAE=</HashCode>
       <FileName>Models\Plan.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PaymentMethod" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PlanItems" />
     </ShowAsCollectionAssociation>
@@ -35,16 +38,19 @@
   <Class Name="AppForSEII2526.API.Models.TypeItem">
     <Position X="13.75" Y="4.75" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAACAAAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\TypeItem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AppForSEII2526.API.Models.ApplicationUser">
-    <Position X="9" Y="4.5" Width="2.25" />
+    <Position X="9" Y="4.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAQAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ApplicationUser.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="PaymentMethods" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.PaymentMethod">
     <Position X="4" Y="4.5" Width="2.5" />
@@ -52,6 +58,9 @@
       <HashCode>AAQDAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\PaymentMethod.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.Bizum">
     <Position X="1.75" Y="7.25" Width="2" />
@@ -62,14 +71,6 @@
   </Class>
   <Class Name="AppForSEII2526.API.Models.PayPal">
     <Position X="6.75" Y="7.25" Width="1.5" />
-    <InheritanceLine Type="AppForSEII2526.API.Models.PaymentMethod" ManuallyRouted="true">
-      <Path>
-        <Point X="5.25" Y="6.254" />
-        <Point X="5.25" Y="6.875" />
-        <Point X="7.5" Y="6.875" />
-        <Point X="7.5" Y="7.25" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\PayPal.cs</FileName>

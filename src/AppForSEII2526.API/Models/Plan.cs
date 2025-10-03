@@ -13,5 +13,6 @@
         public int Weeks { get; set; }
 
         public IList<PlanItem> PlanItems { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
     }
 }
