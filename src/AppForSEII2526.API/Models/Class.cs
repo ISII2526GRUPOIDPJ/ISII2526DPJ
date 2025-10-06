@@ -1,5 +1,6 @@
 ﻿namespace AppForSEII2526.API.Models
 {
+    [Index(nameof(Name), nameof(Date), IsUnique = true)]
     public class Class
     {
         public int Id { get; set; }        
