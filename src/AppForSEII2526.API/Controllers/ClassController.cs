@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AppForSEII2526.API.DTOs.ClassDTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppForSEII2526.API.Controllers
@@ -14,6 +15,24 @@ namespace AppForSEII2526.API.Controllers
         {
             _context = context;
             _logger = logger;
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(IList<ClassForPlanDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> GetClassesForPlanning(DateTime? date)
+        {
+            IList<ClassForPlanDTO> classesDTOS = await _context.Classes
+                .Include(c => c.TypeItems)
+                .Where(c => !date.HasValue || c.Date.Date == date.Value.Date)
+                .OrderBy(c => c.Name)
+                .Select(c=>new ClassForPlanDTO(
+                    c.Id, 
+                    c.Name, 
+                    c.TypeItems.Select(ti => ti.Name).ToList()
+                ))
+                .ToListAsync();
+            return Ok(classesDTOS);
         }
 
         //[HttpGet]
