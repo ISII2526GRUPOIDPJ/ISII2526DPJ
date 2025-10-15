@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppForSEII2526.API.Controllers
@@ -30,5 +31,19 @@ namespace AppForSEII2526.API.Controllers
             decimal result = op1 / op2;
             return Ok(result);
         }*/
+
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(IList<ItemForPurchaseDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> GetItemsForPurchase(string? itemName, string? brandName)
+        {
+            IList<ItemForPurchaseDTO> items = await _context.Items
+                .Include(i => i.Name)
+                .Where(i => (i.Name.Contains(itemName) || (itemName == null)) && (i.Brand.Name.Equals(brandName) || (brandName == null)))
+                .OrderBy(i => i.Name)
+                .Select(i => new ItemForPurchaseDTO(i.Id, i.Name, i.Brand.Name))
+                .ToListAsync();
+            return Ok(items);
+        }
     }
 }
