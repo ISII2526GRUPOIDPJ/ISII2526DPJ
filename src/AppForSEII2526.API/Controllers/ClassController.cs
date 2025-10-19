@@ -24,12 +24,14 @@ namespace AppForSEII2526.API.Controllers
         {
             IList<ClassForPlanDTO> classesDTOS = await _context.Classes
                 .Include(c => c.TypeItems)
+                .Include(c => c.PlanItems)
                 .Where(c => !date.HasValue || c.Date.Date == date.Value.Date)
                 .OrderBy(c => c.Name)
                 .Select(c=>new ClassForPlanDTO(
-                    c.Id, 
-                    c.Name, 
-                    c.TypeItems.Select(ti => ti.Name).ToList()
+                    c.Id,
+                    c.Name,
+                    c.TypeItems.Select(ti => ti.Name).ToList(),
+                    c.PlanItems.Select(pi => pi.Goal).ToList()
                 ))
                 .ToListAsync();
             return Ok(classesDTOS);
