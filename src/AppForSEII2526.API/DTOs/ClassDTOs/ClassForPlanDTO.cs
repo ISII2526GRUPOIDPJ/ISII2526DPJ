@@ -1,19 +1,20 @@
 ﻿
+
 namespace AppForSEII2526.API.DTOs.ClassDTOs
 {
     public class ClassForPlanDTO
     {
-        public ClassForPlanDTO(int id, string name, IList<string> typeItemNames, IList<string> planItemGoals)
+        public ClassForPlanDTO(int id, string name, IList<string> typeItemNames, DateTime dateTime)
         {
             Id = id;
             Name = name;
             TypeItemNames = typeItemNames;
-            PlanItemGoals = planItemGoals;
+            DateTime = dateTime;
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public IList<string> TypeItemNames { get; set; }
-        public IList<string> PlanItemGoals { get; set; }
-        }
+        public DateTime DateTime { get; set; }
+    }
 }
