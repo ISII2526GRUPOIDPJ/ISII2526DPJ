@@ -39,9 +39,10 @@ namespace AppForSEII2526.API.Controllers
         {
             IList<ItemForPurchaseDTO> items = await _context.Items
                 .Include(i => i.Name)
+                .Include(i => i.PurchaseItems)
                 .Where(i => (i.Name.Contains(itemName) || (itemName == null)) && (i.Brand.Name.Equals(brandName) || (brandName == null)))
                 .OrderBy(i => i.Name)
-                .Select(i => new ItemForPurchaseDTO(i.Id, i.Name, i.Brand.Name))
+                .Select(i => new ItemForPurchaseDTO(i.Name, i.Brand.Name, i.Description, i.PurchaseItems.Select(pi => pi.Price).ToList(), i.QuantityAvailableForPurchase))
                 .ToListAsync();
             return Ok(items);
         }
