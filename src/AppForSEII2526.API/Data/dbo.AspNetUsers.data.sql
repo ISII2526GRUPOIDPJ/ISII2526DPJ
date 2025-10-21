@@ -1,0 +1,3 @@
+﻿INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Surname], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES 
+(N'user1', N'John', N'Doe', N'john.doe@email.com', N'JOHN.DOE@EMAIL.COM', N'john.doe@email.com', N'JOHN.DOE@EMAIL.COM', 1, N'AQAAAAIAAYagAAAAENh8f...', N'SECSTAMP1', N'CONCSTAMP1', N'123456789', 0, 0, NULL, 1, 0),
+(N'user2', N'Maria', N'Garcia', N'maria.garcia@email.com', N'MARIA.GARCIA@EMAIL.COM', N'maria.garcia@email.com', N'MARIA.GARCIA@EMAIL.COM', 1, N'AQAAAAIAAYagAAAAENh8f...', N'SECSTAMP2', N'CONCSTAMP2', N'987654321', 0, 0, NULL, 1, 0)
