@@ -1,16 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
+    <!-- Sidebar con recuadro naranja importante -->
+    <div class="sidebar square-important">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <!-- Top row con recuadro secundario -->
+        <div class="top-row square-secondary px-4">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank" class="text-dark">About</a>
         </div>
 
-        <article class="content px-4">
+        <!-- Área de contenido principal con recuadro blanco -->
+        <article class="content square-important px-4">
             @Body
         </article>
     </main>
