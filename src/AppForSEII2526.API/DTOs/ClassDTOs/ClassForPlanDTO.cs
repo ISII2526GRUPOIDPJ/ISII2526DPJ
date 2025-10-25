@@ -14,9 +14,13 @@ namespace AppForSEII2526.API.DTOs.ClassDTOs
         }
 
         public int Id { get; set; }
+
+        [StringLength(50, ErrorMessage = "Class name cannot be longer than 50 characters.")]
         public string Name { get; set; }
         public IList<string> TypeItemNames { get; set; }
         public DateTime DateTime { get; set; }
+
+        [Precision(10, 2)]
         public decimal Price { get; set; }
     }
 }
