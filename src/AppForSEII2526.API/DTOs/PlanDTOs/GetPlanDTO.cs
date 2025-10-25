@@ -18,13 +18,27 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
             Classes = classes;
         }
 
+        [StringLength(50, ErrorMessage = "User name cannot be longer than 50 characters.")]
+        [MinLength(3, ErrorMessage = "User name must be at least 3 characters.")]
         public string UserName { get; set; }
+
+        [StringLength(50, ErrorMessage = "User surname cannot be longer than 50 characters.")]
+        [MinLength(3, ErrorMessage = "User surname must be at least 3 characters.")]
         public string UserSurname { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        [Precision(10, 2)]
         public decimal TotalPrice { get; set; }
+
+        [StringLength(50, ErrorMessage = "Plan name cannot be longer than 50 characters.")]
+        [MinLength(3, ErrorMessage = "Plan name must be at least 3 characters.")]
         public string Name { get; set; }
+
+        [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
         public string Description { get; set; }
         public int Weeks { get; set; }
+
+        [StringLength(200, ErrorMessage = "Health issues cannot be longer than 200 characters.")]
         public string HealthIssues { get; set; }
         public IList<ClassInPlanDTO> Classes { get; set; }
 
