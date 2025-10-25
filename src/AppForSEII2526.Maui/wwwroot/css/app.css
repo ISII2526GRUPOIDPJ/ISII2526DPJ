@@ -1,96 +1,104 @@
 ﻿:root {
-    /* Colores base */
     --color-background: #EFEDED;
     --color-orange-primary: #E65100;
     --color-orange-light: #FFE0B2;
     --color-border: #BDBDBD;
     --color-white: #FFFFFF;
     --color-text-dark: #333333;
-    /* Variables de diseño */
     --border-radius: 8px;
     --border-standard: 1px solid var(--color-border);
     --shadow: 0 2px 8px rgba(0,0,0,0.1);
     --shadow-heavy: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Estilos globales */
+/* ===== ESTILOS GLOBALES ===== */
 body {
     background-color: var(--color-background);
     color: var(--color-text-dark);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
 }
 
-/* ===== CUADRADOS IMPORTANTES (Naranja) ===== */
-.square-important {
-    background-color: var(--color-orange-primary);
-    border: var(--border-standard);
-    border-radius: var(--border-radius);
-    color: var(--color-white);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-heavy);
+/* ===== HEADER SUPERIOR (fuera del cuadrado) ===== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
 }
 
-    .square-important h1,
-    .square-important h2,
-    .square-important h3,
-    .square-important p {
-        color: var(--color-white);
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo {
+    height: 40px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+    .header-text h1 {
+        margin: 0;
+        font-weight: bold;
     }
 
-/* ===== CUADRADOS MENOS IMPORTANTES (Naranja claro) ===== */
-.square-secondary {
-    background-color: var(--color-orange-light);
+    .header-text p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+/* ===== CUADRADO BLANCO MENÚ ===== */
+.menu-container {
+    background-color: var(--color-white);
     border: var(--border-standard);
     border-radius: var(--border-radius);
-    color: var(--color-text-dark);
-    padding: 1.5rem;
     box-shadow: var(--shadow);
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    width: fit-content;
 }
 
-/* ===== CUADRADOS NEUTROS (Blanco) ===== */
-.square-neutral {
+/* ===== BOTONES DE MENÚ ===== */
+.menu-box {
     background-color: var(--color-white);
     border: var(--border-standard);
     border-radius: var(--border-radius);
     color: var(--color-text-dark);
-    padding: 1.5rem;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    text-decoration: none;
     box-shadow: var(--shadow);
+    transition: all 0.2s ease-in-out;
 }
 
-/* ===== TEXTO NARANJA ===== */
-.text-orange {
-    color: var(--color-orange-primary);
-}
+    .menu-box:hover,
+    .menu-box-active {
+        background-color: var(--color-orange-primary);
+        color: var(--color-white);
+        box-shadow: var(--shadow-heavy);
+        border-color: var(--color-orange-primary);
+    }
 
-.text-orange-light {
-    color: var(--color-orange-light);
-}
-
-/* ===== BOTONES ===== */
-.btn-orange {
+/* ===== BOTÓN LOGOUT ===== */
+.logout-btn {
     background-color: var(--color-orange-primary);
     color: var(--color-white);
     border: none;
     border-radius: var(--border-radius);
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.25rem;
     font-weight: bold;
-}
-
-    .btn-orange:hover {
-        background-color: #D84315; /* Versión más oscura */
-        color: var(--color-white);
-    }
-
-/* ===== TARJETAS/CARDS ===== */
-.card {
-    background: var(--color-white);
-    border: var(--border-standard);
-    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    transition: background-color 0.2s ease-in-out;
 }
 
-.card-highlight {
-    background: var(--color-orange-primary);
-    color: var(--color-white);
-    border: var(--border-standard);
-}
+    .logout-btn:hover {
+        background-color: #D84315;
+    }
