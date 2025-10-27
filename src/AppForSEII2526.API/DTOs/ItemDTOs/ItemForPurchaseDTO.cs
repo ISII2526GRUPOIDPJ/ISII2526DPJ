@@ -17,6 +17,7 @@ namespace AppForSEII2526.API.DTOs.ItemDTOs
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Description { get; set; }
+        //cambiar a PurchasePrice de Items
         public IList<decimal> PurchaseItems { get; set; }
         public int Quantity { get; set; }
 

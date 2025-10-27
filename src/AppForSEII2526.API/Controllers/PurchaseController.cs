@@ -30,14 +30,15 @@ namespace AppForSEII2526.API.Controllers
                     p.Total_price,
                     p.Description,
                     p.PaymentMethod,
-                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase)).ToList(),
+                    //Corregir con lo de los DTO
+                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, TODO)).ToList(),
                     p.PurchaseItems.Select(pi => pi.Price).ToList())
                 )
                 .FirstOrDefaultAsync();
 
             if (purchase == null)
             {
-                _logger.LogError($"Error: Rental with id {id} does not exist");
+                _logger.LogError($"Error: Purchase with the ID {id} does not exist.");
                 return NotFound();
             }
 
