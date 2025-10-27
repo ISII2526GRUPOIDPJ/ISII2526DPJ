@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,19 +42,13 @@ namespace AppForSEII2526.API.Controllers
                 .Include(i => i.PurchaseItems)
                 .Where(i => (i.Name.Contains(itemName) || (itemName == null)) && (i.Brand.Name.Equals(brandName) || (brandName == null)))
                 .OrderBy(i => i.Name)
-                .Select(i => new ItemForPurchaseDTO(i.Name, i.Brand.Name, i.Description, i.PurchaseItems.Select(pi => pi.Price).ToList(), i.QuantityAvailableForPurchase))
-                .ToListAsync();
-            return Ok(items);
-        }
-
-        [HttpGet]
-        [Route("[action]")]
-        [ProducesResponseType(typeof(IList<PurchaseDTO>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> GetPurchase()
-        {
-            IList<PurchaseDTO> items = await _context.Items
-                .OrderBy(i => i.Name)
-                .Select(i => new PurchaseDTO(i.PurchaseItems.Purchase, i.Name, i.Brand.Name, i.QuantityAvailableForPurchase, i.PurchaseItems.Select(pi => pi.Price).ToList()))
+                .Select(i => new ItemForPurchaseDTO(
+                    i.Name,
+                    i.Brand.Name,
+                    i.Description,
+                    i.PurchaseItems.Select(pi => pi.Price).ToList(),
+                    i.QuantityAvailableForPurchase)
+                )
                 .ToListAsync();
             return Ok(items);
         }
