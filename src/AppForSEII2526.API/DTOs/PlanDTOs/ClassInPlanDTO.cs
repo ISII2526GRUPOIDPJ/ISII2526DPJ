@@ -21,6 +21,6 @@
         public DateTime Date { get; set; }
 
         [StringLength(200, ErrorMessage = "Goal cannot be longer than 200 characters.")]
-        public string Goal { get; set; }
+        public string? Goal { get; set; }
     }
 }
