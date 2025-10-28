@@ -1,123 +1,42 @@
 ﻿@page "/createplan"
-@using System.Net.Http.Json
-@inject HttpClient Http
 
-<h2 class="text-orange">Create Plan - Select Classes</h2>
-<p>Select the classes you want to enroll in for next week</p>
+<div class="create-plan-container">
+    <h2 class="create-plan-title">Create Plan - Select Classes</h2>
+    <p class="create-plan-subtext">
+        Select the classes you want to enroll in for next week
+    </p>
 
-<button class="btn-orange" @onclick="ToggleFilters">Show Filters</button>
+    <div class="filters-container">
+        <button class="show-filters-btn" @onclick="ToggleFilters">
+            @(showFilters ? "Hide Filters" : "Show Filters")
+        </button>
 
-@if (showFilters)
-{
-    <div class="square-neutral" style="margin-top:1rem;">
-        <label>Date:</label>
-        <input type="date" @bind="selectedDate" />
+        @if (showFilters)
+        {
+            <div class="filters-content">
+                <div class="filter-group">
+                    <label>Filter by Type</label>
+                    <select>
+                        <option>All Types</option>
+                    </select>
+                </div>
 
-        <label>Type:</label>
-        <input type="text" placeholder="e.g. Flexibility, Strength" @bind="filterType" />
-
-        <button class="btn-orange" @onclick="LoadClasses">Apply</button>
+                <div class="filter-group">
+                    <label>Filter by Day</label>
+                    <select>
+                        <option>All Days</option>
+                    </select>
+                </div>
+            </div>
+        }
     </div>
-}
-
-@if (classes == null)
-{
-    <p>Loading classes...</p>
-}
-else if (!classes.Any())
-{
-    <p>No classes found for the selected criteria.</p>
-}
-else
-{
-    @foreach (var c in classes)
-    {
-        <div class="square-neutral" style="margin-top:1rem;">
-            <input type="checkbox" @onchange="(e) => ToggleSelection(c, e.Value)" />
-            <b>@c.Name</b> <br />
-            Item Type: @string.Join(", ", c.TypeItemNames) <br />
-            Price: @c.Price€ <br />
-            Day: @c.DateTime.ToString("dddd") <br />
-            Time: @c.DateTime.ToString("hh:mm tt") <br />
-        </div>
-    }
-}
-
-<div class="square-secondary" style="margin-top:1rem;">
-    <p>Selected Classes: @selectedClasses.Count</p>
-    <p>Total Price: @totalPrice€</p>
-    <button class="btn-orange" @onclick="CreatePlanAction">Create Plan</button>
 </div>
 
 @code {
     private bool showFilters = false;
-    private DateTime? selectedDate;
-    private string filterType = "";
-    private List<ClassForPlanDTO> classes = new();
-    private List<ClassForPlanDTO> selectedClasses = new();
-    private decimal totalPrice = 0;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadClasses();
-    }
-
-    private async Task LoadClasses()
-    {
-        string url = "api/Class/GetClassesForPlanning";
-        var queryParams = new List<string>();
-
-        if (selectedDate.HasValue)
-            queryParams.Add($"date={selectedDate.Value:yyyy-MM-dd}");
-        if (!string.IsNullOrEmpty(filterType))
-            queryParams.Add($"types={filterType}");
-
-        if (queryParams.Any())
-            url += "?" + string.Join("&", queryParams);
-
-        try
-        {
-            classes = await Http.GetFromJsonAsync<List<ClassForPlanDTO>>(url);
-        }
-        catch
-        {
-            classes = new();
-        }
-    }
 
     private void ToggleFilters()
     {
         showFilters = !showFilters;
-    }
-
-    private void ToggleSelection(ClassForPlanDTO c, object? isChecked)
-    {
-        bool selected = (bool)isChecked!;
-        if (selected)
-        {
-            selectedClasses.Add(c);
-            totalPrice += c.Price;
-        }
-        else
-        {
-            selectedClasses.Remove(c);
-            totalPrice -= c.Price;
-        }
-    }
-
-    private async Task CreatePlanAction()
-    {
-        // Aquí luego puedes hacer el POST al PlanController
-        // Por ahora, solo muestra una alerta de confirmación
-        await Task.Run(() => Console.WriteLine("Plan created!"));
-    }
-
-    public class ClassForPlanDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<string> TypeItemNames { get; set; }
-        public DateTime DateTime { get; set; }
-        public decimal Price { get; set; }
     }
 }
