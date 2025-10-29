@@ -3,9 +3,8 @@
 {
     public class Item
     {
-        public Item(int id, string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
+        public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
         {
-            Id = id;
             Description = description;
             Name = name;
             PurchasePrice = purchasePrice;

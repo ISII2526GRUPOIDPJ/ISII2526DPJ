@@ -3,9 +3,8 @@
     [Index(nameof(Name), IsUnique = true)]
     public class Brand
     {
-        public Brand(int id, string name)
+        public Brand(string name)
         {
-            Id = id;
             Name = name;
         }
 

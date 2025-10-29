@@ -16,15 +16,14 @@ namespace AppForSEII2526.UT.ItemsController_test
         public GetItemsForPurchase_test()
         {
             var brands = new List<Brand>() {
-                    new Brand(1, "Nike"),
-                    new Brand(2, "Adidas"),
-                    new Brand(3, "Reebok"),
-                    new Brand(4, "Under Armour")
+                    new Brand("Nike"),
+                    new Brand("Adidas")
             };
 
             var items = new List<Item>() {
-                    new Item(1, "Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0]),
-                    new Item(2, "Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1])
+                    new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0]),
+                    new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1]),
+                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 10, 6, 85, brands[0])
             };
 
             _context.AddRange(brands);
