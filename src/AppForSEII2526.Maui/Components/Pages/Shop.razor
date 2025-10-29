@@ -1,4 +1,6 @@
 ﻿@page "/shop"
+@using System.Collections.Generic
+@using AppForSEII2526.API.Models
 
 <div class="shop-container">
     <h2 class="shop-title">Shop - Browse Items</h2>
@@ -11,13 +13,36 @@
             @(showFilters ? "Hide Filters" : "Show Filters")
         </button>
 
+        @code {
+            private List<Brand> brands = new() {
+                new Brand("Nike"),
+                new Brand("Adidas"),
+                new Brand("Reebok"),
+                new Brand("Under Armour")
+            };
+
+            private List<Item> items;
+
+            protected override void OnInitialized() {
+                items = new List<Item> {
+                    new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0]),
+                    new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1]),
+                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, brands[0])
+                };
+            }   
+        }
+
         @if (showFilters)
         {
             <div class="filters-content">
                 <div class="filter-group">
                     <label>Filter by Name</label>
                     <select>
-                        <option>All Types</option>
+                        <option>All Names</option>
+                        @foreach (var item in items)
+                        {
+                            <option value="@item.Name">@item.Name</option>
+                        }
                     </select>
                 </div>
 
@@ -25,6 +50,10 @@
                     <label>Filter by Brand</label>
                     <select>
                         <option>All Brands</option>
+                        @foreach (var brand in brands)
+                        {
+                            <option value="@brand.Name">@brand.Name</option>
+                        }
                     </select>
                 </div>
             </div>

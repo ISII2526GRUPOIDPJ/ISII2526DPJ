@@ -3,6 +3,11 @@
     [Index(nameof(Name), IsUnique = true)]
     public class Brand
     {
+        public Brand(string name)
+        {
+            Name = name;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public IList<Item> Items { get; set; }
