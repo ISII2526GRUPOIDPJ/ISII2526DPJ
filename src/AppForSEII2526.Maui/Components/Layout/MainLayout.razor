@@ -1,20 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <!-- Sidebar con recuadro naranja importante -->
-    <div class="sidebar square-important">
-        <NavMenu />
+<div class="header">
+    <div class="header-left">
+        <img src="images/logo.png" class="logo" alt="Exergymise Logo" />
+        <div class="header-text">
+            <h1>EXERGYMISE</h1>
+            <p>Your complete gym management system</p>
+        </div>
     </div>
 
-    <main>
-        <!-- Top row con recuadro secundario -->
-        <div class="top-row square-secondary px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank" class="text-dark">About</a>
-        </div>
-
-        <!-- Área de contenido principal con recuadro blanco -->
-        <article class="content square-important px-4">
-            @Body
-        </article>
-    </main>
+    <button class="logout-btn">Log Out</button>
 </div>
+
+<div class="menu-container">
+    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">Create Plan</NavLink>
+    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">Report Incident</NavLink>
+    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">Shop</NavLink>
+</div>
+
+<main>
+    @Body
+</main>
+

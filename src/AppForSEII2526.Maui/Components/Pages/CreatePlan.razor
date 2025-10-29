@@ -1,0 +1,42 @@
+﻿@page "/createplan"
+
+<div class="create-plan-container">
+    <h2 class="create-plan-title">Create Plan - Select Classes</h2>
+    <p class="create-plan-subtext">
+        Select the classes you want to enroll in for next week
+    </p>
+
+    <div class="filters-container">
+        <button class="show-filters-btn" @onclick="ToggleFilters">
+            @(showFilters ? "Hide Filters" : "Show Filters")
+        </button>
+
+        @if (showFilters)
+        {
+            <div class="filters-content">
+                <div class="filter-group">
+                    <label>Filter by Type</label>
+                    <select>
+                        <option>All Types</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Filter by Day</label>
+                    <select>
+                        <option>All Days</option>
+                    </select>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool showFilters = false;
+
+    private void ToggleFilters()
+    {
+        showFilters = !showFilters;
+    }
+}
