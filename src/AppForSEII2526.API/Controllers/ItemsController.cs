@@ -46,7 +46,7 @@ namespace AppForSEII2526.API.Controllers
                     i.Name,
                     i.Brand.Name,
                     i.Description,
-                    i.PurchaseItems.Select(pi => pi.Price).ToList(),
+                    i.PurchasePrice,
                     i.QuantityAvailableForPurchase)
                 )
                 .ToListAsync();

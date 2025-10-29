@@ -5,20 +5,19 @@ namespace AppForSEII2526.API.DTOs.ItemDTOs
 {
     public class ItemForPurchaseDTO
     {
-        public ItemForPurchaseDTO(string name, string brand, string description, IList<decimal> purchaseItems, int quantity)
+        public ItemForPurchaseDTO(string name, string brand, string description, decimal price, int quantity)
         {
             Name = name;
             Brand = brand;
             Description = description;
-            PurchaseItems = purchaseItems;
+            Price = price;
             Quantity = quantity;
         }
 
         public string Name { get; set; }
         public string Brand { get; set; }
         public string Description { get; set; }
-        //cambiar a PurchasePrice de Items
-        public IList<decimal> PurchaseItems { get; set; }
+        public decimal Price { get; set; }
         public int Quantity { get; set; }
 
     }
