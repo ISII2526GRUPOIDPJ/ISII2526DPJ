@@ -3,6 +3,18 @@
 {
     public class Item
     {
+        public Item(int id, string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
+        {
+            Id = id;
+            Description = description;
+            Name = name;
+            PurchasePrice = purchasePrice;
+            QuantityAvailableForPurchase = quantityAvailableForPurchase;
+            QuantityForRestock = quantityForRestock;
+            RestockPrice = restockPrice;
+            Brand = brand;
+        }
+
         public int Id { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
