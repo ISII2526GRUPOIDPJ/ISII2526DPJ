@@ -1,0 +1,42 @@
+﻿@page "/shop"
+
+<div class="shop-container">
+    <h2 class="shop-title">Shop - Browse Items</h2>
+    <p class="shop-subtext">
+        Select the items you want to purchase
+    </p>
+
+    <div class="filters-container">
+        <button class="show-filters-btn" @onclick="ToggleFilters">
+            @(showFilters ? "Hide Filters" : "Show Filters")
+        </button>
+
+        @if (showFilters)
+        {
+            <div class="filters-content">
+                <div class="filter-group">
+                    <label>Filter by Name</label>
+                    <select>
+                        <option>All Types</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Filter by Brand</label>
+                    <select>
+                        <option>All Brands</option>
+                    </select>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool showFilters = false;
+
+    private void ToggleFilters()
+    {
+        showFilters = !showFilters;
+    }
+}

@@ -108,7 +108,7 @@ body {
     background-color: white;
     border: 1px solid #bdbdbd;
     border-radius: 15px;
-    width: 85%;
+    width: 42%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -129,7 +129,6 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    margin-bottom: 15px; /* un poco más de espacio antes de los filtros */
     transition: opacity 0.2s ease-in-out;
 }
 
