@@ -23,7 +23,7 @@ namespace AppForSEII2526.UT.ItemsController_test
             var items = new List<Item>() {
                     new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0]),
                     new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1]),
-                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 10, 6, 85, brands[0])
+                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, brands[0])
             };
 
             _context.AddRange(brands);
@@ -31,12 +31,24 @@ namespace AppForSEII2526.UT.ItemsController_test
             _context.SaveChanges();
         }
 
-        [Route("api/[controller]")]
-        [ApiController]
-        public class ItemsController
-        {
-            private ApplicationDbContext _context;
-            private ILogger<ItemsController> _logger;
+        [Fact]
+        public async Task GetItemsForPurchaseNULL4NameBrand_test() {
+            //Arrange
+            List<ItemForPurchaseDTO> expectedItems = new List<ItemForPurchaseDTO>() {
+                new ItemForPurchaseDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 25, 10),
+                new ItemForPurchaseDTO("Running Shoes", "Adidas", "Running Shoes", 80, 15),
+                new ItemForPurchaseDTO("Sports Shirt", "Nike", "Shirt for doing exercises", 100, 0)
+            };
+
+            ItemsController controller = new ItemsController(_context, null);
+
+            //Act
+            var result = await controller.GetItemsForPurchase(null, null);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var itemDTOsActual = Assert.IsType<List<ItemForPurchaseDTO>>(okResult.Value);
+            Assert.Equal(expectedItems, itemDTOsActual);
         }
     }
 }
