@@ -21,8 +21,11 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(IList<PurchaseDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetPurchase(int id)
         {
-            IList<PurchaseDTO>? purchase = await _context.Purchases
-                .OrderBy(i => i.Id)
+            PurchaseDTO? purchase = await _context.Purchases
+                .Include(p => p.PurchaseItems)
+                    .ThenInclude(pi => pi.Item)
+                        .ThenInclude(i => i.Brand)
+                .Where(p => p.Id == id)
                 .Select(p => new PurchaseDTO(
                     p.City,
                     p.Country,
@@ -30,8 +33,8 @@ namespace AppForSEII2526.API.Controllers
                     p.Total_price,
                     p.Description,
                     p.PaymentMethod,
-                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList(),
-                )
+                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
+                ))
                 .FirstOrDefaultAsync();
 
             if (purchase == null)

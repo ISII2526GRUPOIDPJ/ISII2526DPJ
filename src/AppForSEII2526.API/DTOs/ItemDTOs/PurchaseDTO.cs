@@ -2,7 +2,7 @@
 {
     public class PurchaseDTO
     {
-        public PurchaseDTO(string city, string country, string street, decimal totalPrice, string description, PaymentMethod paymentMethod, string name, string brand, int quantity)
+        public PurchaseDTO(string city, string country, string street, decimal totalPrice, string description, PaymentMethod paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
         {
             City = city;
             Country = country;
@@ -10,9 +10,6 @@
             TotalPrice = totalPrice;
             Description = description;
             PaymentMethod = paymentMethod;
-            Name = name;
-            Brand = brand;
-            Quantity = quantity;
         }
 
         public string City { get; set; }
@@ -21,8 +18,5 @@
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public string Name { get; set; }
-        public string Brand { get; set; }
-        public int Quantity { get; set; }
     }
 }
