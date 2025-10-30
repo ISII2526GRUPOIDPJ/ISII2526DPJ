@@ -32,6 +32,7 @@ namespace AppForSEII2526.UT.ItemsController_test
         }
 
         [Fact]
+        [Trait("LevelTesting", "Unit Testing")]
         public async Task GetItemsForPurchaseNULL4NameBrand_test() {
             //Arrange
             List<ItemForPurchaseDTO> expectedItems = new List<ItemForPurchaseDTO>() {
