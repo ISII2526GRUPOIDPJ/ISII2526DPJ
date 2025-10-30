@@ -139,6 +139,11 @@ namespace AppForSEII2526.API.Controllers
 
                 // Return the created plan DTO
                 var resultDto = await _context.Plans
+                    .Include(p => p.PaymentMethod)
+                        .ThenInclude(pm => pm.User)
+                    .Include(p => p.PlanItems)
+                        .ThenInclude(pi => pi.Class)
+                            .ThenInclude(c => c.TypeItems)
                     .Where(p => p.Id == plan.Id)
                     .Select(p => new GetPlanDTO(
                         p.PaymentMethod.User.Name,
