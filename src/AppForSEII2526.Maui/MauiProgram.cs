@@ -10,14 +10,6 @@ namespace AppForSEII2526.Maui
         {
             var builder = MauiApp.CreateBuilder();
 
-            // Recupera el idioma guardado o usa inglés por defecto
-            var savedCulture = SecureStorage.Default.GetAsync("AppCulture").Result ?? "en";
-            var culture = new CultureInfo(savedCulture);
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-            CultureInfo.CurrentCulture = culture;
-            CultureInfo.CurrentUICulture = culture;
-
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -27,17 +19,15 @@ namespace AppForSEII2526.Maui
 
             builder.Services.AddMauiBlazorWebView();
 
-            // Habilitar localización
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources/Languages");
+            // Configurar localización
+            builder.Services.AddLocalization();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
 
-            var app = builder.Build();
-
-            return app;
+            return builder.Build();
         }
     }
 }

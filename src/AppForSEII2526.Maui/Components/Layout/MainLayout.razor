@@ -14,9 +14,9 @@
     </div>
 
     <div class="header-right">
-        <select @onchange="ChangeLanguage" class="lang-select">
-            <option value="en" selected="@IsSelected("en")">EN</option>
-            <option value="es" selected="@IsSelected("es")">ES</option>
+        <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
+            <option value="en">EN</option>
+            <option value="es">ES</option>
         </select>
         <button class="logout-btn">@Localizer["LogOut"]</button>
     </div>
@@ -33,45 +33,37 @@
 </main>
 
 @code {
-    private string currentLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    private string currentLang = "en";
 
     protected override async Task OnInitializedAsync()
     {
-        var saved = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
-        currentLang = saved;
+        // Recuperar el idioma guardado
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = saved ?? "en";
+
+        // Forzar actualización del estado
+        StateHasChanged();
     }
 
     private async Task ChangeLanguage(ChangeEventArgs e)
     {
         var selectedLang = e.Value?.ToString() ?? "en";
 
-        if (selectedLang != currentLang)
+        if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es"))
         {
-            var culture = new CultureInfo(selectedLang);
+            try
+            {
+                // Guardar preferencia
+                await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+                currentLang = selectedLang;
 
-            // Actualizamos las culturas globales
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-            CultureInfo.CurrentCulture = culture;
-            CultureInfo.CurrentUICulture = culture;
-
-            // Guardamos de forma síncrona antes de recargar
-            await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
-
-            // Espera mínima para garantizar persistencia antes del reload
-            await Task.Delay(150);
-
-            currentLang = selectedLang;
-
-            // Recargamos completamente la app para aplicar idioma
-            NavigationManager.NavigateTo("/", forceLoad: true);
+                // Recargar para aplicar cambios
+                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error cambiando idioma: {ex.Message}");
+            }
         }
     }
-
-    private bool IsSelected(string lang)
-    {
-        return currentLang == lang;
-    }
 }
-
-
