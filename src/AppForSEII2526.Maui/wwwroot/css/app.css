@@ -176,3 +176,42 @@ body {
         background-position: right 10px center;
         background-size: 16px;
     }
+
+
+// Language
+.language-selector {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.lang-icon {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.dropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: white;
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    z-index: 10;
+}
+
+    .dropdown button {
+        display: block;
+        width: 100%;
+        padding: 8px 12px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+        .dropdown button:hover {
+            background-color: var(--color-orange-light);
+        }

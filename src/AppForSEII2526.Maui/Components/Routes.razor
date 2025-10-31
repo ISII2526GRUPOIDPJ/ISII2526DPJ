@@ -4,3 +4,17 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 </Router>
+
+@using System.Globalization
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var savedCulture = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
+        var culture = new CultureInfo(savedCulture);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+    }
+}

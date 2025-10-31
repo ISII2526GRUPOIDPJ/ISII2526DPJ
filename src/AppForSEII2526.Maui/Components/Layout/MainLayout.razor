@@ -1,24 +1,77 @@
 ﻿@inherits LayoutComponentBase
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@using System.Globalization
+@inject NavigationManager NavigationManager
 
 <div class="header">
     <div class="header-left">
         <img src="images/logo.png" class="logo" alt="Exergymise Logo" />
         <div class="header-text">
             <h1>EXERGYMISE</h1>
-            <p>Your complete gym management system</p>
+            <p>@Localizer["YourCompleteGymManagementSystem"]</p>
         </div>
     </div>
 
-    <button class="logout-btn">Log Out</button>
+    <div class="header-right">
+        <select @onchange="ChangeLanguage" class="lang-select">
+            <option value="en" selected="@IsSelected("en")">EN</option>
+            <option value="es" selected="@IsSelected("es")">ES</option>
+        </select>
+        <button class="logout-btn">@Localizer["LogOut"]</button>
+    </div>
 </div>
 
 <div class="menu-container">
-    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">Create Plan</NavLink>
-    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">Report Incident</NavLink>
-    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">Shop</NavLink>
+    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">@Localizer["CreatePlan"]</NavLink>
+    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">@Localizer["ReportIncident"]</NavLink>
+    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">@Localizer["Shop"]</NavLink>
 </div>
 
 <main>
     @Body
 </main>
+
+@code {
+    private string currentLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var saved = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
+        currentLang = saved;
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var selectedLang = e.Value?.ToString() ?? "en";
+
+        if (selectedLang != currentLang)
+        {
+            var culture = new CultureInfo(selectedLang);
+
+            // Actualizamos las culturas globales
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+
+            // Guardamos de forma síncrona antes de recargar
+            await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+
+            // Espera mínima para garantizar persistencia antes del reload
+            await Task.Delay(150);
+
+            currentLang = selectedLang;
+
+            // Recargamos completamente la app para aplicar idioma
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+    }
+
+    private bool IsSelected(string lang)
+    {
+        return currentLang == lang;
+    }
+}
+
 
