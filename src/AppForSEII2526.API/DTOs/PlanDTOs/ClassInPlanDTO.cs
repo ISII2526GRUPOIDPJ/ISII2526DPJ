@@ -1,4 +1,7 @@
-﻿namespace AppForSEII2526.API.DTOs.PlanDTOs
+﻿
+using Humanizer;
+
+namespace AppForSEII2526.API.DTOs.PlanDTOs
 {
     public class ClassInPlanDTO
     {
@@ -25,5 +28,17 @@
 
         [StringLength(200, ErrorMessage = "Goal cannot be longer than 200 characters.")]
         public string? Goal { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ClassInPlanDTO dTO &&
+                   Id == dTO.Id &&
+                   Name == dTO.Name &&
+                   ((TypeItemNames == null && dTO.TypeItemNames == null) ||
+                    (TypeItemNames != null && dTO.TypeItemNames != null && TypeItemNames.SequenceEqual(dTO.TypeItemNames))) &&
+                   Price == dTO.Price &&
+                   Date == dTO.Date &&
+                   Goal == dTO.Goal;
+        }
     }
 }
