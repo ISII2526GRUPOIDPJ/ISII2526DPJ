@@ -3,6 +3,16 @@
     [PrimaryKey(nameof(PlanId), nameof(ClassId))]
     public class PlanItem
     {
+        public PlanItem()
+        {
+        }
+        public PlanItem(Class @class, decimal price, string goal)
+        {
+            Class = @class;
+            Price = price;
+            Goal = goal;
+        }
+
         public int ClassId { get; set; }
         public string Goal { get; set; }
         public int PlanId { get; set; }
