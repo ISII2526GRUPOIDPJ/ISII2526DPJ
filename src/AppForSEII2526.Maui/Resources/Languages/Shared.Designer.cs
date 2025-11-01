@@ -61,11 +61,56 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a All Days.
+        /// </summary>
+        internal static string AllDays {
+            get {
+                return ResourceManager.GetString("AllDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a All Types .
+        /// </summary>
+        internal static string AllTypes {
+            get {
+                return ResourceManager.GetString("AllTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Create Plan.
         /// </summary>
         internal static string CreatePlan {
             get {
                 return ResourceManager.GetString("CreatePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Filter by Day.
+        /// </summary>
+        internal static string FilterByDay {
+            get {
+                return ResourceManager.GetString("FilterByDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Filter by Type.
+        /// </summary>
+        internal static string FilterByType {
+            get {
+                return ResourceManager.GetString("FilterByType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hide Filters.
+        /// </summary>
+        internal static string HideFilters {
+            get {
+                return ResourceManager.GetString("HideFilters", resourceCulture);
             }
         }
         
@@ -88,11 +133,47 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Select Classes.
+        /// </summary>
+        internal static string SelectClasses {
+            get {
+                return ResourceManager.GetString("SelectClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select the classes you want to enroll in for next week.
+        /// </summary>
+        internal static string SelectClassesDescription {
+            get {
+                return ResourceManager.GetString("SelectClassesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Shop.
         /// </summary>
         internal static string Shop {
             get {
                 return ResourceManager.GetString("Shop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Show Filters.
+        /// </summary>
+        internal static string ShowFilters {
+            get {
+                return ResourceManager.GetString("ShowFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Your Complete Gym Management System.
+        /// </summary>
+        internal static string YourCompleteGymManagementSystem {
+            get {
+                return ResourceManager.GetString("YourCompleteGymManagementSystem", resourceCulture);
             }
         }
     }

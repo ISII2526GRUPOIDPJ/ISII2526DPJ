@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllDays" xml:space="preserve">
+    <value>All Days</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>All Types </value>
+  </data>
   <data name="CreatePlan" xml:space="preserve">
     <value>Create Plan</value>
+  </data>
+  <data name="FilterByDay" xml:space="preserve">
+    <value>Filter by Day</value>
+  </data>
+  <data name="FilterByType" xml:space="preserve">
+    <value>Filter by Type</value>
+  </data>
+  <data name="HideFilters" xml:space="preserve">
+    <value>Hide Filters</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log Out</value>
@@ -126,7 +141,19 @@
   <data name="ReportIncident" xml:space="preserve">
     <value>Report Incident</value>
   </data>
+  <data name="SelectClasses" xml:space="preserve">
+    <value>Select Classes</value>
+  </data>
+  <data name="SelectClassesDescription" xml:space="preserve">
+    <value>Select the classes you want to enroll in for next week</value>
+  </data>
   <data name="Shop" xml:space="preserve">
     <value>Shop</value>
+  </data>
+  <data name="ShowFilters" xml:space="preserve">
+    <value>Show Filters</value>
+  </data>
+  <data name="YourCompleteGymManagementSystem" xml:space="preserve">
+    <value>Your Complete Gym Management System</value>
   </data>
 </root>
