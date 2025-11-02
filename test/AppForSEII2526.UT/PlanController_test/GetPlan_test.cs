@@ -59,6 +59,7 @@ namespace AppForSEII2526.UT.PlanController_test
             _context.SaveChanges();
         }
 
+        // Test that GetPlan returns all plans when no filter date is provided
         [Fact]
         [Trait("LevelTesting", "Unit Testing")]
         public async Task GetPlan_returns_all_plans()
@@ -104,6 +105,7 @@ namespace AppForSEII2526.UT.PlanController_test
             }
         }
 
+        // Test that GetPlan returns an empty list when no plans exist for the given future date
         [Fact]
         [Trait("LevelTesting", "Unit Testing")]
         public async Task GetPlan_no_plans_found_returns_NotFound()
@@ -124,6 +126,7 @@ namespace AppForSEII2526.UT.PlanController_test
             Assert.Empty(plans); // There should be no plans
         }
 
+        // Test that GetPlan returns only plans matching the specified date filter
         [Fact]
         [Trait("LevelTesting", "Unit Testing")]
         public async Task GetPlan_filter_by_date_returns_correct_plans()
