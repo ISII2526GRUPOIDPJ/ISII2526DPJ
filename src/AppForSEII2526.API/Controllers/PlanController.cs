@@ -99,9 +99,12 @@ namespace AppForSEII2526.API.Controllers
                 }
 
                 // Calculate total price
-                var totalPrice = await _context.Classes
+                var prices = await _context.Classes
                     .Where(c => classIds.Contains(c.Id))
-                    .SumAsync(c => c.Price);
+                    .Select(c => c.Price)
+                    .ToListAsync();
+
+                decimal totalPrice = prices.Sum();
 
                 // Validate that the selected payment method exists, preventing creation with invalid payment method
                 var paymentMethod = await _context.PaymentMethods.FindAsync(planDto.SelectedPaymentMethodId);
@@ -173,9 +176,6 @@ namespace AppForSEII2526.API.Controllers
                 _logger.LogError(ex, "Error creating plan");
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Error creating plan");
             }
-
         }
-
-
     }
 }
