@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.ClassDTOs;
+using Humanizer;
 
 namespace AppForSEII2526.API.DTOs.PlanDTOs
 {
@@ -44,5 +45,20 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
 
         [Precision(10, 2)]
         public decimal TotalPrice { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CreatePlanDTO dTO &&
+                   ((SelectedClasses == null && dTO.SelectedClasses == null) ||
+                    (SelectedClasses != null && dTO.SelectedClasses != null && SelectedClasses.SequenceEqual(dTO.SelectedClasses))) &&
+                   Name == dTO.Name &&
+                   Description == dTO.Description &&
+                   Weeks == dTO.Weeks &&
+                   HealthIssues == dTO.HealthIssues &&
+                   ((AvailablePaymentMethods == null && dTO.AvailablePaymentMethods == null) ||
+                    (AvailablePaymentMethods != null && dTO.AvailablePaymentMethods != null && AvailablePaymentMethods.SequenceEqual(dTO.AvailablePaymentMethods))) &&
+                   SelectedPaymentMethodId == dTO.SelectedPaymentMethodId &&
+                   TotalPrice == dTO.TotalPrice;
+        }
     }
 }
