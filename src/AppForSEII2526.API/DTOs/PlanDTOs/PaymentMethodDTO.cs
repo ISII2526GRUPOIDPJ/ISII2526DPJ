@@ -14,5 +14,13 @@
         public int Id { get; set; }
         public string Type { get; set; }
         public string DisplayInfo { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PaymentMethodDTO dTO &&
+                   Id == dTO.Id &&
+                   Type == dTO.Type &&
+                   DisplayInfo == dTO.DisplayInfo;
+        }
     }
 }
