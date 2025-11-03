@@ -1,0 +1,96 @@
+﻿@page "/settings"
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@inject NavigationManager NavigationManager
+
+<div class="settings-container">
+    <h2>@Localizer["Settings"]</h2>
+
+    <div class="setting-group">
+        <label>@Localizer["Language"]</label>
+        <select @onchange="ChangeLanguage" value="@currentLang">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <div class="setting-group">
+        <label>@Localizer["FontSize"]</label>
+        <select @onchange="ChangeFontSize" value="@currentFontSize">
+            <option value="default">@Localizer["Default"]</option>
+            <option value="large">@Localizer["Large"]</option>
+            <option value="small">@Localizer["Small"]</option>
+        </select>
+    </div>
+
+    <div class="settings-actions">
+        <button class="logout-btn" @onclick="LogOut">@Localizer["LogOut"]</button>
+        <button class="back-btn" @onclick="GoBack">@Localizer["Back"]</button>
+    </div>
+</div>
+
+@code {
+    private string currentLang = "en";
+    private string currentFontSize = "default";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var savedLang = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = savedLang ?? "en";
+
+        var savedFontSize = await SecureStorage.Default.GetAsync("AppFontSize");
+        currentFontSize = savedFontSize ?? "default";
+
+        // Aplicar el tamaño de fuente guardado
+        ApplyFontSize(currentFontSize);
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var selectedLang = e.Value?.ToString() ?? "en";
+        await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+        NavigationManager.NavigateTo("/", forceLoad: true);
+    }
+
+    private async Task ChangeFontSize(ChangeEventArgs e)
+    {
+        var fontSize = e.Value?.ToString() ?? "default";
+        currentFontSize = fontSize;
+        await SecureStorage.Default.SetAsync("AppFontSize", fontSize);
+
+        // Aplicar el tamaño de fuente inmediatamente
+        ApplyFontSize(fontSize);
+    }
+
+    private void ApplyFontSize(string size)
+    {
+        // Esto cambiará el tamaño de fuente globalmente
+        // Puedes ajustar según tus necesidades
+        switch (size)
+        {
+            case "small":
+                // Tamaño pequeño
+                break;
+            case "large":
+                // Tamaño grande
+                break;
+            default:
+                // Tamaño por defecto
+                break;
+        }
+    }
+
+    private void LogOut()
+    {
+        // Limpiar preferencias
+        SecureStorage.Default.Remove("AppCulture");
+        SecureStorage.Default.Remove("AppFontSize");
+
+        NavigationManager.NavigateTo("/login", forceLoad: true);
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

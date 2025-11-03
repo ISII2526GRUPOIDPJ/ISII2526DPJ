@@ -14,11 +14,10 @@
     </div>
 
     <div class="header-right">
-        <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
-            <option value="en">EN</option>
-            <option value="es">ES</option>
-        </select>
-        <button class="logout-btn">@Localizer["LogOut"]</button>
+        <!-- Icono de configuración -->
+        <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
+            ⚙️
+        </a>
     </div>
 </div>
 
@@ -37,11 +36,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Recuperar el idioma guardado
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
-
-        // Forzar actualización del estado
         StateHasChanged();
     }
 
@@ -53,11 +49,8 @@
         {
             try
             {
-                // Guardar preferencia
                 await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
                 currentLang = selectedLang;
-
-                // Recargar para aplicar cambios
                 NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
             }
             catch (Exception ex)

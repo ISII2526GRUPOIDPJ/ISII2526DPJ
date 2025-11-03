@@ -215,3 +215,188 @@ body {
         .dropdown button:hover {
             background-color: var(--color-orange-light);
         }
+
+
+// Settings:
+.settings-container {
+    background-color: var(--color-white);
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+}
+
+    .setting-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+.settings-btn {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .settings-btn:hover {
+        background-color: #D84315;
+    }
+
+
+/* Icono de configuración */
+.settings-icon {
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--color-orange-primary);
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+    .settings-icon:hover {
+        background-color: var(--color-orange-light);
+        transform: scale(1.1);
+    }
+
+/* Botón de volver */
+.back-btn {
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+    .back-btn:hover {
+        background-color: #A0A0A0;
+    }
+
+
+/* Icono de configuración */
+.settings-icon {
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--color-orange-primary);
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+    .settings-icon:hover {
+        background-color: var(--color-orange-light);
+        transform: scale(1.1);
+    }
+
+/* Contenedor de settings */
+.settings-container {
+    background-color: var(--color-white);
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 90%;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+    .setting-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: var(--color-text-dark);
+    }
+
+    .setting-group select {
+        width: 100%;
+        padding: 0.5rem;
+        border: var(--border-standard);
+        border-radius: var(--border-radius);
+        background-color: var(--color-white);
+        font-size: 1rem;
+    }
+
+/* Acciones de settings */
+.settings-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.logout-btn {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    flex: 1;
+}
+
+    .logout-btn:hover {
+        background-color: #D84315;
+    }
+
+.back-btn {
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    flex: 1;
+}
+
+    .back-btn:hover {
+        background-color: #A0A0A0;
+    }
+
+/* Clases para tamaños de fuente */
+.font-small {
+    font-size: 12px;
+}
+
+.font-large {
+    font-size: 18px;
+}
+
+.font-default {
+    font-size: 14px;
+}

@@ -123,8 +123,14 @@
   <data name="AllTypes" xml:space="preserve">
     <value>All Types </value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="CreatePlan" xml:space="preserve">
     <value>Create Plan</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
   </data>
   <data name="FilterByDay" xml:space="preserve">
     <value>Filter by Day</value>
@@ -132,8 +138,17 @@
   <data name="FilterByType" xml:space="preserve">
     <value>Filter by Type</value>
   </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
   <data name="HideFilters" xml:space="preserve">
     <value>Hide Filters</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Large</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log Out</value>
@@ -147,11 +162,17 @@
   <data name="SelectClassesDescription" xml:space="preserve">
     <value>Select the classes you want to enroll in for next week</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Shop" xml:space="preserve">
     <value>Shop</value>
   </data>
   <data name="ShowFilters" xml:space="preserve">
     <value>Show Filters</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Small</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Your Complete Gym Management System</value>

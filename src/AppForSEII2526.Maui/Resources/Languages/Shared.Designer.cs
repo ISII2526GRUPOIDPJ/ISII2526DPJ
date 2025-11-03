@@ -79,11 +79,29 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Back.
+        /// </summary>
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Create Plan.
         /// </summary>
         internal static string CreatePlan {
             get {
                 return ResourceManager.GetString("CreatePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Default.
+        /// </summary>
+        internal static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
             }
         }
         
@@ -106,11 +124,38 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Font Size.
+        /// </summary>
+        internal static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Hide Filters.
         /// </summary>
         internal static string HideFilters {
             get {
                 return ResourceManager.GetString("HideFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Language.
+        /// </summary>
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Large.
+        /// </summary>
+        internal static string Large {
+            get {
+                return ResourceManager.GetString("Large", resourceCulture);
             }
         }
         
@@ -151,6 +196,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Shop.
         /// </summary>
         internal static string Shop {
@@ -165,6 +219,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string ShowFilters {
             get {
                 return ResourceManager.GetString("ShowFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Small.
+        /// </summary>
+        internal static string Small {
+            get {
+                return ResourceManager.GetString("Small", resourceCulture);
             }
         }
         
