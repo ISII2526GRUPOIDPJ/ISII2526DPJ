@@ -1,0 +1,98 @@
+﻿@page "/settings"
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<div class="settings-container">
+    <h2>@Localizer["Settings"]</h2>
+
+    <div class="setting-group">
+        <label>@Localizer["Language"]</label>
+        <select @onchange="ChangeLanguage" value="@currentLang">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <div class="setting-group">
+        <label>@Localizer["FontSize"]</label>
+        <select @onchange="ChangeFontSize" value="@currentFontSize">
+            <option value="default">@Localizer["Default"]</option>
+            <option value="large">@Localizer["Large"]</option>
+            <option value="small">@Localizer["Small"]</option>
+        </select>
+    </div>
+
+    <div class="setting-group">
+        <label>@Localizer["Theme"]</label>
+        <select @onchange="ChangeTheme" value="@currentTheme">
+            <option value="light">@Localizer["Light"]</option>
+            <option value="dark">@Localizer["Dark"]</option>
+        </select>
+    </div>
+
+    <button class="logout-btn" @onclick="LogOut">@Localizer["LogOut"]</button>
+    
+    <button class="back-btn" @onclick="GoBack">@Localizer["Back"]</button>
+</div>
+
+@code {
+    private string currentLang = "en";
+    private string currentFontSize = "default";
+    private string currentTheme = "light";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var savedLang = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = savedLang ?? "en";
+        
+        var savedFontSize = await SecureStorage.Default.GetAsync("AppFontSize");
+        currentFontSize = savedFontSize ?? "default";
+        
+        var savedTheme = await SecureStorage.Default.GetAsync("AppTheme");
+        currentTheme = savedTheme ?? "light";
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var selectedLang = e.Value?.ToString() ?? "en";
+        await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+        NavigationManager.NavigateTo("/", forceLoad: true);
+    }
+
+    private async Task ChangeFontSize(ChangeEventArgs e)
+    {
+        var fontSize = e.Value?.ToString() ?? "default";
+        currentFontSize = fontSize;
+        await SecureStorage.Default.SetAsync("AppFontSize", fontSize);
+        
+        // Aplicar el tamaño de fuente
+        await JSRuntime.InvokeVoidAsync("applyFontSize", fontSize);
+    }
+
+    private async Task ChangeTheme(ChangeEventArgs e)
+    {
+        var theme = e.Value?.ToString() ?? "light";
+        currentTheme = theme;
+        await SecureStorage.Default.SetAsync("AppTheme", theme);
+        
+        // Aplicar el tema
+        await JSRuntime.InvokeVoidAsync("applyTheme", theme);
+    }
+
+    private void LogOut()
+    {
+        // Limpiar preferencias si es necesario
+        SecureStorage.Default.Remove("AppCulture");
+        SecureStorage.Default.Remove("AppFontSize");
+        SecureStorage.Default.Remove("AppTheme");
+        
+        NavigationManager.NavigateTo("/login", forceLoad: true);
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

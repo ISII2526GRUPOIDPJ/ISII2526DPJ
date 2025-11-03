@@ -1,24 +1,62 @@
 ﻿@inherits LayoutComponentBase
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@using System.Globalization
+@inject NavigationManager NavigationManager
 
 <div class="header">
     <div class="header-left">
         <img src="images/logo.png" class="logo" alt="Exergymise Logo" />
         <div class="header-text">
             <h1>EXERGYMISE</h1>
-            <p>Your complete gym management system</p>
+            <p>@Localizer["YourCompleteGymManagementSystem"]</p>
         </div>
     </div>
 
-    <button class="logout-btn">Log Out</button>
+    <div class="header-right">
+        <!-- Icono de configuración -->
+        <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
+            ⚙️
+        </a>
+    </div>
 </div>
 
 <div class="menu-container">
-    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">Create Plan</NavLink>
-    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">Report Incident</NavLink>
-    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">Shop</NavLink>
+    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">@Localizer["CreatePlan"]</NavLink>
+    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">@Localizer["ReportIncident"]</NavLink>
+    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">@Localizer["Shop"]</NavLink>
 </div>
 
 <main>
     @Body
 </main>
 
+@code {
+    private string currentLang = "en";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = saved ?? "en";
+        StateHasChanged();
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var selectedLang = e.Value?.ToString() ?? "en";
+
+        if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es"))
+        {
+            try
+            {
+                await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+                currentLang = selectedLang;
+                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error cambiando idioma: {ex.Message}");
+            }
+        }
+    }
+}

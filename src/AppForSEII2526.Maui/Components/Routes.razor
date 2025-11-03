@@ -1,6 +1,53 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+﻿@using System.Globalization
+
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SetCulture();
+        StateHasChanged(); // Forzar actualización
+    }
+
+    private async Task SetCulture()
+    {
+        try
+        {
+            var savedCulture = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
+
+            Console.WriteLine($"🔍 Routes - Idioma guardado: {savedCulture}");
+
+            // Validar y corregir si es necesario
+            if (savedCulture != "en" && savedCulture != "es")
+            {
+                savedCulture = "en";
+                await SecureStorage.Default.SetAsync("AppCulture", "en");
+            }
+
+            var culture = new CultureInfo(savedCulture);
+
+            // Configurar TODAS las culturas consistentemente
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            Console.WriteLine($"✅ Routes - Cultura configurada: {culture.Name}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Routes - Error: {ex.Message}");
+
+            // Fallback consistente
+            var culture = new CultureInfo("en");
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+            await SecureStorage.Default.SetAsync("AppCulture", "en");
+        }
+    }
+}
