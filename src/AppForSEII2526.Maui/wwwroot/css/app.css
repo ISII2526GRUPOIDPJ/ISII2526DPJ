@@ -9,6 +9,7 @@
     --border-standard: 1px solid var(--color-border);
     --shadow: 0 2px 8px rgba(0,0,0,0.1);
     --shadow-heavy: 0 4px 12px rgba(0,0,0,0.15);
+    --font-size-base: 14px;
 }
 
 /* ===== ESTILOS GLOBALES ===== */
@@ -17,6 +18,7 @@ body {
     color: var(--color-text-dark);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    font-size: var(--font-size-base);
 }
 
 /* ===== HEADER ===== */
@@ -45,11 +47,12 @@ body {
     .header-text h1 {
         margin: 0;
         font-weight: bold;
+        font-size: calc(var(--font-size-base) * 1.5);
     }
 
     .header-text p {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: calc(var(--font-size-base) * 0.9);
     }
 
 /* ===== MENÚ PRINCIPAL ===== */
@@ -76,6 +79,7 @@ body {
     text-decoration: none;
     box-shadow: var(--shadow);
     transition: all 0.2s ease-in-out;
+    font-size: var(--font-size-base);
 }
 
     .menu-box:hover,
@@ -109,6 +113,7 @@ body {
         margin-bottom: 0.5rem;
         font-weight: bold;
         color: var(--color-text-dark);
+        font-size: var(--font-size-base);
     }
 
     .setting-group select {
@@ -117,7 +122,7 @@ body {
         border: var(--border-standard);
         border-radius: var(--border-radius);
         background-color: var(--color-white);
-        font-size: 1rem;
+        font-size: var(--font-size-base);
     }
 
 .settings-actions {
@@ -128,16 +133,20 @@ body {
 }
 
 /* ===== BOTONES ===== */
-.logout-btn {
-    background-color: var(--color-orange-primary);
-    color: var(--color-white);
+.logout-btn, .back-btn {
     border: none;
     border-radius: var(--border-radius);
     padding: 0.75rem 1.5rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
     flex: 1;
+    font-size: var(--font-size-base);
+    transition: background-color 0.2s ease-in-out;
+}
+
+.logout-btn {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
 }
 
     .logout-btn:hover {
@@ -147,13 +156,6 @@ body {
 .back-btn {
     background-color: var(--color-border);
     color: var(--color-text-dark);
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    flex: 1;
 }
 
     .back-btn:hover {
@@ -202,11 +204,11 @@ body {
     border: none;
     border-radius: 15px;
     padding: 10px 25px;
-    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     margin-bottom: 15px;
     transition: opacity 0.2s ease-in-out;
+    font-size: var(--font-size-base);
 }
 
     .show-filters-btn:hover {
@@ -225,41 +227,29 @@ body {
     border-top: 1px solid #e0e0e0;
 }
 
-.filter-group {
+.filter-group label {
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-group select {
     width: 100%;
-    text-align: left;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: var(--border-standard);
+    font-size: var(--font-size-base);
+    appearance: none;
+    background-color: #f8f8f8;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
 }
 
-    .filter-group label {
-        font-size: 14px;
-        color: var(--color-text-dark);
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .filter-group select {
-        width: 100%;
-        padding: 8px 12px;
-        border-radius: 20px;
-        border: var(--border-standard);
-        font-size: 14px;
-        appearance: none;
-        background-color: #f8f8f8;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-        background-size: 16px;
-    }
-
-/* ===== TAMAÑOS DE FUENTE ===== */
-.font-small {
-    font-size: 12px;
-}
-
-.font-large {
-    font-size: 18px;
-}
-
-.font-default {
-    font-size: 14px;
-}
+/* ===== OPCIONAL: Clases antiguas, ya no necesarias si usas JS ----
+.font-small { font-size: 12px; }
+.font-large { font-size: 18px; }
+.font-default { font-size: 14px; }
+*/
