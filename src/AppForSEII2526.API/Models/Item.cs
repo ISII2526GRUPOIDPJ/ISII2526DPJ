@@ -4,7 +4,7 @@
     public class Item
     {
         public Item() { }
-        public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
+        public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, TypeItem typeItem, Brand brand)
         {
             Description = description;
             Name = name;
@@ -12,6 +12,7 @@
             QuantityAvailableForPurchase = quantityAvailableForPurchase;
             QuantityForRestock = quantityForRestock;
             RestockPrice = restockPrice;
+            TypeItem = typeItem;
             Brand = brand;
         }
 
