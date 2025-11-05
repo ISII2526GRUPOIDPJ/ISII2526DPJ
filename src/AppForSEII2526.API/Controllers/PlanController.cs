@@ -77,8 +77,13 @@ namespace AppForSEII2526.API.Controllers
         {
             try
             {
+                // Included because in the tests the [ApiController] automatic validation does not trigger
+                if (string.IsNullOrWhiteSpace(planDto.Name)) return BadRequest("Plan name is required");
+                if (planDto.Weeks < 1 || planDto.Weeks > 52) return BadRequest("Weeks must be between 1 and 52");
+
+
                 // Alternative Flow 4: No classes selected
-                if(planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
+                if (planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
                 {
                     return BadRequest("At least one class must be selected.");
                 }
