@@ -3,6 +3,7 @@
 {
     public class Item
     {
+        public Item() { }
         public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
         {
             Description = description;

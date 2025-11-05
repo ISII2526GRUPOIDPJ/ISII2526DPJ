@@ -3,6 +3,7 @@
     [Index(nameof(Name), IsUnique = true)]
     public class Brand
     {
+        public Brand() { }
         public Brand(string name)
         {
             Name = name;

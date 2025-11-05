@@ -31,7 +31,44 @@ namespace AppForSEII2526.UT.ItemsController_test
             _context.SaveChanges();
         }
 
-        [Fact]
+        public static IEnumerable<Object[]> TestCasesFor_GetItemsForPurchase_OK() {
+            var itemDTOs = new List<ItemForPurchaseDTO>() {
+                new ItemForPurchaseDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 25, 10),
+                new ItemForPurchaseDTO("Running Shoes", "Adidas", "Running Shoes", 80, 15),
+                new ItemForPurchaseDTO("Sports Shirt", "Nike", "Shirt for doing exercises", 100, 0)
+            };
+
+            var itemDTOsTC1 = new List<ItemForPurchaseDTO>() { itemDTOs[0], itemDTOs[1], itemDTOs[2] };
+            var itemDTOsTC2 = new List<ItemForPurchaseDTO>() { itemDTOs[1] };
+            var itemDTOsTC3 = new List<ItemForPurchaseDTO>() { itemDTOs[0], itemDTOs[2] };
+
+            var allTests = new List<Object[]> {
+                new object[] { null, null, itemDTOsTC1,  },
+                new object[] { "Shoes", null, itemDTOsTC2, },
+                new object[] { null, "Nike", itemDTOsTC3, },
+            };
+
+            return allTests;
+        }
+
+        [Theory]
+        [Trait("LevelTesting", "Unit Testing")]
+        [MemberData(nameof(TestCasesFor_GetItemsForPurchase_OK))]
+        public async Task GetItemsForPurchase_filter_test(string? itemName, string? itemBrand, List<ItemForPurchaseDTO> expectedItems)
+        {
+            //Arrange
+            var controller = new ItemsController(_context, null);
+
+            //Act
+            var result = await controller.GetItemsForPurchase(itemName, itemBrand);
+
+            //Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var itemDTOsActual = Assert.IsType<List<ItemForPurchaseDTO>>(okResult.Value);
+            Assert.Equal(expectedItems, itemDTOsActual);
+        }
+
+        /*[Fact]
         [Trait("LevelTesting", "Unit Testing")]
         public async Task GetItemsForPurchaseNULL4NameBrand_test() {
             //Arrange
@@ -50,6 +87,6 @@ namespace AppForSEII2526.UT.ItemsController_test
             var okResult = Assert.IsType<OkObjectResult>(result);
             var itemDTOsActual = Assert.IsType<List<ItemForPurchaseDTO>>(okResult.Value);
             Assert.Equal(expectedItems, itemDTOsActual);
-        }
+        }*/
     }
 }
