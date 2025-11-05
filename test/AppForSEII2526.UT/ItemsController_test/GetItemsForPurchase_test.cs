@@ -21,9 +21,9 @@ namespace AppForSEII2526.UT.ItemsController_test
             };
 
             var items = new List<Item>() {
-                    new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0].Name),
-                    new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1].Name),
-                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, brands[0].Name)
+                    new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, brands[0]),
+                    new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, brands[1]),
+                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, brands[0])
             };
 
             _context.AddRange(brands);

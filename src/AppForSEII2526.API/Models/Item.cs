@@ -3,7 +3,7 @@
 {
     public class Item
     {
-        public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, string brandName)
+        public Item(string description, string name, decimal purchasePrice, int quantityAvailableForPurchase, int quantityForRestock, decimal? restockPrice, Brand brand)
         {
             Description = description;
             Name = name;
@@ -11,7 +11,7 @@
             QuantityAvailableForPurchase = quantityAvailableForPurchase;
             QuantityForRestock = quantityForRestock;
             RestockPrice = restockPrice;
-            BrandName = brandName;
+            Brand = brand;
         }
 
         public int Id { get; set; }
@@ -26,6 +26,5 @@
         public IList<PurchaseItem> PurchaseItems { get; set; }
         public TypeItem TypeItem { get; set; }
         public Brand Brand { get; set; }
-        public string BrandName { get; set; }
     }
 }
