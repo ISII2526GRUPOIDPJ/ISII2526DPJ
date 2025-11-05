@@ -124,6 +124,7 @@ namespace AppForSEII2526.UT.PlanController_test
             
             Assert.Equal(expectedPlans, returnPlans);
 
+            // Validate that all returned plans match the filter date
             if (filterDate.HasValue)
             {
                 Assert.All(returnPlans, p => Assert.Equal(filterDate.Value.Date, p.CreatedDate.Date));
