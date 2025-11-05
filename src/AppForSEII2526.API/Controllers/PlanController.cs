@@ -71,7 +71,7 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        [ProducesResponseType(typeof(GetPlanDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetPlanDTO), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> CreatePlan(CreatePlanDTO planDto)
         {
@@ -81,22 +81,6 @@ namespace AppForSEII2526.API.Controllers
                 if(planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
                 {
                     return BadRequest("At least one class must be selected.");
-                }
-
-                // Alternative Flow 5: Mandatory data validation
-                if (string.IsNullOrEmpty(planDto.Name))
-                {
-                    return BadRequest("Plan name is required");
-                }
-
-                if(planDto.Weeks <= 0)
-                {
-                    return BadRequest("Number of weeks must be greater than 0.");
-                }
-
-                if(planDto.SelectedPaymentMethodId <= 0)
-                {
-                    return BadRequest("Payment method is required.");
                 }
 
                 // Alternative Flow 7: Check class capacity
@@ -182,7 +166,7 @@ namespace AppForSEII2526.API.Controllers
                     .FirstOrDefaultAsync();
 
 
-                return Ok(resultDto);
+                return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, resultDto);
             }
             catch (Exception ex)
             {
