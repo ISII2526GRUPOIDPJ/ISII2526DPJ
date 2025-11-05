@@ -73,26 +73,5 @@ namespace AppForSEII2526.UT.ItemsController_test
             var itemDTOsActual = Assert.IsType<List<ItemForPurchaseDTO>>(okResult.Value);
             Assert.Equal(expectedItems, itemDTOsActual);
         }
-
-        /*[Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetItemsForPurchaseNULL4NameBrand_test() {
-            //Arrange
-            List<ItemForPurchaseDTO> expectedItems = new List<ItemForPurchaseDTO>() {
-                new ItemForPurchaseDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 25, 10),
-                new ItemForPurchaseDTO("Running Shoes", "Adidas", "Running Shoes", 80, 15),
-                new ItemForPurchaseDTO("Sports Shirt", "Nike", "Shirt for doing exercises", 100, 0)
-            };
-
-            ItemsController controller = new ItemsController(_context, null);
-
-            //Act
-            var result = await controller.GetItemsForPurchase(null, null);
-
-            //Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var itemDTOsActual = Assert.IsType<List<ItemForPurchaseDTO>>(okResult.Value);
-            Assert.Equal(expectedItems, itemDTOsActual);
-        }*/
     }
 }
