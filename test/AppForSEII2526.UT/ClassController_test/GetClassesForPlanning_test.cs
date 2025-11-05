@@ -40,6 +40,7 @@ namespace AppForSEII2526.UT.ClassController_test
             _context.SaveChanges();
         }
 
+        // Test cases for successful retrieval
         public static IEnumerable<object[]> TestCasesFor_GetClassesForPlanning_OK()
         {
             var today = DateTime.Today;
@@ -71,6 +72,7 @@ namespace AppForSEII2526.UT.ClassController_test
             return allTests;
         }
 
+        // Test cases for error scenarios
         public static IEnumerable<object[]> TestCasesFor_GetClassesForPlanning_Error()
         {
             var today = DateTime.Today;
@@ -110,6 +112,8 @@ namespace AppForSEII2526.UT.ClassController_test
             Assert.Equal(expectedClasses, classDTOsActual);
         }
 
+
+        // Test that covers various error scenarios for invalid parameters
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetClassesForPlanning_Error))]
