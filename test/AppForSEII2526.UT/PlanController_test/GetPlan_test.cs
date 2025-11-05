@@ -1,12 +1,12 @@
 ﻿using AppForSEII2526.API.Controllers;
+using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using AppForSEII2526.API.DTOs.PlanDTOs;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AppForSEII2526.UT.PlanController_test
 {
@@ -59,96 +59,94 @@ namespace AppForSEII2526.UT.PlanController_test
             _context.SaveChanges();
         }
 
-        // Test that GetPlan returns all plans when no filter date is provided
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetPlan_returns_all_plans()
+        // Test cases for successful retrieval
+        public static IEnumerable<object[]> TestCasesFor_GetPlan_OK()
         {
             var today = DateTime.Today;
 
-            // Arrange
-            var expectedPlans = new List<GetPlanDTO>
+            var expectedPlan = new GetPlanDTO(
+                "Antonio",
+                "Garcia",
+                today,
+                22.50m,
+                "Total Health Plan",
+                "General wellness plan",
+                4,
+                "None",
+                new List<ClassInPlanDTO>
+                {
+                    new ClassInPlanDTO(1, "Morning Yoga", new List<string> { "Yoga" }, 10.00m, today.AddDays(1).AddHours(9), "Relaxation"),
+                    new ClassInPlanDTO(2, "Cardio Blast", new List<string> { "Cardio" }, 12.50m, today.AddDays(2).AddHours(18), "Stamina")
+                }
+            );
+
+            var allTests = new List<object[]>
             {
-                new GetPlanDTO(
-                    "Antonio",
-                    "Garcia",
-                    today,
-                    22.50m,
-                    "Total Health Plan",
-                    "General wellness plan",
-                    4,
-                    "None",
-                    new List<ClassInPlanDTO>
-                    {
-                        new ClassInPlanDTO(1, "Morning Yoga", new List<string> { "Yoga" }, 10.00m, today.AddDays(1).AddHours(9), "Relaxation"),
-                        new ClassInPlanDTO(2, "Cardio Blast", new List<string> { "Cardio" }, 12.50m, today.AddDays(2).AddHours(18), "Stamina")
-                    }
-                )
+                new object[] { null, new List<GetPlanDTO> { expectedPlan } }, // Without date filter
+                new object[] { today, new List<GetPlanDTO> { expectedPlan } }  // With date filter
             };
 
+            return allTests;
+        }
+
+        // Test cases for no plans found
+        public static IEnumerable<object[]> TestCasesFor_GetPlan_NotFound()
+        {
+            var today = DateTime.Today;
+
+            var allTests = new List<object[]>
+            {
+                new object[] { today.AddYears(5)}, // Future date with no plans
+                new object[] { today.AddDays(-10) }, // Past date with no plans
+                new object[] { today.AddMonths(1) } // Another date with no plans
+            };
+
+            return allTests;
+        }
+
+        // Test that covers successful retrieval of plans
+        [Theory]
+        [Trait("LevelTesting", "Unit Testing")]
+        [MemberData(nameof(TestCasesFor_GetPlan_OK))]
+        public async Task GetPlan_ReturnsOk_WithCorrectFiltering(DateTime? filterDate, List<GetPlanDTO> expectedPlans)
+        {
+            // Arrange
             var mock = new Mock<ILogger<PlanController>>();
             ILogger<PlanController> logger = mock.Object;
-
             var controller = new PlanController(_context, logger);
 
             // Act
-            var actionResult = await controller.GetPlan(null);
+            var result = await controller.GetPlan(filterDate);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(actionResult);
+            var okResult = Assert.IsType<OkObjectResult>(result);
             var returnPlans = Assert.IsType<List<GetPlanDTO>>(okResult.Value);
             
-            Assert.Equal(expectedPlans.Count, returnPlans.Count);
-            for (int i = 0; i < expectedPlans.Count; i++)
+            Assert.Equal(expectedPlans, returnPlans);
+
+            if (filterDate.HasValue)
             {
-                Assert.Equal(expectedPlans[i], returnPlans[i]);
+                Assert.All(returnPlans, p => Assert.Equal(filterDate.Value.Date, p.CreatedDate.Date));
             }
         }
 
-        // Test that GetPlan returns an empty list when no plans exist for the given future date
-        [Fact]
+        // Test that covers scenario when no plans are found
+        [Theory]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetPlan_no_plans_found_returns_NotFound()
+        [MemberData(nameof(TestCasesFor_GetPlan_NotFound))]
+        public async Task GetPlan_ReturnsNotFound_WhenNoPlansExist(DateTime? date)
         {
             // Arrange
-            var futureDate = DateTime.Today.AddYears(5); // Using a future date with no plans
-
             var mock = new Mock<ILogger<PlanController>>();
             ILogger<PlanController> logger = mock.Object;
+
             var controller = new PlanController(_context, logger);
 
             // Act
-            var actionResult = await controller.GetPlan(futureDate);
+            var result = await controller.GetPlan(date);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(actionResult);
-            var plans = Assert.IsType<List<GetPlanDTO>>(okResult.Value);
-            Assert.Empty(plans); // There should be no plans
+            Assert.IsType<NotFoundResult>(result);
         }
-
-        // Test that GetPlan returns only plans matching the specified date filter
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetPlan_filter_by_date_returns_correct_plans()
-        {
-            // Arrange
-            var today = DateTime.Today;
-            var targetDate = today; // Date used in the filter (the one used for Antonio's plan)
-
-            var mock = new Mock<ILogger<PlanController>>();
-            ILogger<PlanController> logger = mock.Object;
-            var controller = new PlanController(_context, logger);
-
-            // Act
-            var actionResult = await controller.GetPlan(targetDate);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(actionResult);
-            var returnPlans = Assert.IsType<List<GetPlanDTO>>(okResult.Value);
-
-            // Use the DTO's property name CreatedDate
-            Assert.All(returnPlans, p => Assert.Equal(targetDate.Date, p.CreatedDate.Date));
-        }
-
     }
 }
