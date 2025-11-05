@@ -16,6 +16,8 @@ namespace AppForSEII2526.API.Controllers
         {
             _context = context;
             _logger = logger;
+
+            _logger.LogInformation("ItemsController initialized.");
         }
 
         /*[HttpGet]
