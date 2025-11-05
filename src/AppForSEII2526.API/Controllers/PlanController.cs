@@ -23,8 +23,15 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<GetPlanDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlan(DateTime? date)
         {
+            if(_context.Plans == null)
+            {
+                _logger.LogError("Error: Plans table does not exist");
+                return NotFound();
+            }   
+
             IList<GetPlanDTO> planDTOs = await _context.Plans
                 .Include(p => p.PaymentMethod)
                     .ThenInclude(pm => pm.User)
@@ -52,6 +59,12 @@ namespace AppForSEII2526.API.Controllers
                     )).ToList()
                 ))
                 .ToListAsync();
+
+            if(planDTOs == null || !planDTOs.Any())
+            {
+                _logger.LogError($"Error: Plan with date {date} does not exist");
+                return NotFound();
+            }
 
             return Ok(planDTOs);
         }
