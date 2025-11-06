@@ -40,128 +40,86 @@ namespace AppForSEII2526.UT.ClassController_test
             _context.SaveChanges();
         }
 
-        // Test that the endpoint returns all classes when no filters are applied
-        [Fact]
+        // Test cases for successful retrieval
+        public static IEnumerable<object[]> TestCasesFor_GetClassesForPlanning_OK()
+        {
+            var today = DateTime.Today;
+
+            var classesDTOS = new List<ClassForPlanDTO>()
+            {
+                new ClassForPlanDTO(4, "Kick-Boxing", new List<string>{"Martial Arts"}, today.AddDays(4).AddHours(17).AddMinutes(30), 19.00m),
+                new ClassForPlanDTO(2, "Meditation", new List<string>{"Meditation"}, today.AddDays(2).AddHours(10), 8.00m),
+                new ClassForPlanDTO(1, "Strength Training", new List<string>{"Strength"}, today.AddDays(1).AddHours(15), 20.00m),
+                new ClassForPlanDTO(3, "Zumba", new List<string>{"Dance"}, today.AddDays(3).AddHours(18).AddMinutes(30), 12.00m)
+            };
+
+            var allClasses = new List<ClassForPlanDTO>() { classesDTOS[0], classesDTOS[1], classesDTOS[2], classesDTOS[3] };
+            var danceMartialArts = new List<ClassForPlanDTO>() { classesDTOS[0], classesDTOS[3] };
+            var day2Classes = new List<ClassForPlanDTO>() { classesDTOS[1] };
+            var day1Strength = new List<ClassForPlanDTO>() { classesDTOS[2] };
+
+
+            var allTests = new List<object[]>
+            {
+                new object[] { null, null, allClasses},
+                new object[] { today.AddDays(2), null, day2Classes },
+                new object[] { today.AddDays(2), new string[] { }, day2Classes },
+                new object[] { null, new string[] { "Dance", "Martial Arts" }, danceMartialArts },
+                new object[] { today.AddDays(1), new string[] { "Strength" }, day1Strength }
+
+            };
+
+            return allTests;
+        }
+
+        // Test cases for error scenarios
+        public static IEnumerable<object[]> TestCasesFor_GetClassesForPlanning_Error()
+        {
+            var today = DateTime.Today;
+
+            var allTests = new List<object[]>
+            {
+                new object[] { today.AddDays(-1), null},                  // BadRequest
+                new object[] { today.AddDays(10), null},                  // NotFound  
+                new object[] { null, new string[] { "NonExistentType" }}, // NotFound  
+                new object[] { today.AddDays(5), new string[] { "Yoga" }} // NotFound  
+            };
+
+            return allTests;
+        }
+
+        // Test that covers various filter combinations for date and types
+        [Theory]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_null_date_type()
+        [MemberData(nameof(TestCasesFor_GetClassesForPlanning_OK))]
+        public async Task GetClassesForPlanning_filter_test(DateTime? date, string[]? types, List<ClassForPlanDTO> expectedClasses)
         {
             var today = DateTime.Today;
 
             // Arrange
-            IList<ClassForPlanDTO> classesDTOS = new List<ClassForPlanDTO>()
-            {
-                new ClassForPlanDTO(3, "Kick-Boxing", new List<string>{"Martial Arts"}, today.AddDays(4).AddHours(17).AddMinutes(30), 19.00m),
-                new ClassForPlanDTO(2, "Meditation", new List<string>{"Meditation"}, today.AddDays(2).AddHours(10), 8.00m),
-                new ClassForPlanDTO(1, "Strength Training", new List<string>{"Strength"}, today.AddDays(1).AddHours(15), 20.00m),
-                new ClassForPlanDTO(4, "Zumba", new List<string>{"Dance"}, today.AddDays(3).AddHours(18).AddMinutes(30), 12.00m)
-            };
-
             var mock = new Mock<ILogger<ClassController>>();
             ILogger<ClassController> logger = mock.Object;
 
             var controller = new ClassController(_context, logger);
 
             // Act
-            var result = await controller.GetClassesForPlanning(null, null);
+            var result = await controller.GetClassesForPlanning(date, types);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var classDTOsActual = Assert.IsType<List<ClassForPlanDTO>>(okResult.Value);
 
-            Assert.Equal(classesDTOS.Count, classDTOsActual.Count);
+            Assert.Equal(expectedClasses, classDTOsActual);
         }
 
-        // Test that the endpoint returns BadRequest when a past date is provided
-        [Fact]
+
+        // Test that covers various error scenarios for invalid parameters
+        [Theory]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_date_in_past_returns_BadRequest()
+        [MemberData(nameof(TestCasesFor_GetClassesForPlanning_Error))]
+        public async Task GetClassesForPlanning_ReturnsError_WithInvalidParameters( DateTime? date, string[]? types)
         {
             // Arrange
-            var pastDate = DateTime.Today.AddDays(-1); //Date in the past
-
-            var mock = new Mock<ILogger<ClassController>>();
-            ILogger<ClassController> logger = mock.Object;
-            var controller = new ClassController(_context, logger);
-
-            // Act
-            var result = await controller.GetClassesForPlanning(pastDate, null);
-
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-
-        // Test that the endpoint returns NotFound when no classes are available for the given criteria
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_no_classes_returns_NotFound()
-        {
-            // Arrange
-            var futureDate = DateTime.Today.AddDays(10); // Date that is outside of the next week range
-
-            var mock = new Mock<ILogger<ClassController>>();
-            ILogger<ClassController> logger = mock.Object;
-            var controller = new ClassController(_context, logger);
-
-            // Act
-            var result = await controller.GetClassesForPlanning(futureDate, null);
-
-            // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
-        }
-
-        // Test that the endpoint returns only classes matching the specified date
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_filter_by_date()
-        {
-            // Arrange
-            var targetDate = DateTime.Today.AddDays(2); // date used in the filter
-
-            var mock = new Mock<ILogger<ClassController>>();
-            ILogger<ClassController> logger = mock.Object;
-            var controller = new ClassController(_context, logger);
-
-            // Act
-            var result = await controller.GetClassesForPlanning(targetDate, null);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var actualClasses = Assert.IsType<List<ClassForPlanDTO>>(okResult.Value);
-
-            Assert.All(actualClasses, c => Assert.Equal(targetDate.Date, c.DateTime.Date));
-        }
-
-        // Test that the endpoint returns only classes matching the specified types
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_filter_by_types()
-        {
-            // Arrange
-            var types = new string[] { "Dance", "Martial Arts" }; // types used in the filter
-
-            var mock = new Mock<ILogger<ClassController>>();
-            ILogger<ClassController> logger = mock.Object;
-            var controller = new ClassController(_context, logger);
-
-            // Act
-            var result = await controller.GetClassesForPlanning(null, types);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var actualClasses = Assert.IsType<List<ClassForPlanDTO>>(okResult.Value);
-
-            Assert.All(actualClasses, c => Assert.Contains(c.TypeItemNames[0], types));
-        }
-
-        // Test that the endpoint returns only classes matching both the specified date and types
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetClassesForPlanning_filter_by_date_and_types()
-        {
-            // Arrange
-            var types = new string[] { "Strength" }; // types used in the filter
-            var date = DateTime.Today.AddDays(1);    // date used in the filter
-
             var mock = new Mock<ILogger<ClassController>>();
             ILogger<ClassController> logger = mock.Object;
             var controller = new ClassController(_context, logger);
@@ -170,16 +128,16 @@ namespace AppForSEII2526.UT.ClassController_test
             var result = await controller.GetClassesForPlanning(date, types);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var actualClasses = Assert.IsType<List<ClassForPlanDTO>>(okResult.Value);
-
-            // Check date
-            Assert.All(actualClasses, c => Assert.Equal(date.Date, c.DateTime.Date));
-
-            // Check type 
-            Assert.All(actualClasses, c => Assert.Contains(c.TypeItemNames[0], types));
+            if (date.HasValue && date.Value.Date < DateTime.Today)
+            {
+                var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.Equal("Cannot select classes from past dates.", badRequest.Value);
+            }
+            else
+            {
+                var notFound = Assert.IsType<NotFoundObjectResult>(result);
+                Assert.Equal("No classes found for the selected criteria.", notFound.Value);
+            }
         }
-
-
     }
 }
