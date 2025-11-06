@@ -54,7 +54,7 @@ namespace AppForSEII2526.UT.PlanController_test
                 // Alternative Flow 4: No classes selected
                 new object[] {
                     new CreatePlanDTO(
-                        null,
+                        null, // <- No classes selected
                         new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         0m,
                         "Valid Plan",
@@ -78,7 +78,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         "Description",
                         4,
                         "None",
-                        -1
+                        -1 // <- Invalid ID
                     ),
                     "Selected payment method not found."
                 },
@@ -110,7 +110,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         10.00m,
                         "Invalid Weeks Plan",
                         "Description",
-                        0,
+                        0, // <- Invalid weeks
                         "None",
                         1
                     ),
