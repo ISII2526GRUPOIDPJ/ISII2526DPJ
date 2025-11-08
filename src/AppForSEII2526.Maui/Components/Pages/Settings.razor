@@ -55,8 +55,11 @@
             await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
             currentLang = selectedLang;
 
-            // Actualizar cultura sin recargar
+            // Actualizar cultura y forzar recarga completa
             await UpdateCulture(selectedLang);
+
+            // Navegar a la página actual para forzar recarga de todos los componentes
+            NavigationManager.NavigateTo("/settings", forceLoad: true);
         }
     }
 
@@ -79,13 +82,6 @@
         CultureInfo.CurrentUICulture = newCulture;
         CultureInfo.DefaultThreadCurrentCulture = newCulture;
         CultureInfo.DefaultThreadCurrentUICulture = newCulture;
-
-        // Forzar actualización de todos los componentes
-        StateHasChanged();
-
-        // Pequeño delay para asegurar que se aplican los cambios
-        await Task.Delay(100);
-        StateHasChanged();
     }
 
     private async Task ApplyTheme()

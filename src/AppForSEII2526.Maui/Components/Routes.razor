@@ -33,10 +33,12 @@
             CultureInfo.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            Console.WriteLine($"✅ Routes - Cultura configurada: {culture.Name}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error configurando cultura: {ex.Message}");
+            Console.WriteLine($"❌ Routes - Error configurando cultura: {ex.Message}");
             var culture = new CultureInfo("en");
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;

@@ -2,6 +2,7 @@
 @using AppForSEII2526.Maui.Resources.Languages
 @inject IStringLocalizer<Shared> Localizer
 @using System.Globalization
+@inject NavigationManager NavigationManager
 
 <div class="header">
     <div class="header-left">
@@ -30,7 +31,38 @@
 </main>
 
 @code {
-    protected override void OnInitialized()
+    private string currentLang = "en";
+    private Timer refreshTimer;
+
+    protected override async Task OnInitializedAsync()
     {
+        // Cargar idioma actual
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = saved ?? "en";
+
+        // Configurar timer para verificar cambios cada 2 segundos
+        refreshTimer = new Timer(async _ =>
+        {
+            await CheckForLanguageChange();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+    }
+
+    private async Task CheckForLanguageChange()
+    {
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        var newLang = saved ?? "en";
+
+        if (newLang != currentLang)
+        {
+            currentLang = newLang;
+            Console.WriteLine($"🔄 Idioma cambiado a: {currentLang}");
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        refreshTimer?.Dispose();
     }
 }
