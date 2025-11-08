@@ -14,7 +14,6 @@
     </div>
 
     <div class="header-right">
-        <!-- Icono de configuración -->
         <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
             ⚙️
         </a>
@@ -33,30 +32,37 @@
 
 @code {
     private string currentLang = "en";
+    private Timer refreshTimer;
 
     protected override async Task OnInitializedAsync()
     {
+        // Cargar idioma actual
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
-        StateHasChanged();
+
+        // Configurar timer para verificar cambios cada 2 segundos
+        refreshTimer = new Timer(async _ =>
+        {
+            await CheckForLanguageChange();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
     }
 
-    private async Task ChangeLanguage(ChangeEventArgs e)
+    private async Task CheckForLanguageChange()
     {
-        var selectedLang = e.Value?.ToString() ?? "en";
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        var newLang = saved ?? "en";
 
-        if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es"))
+        if (newLang != currentLang)
         {
-            try
-            {
-                await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
-                currentLang = selectedLang;
-                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error cambiando idioma: {ex.Message}");
-            }
+            currentLang = newLang;
+            Console.WriteLine($"🔄 Idioma cambiado a: {currentLang}");
+            await InvokeAsync(StateHasChanged);
         }
+    }
+
+    public void Dispose()
+    {
+        refreshTimer?.Dispose();
     }
 }

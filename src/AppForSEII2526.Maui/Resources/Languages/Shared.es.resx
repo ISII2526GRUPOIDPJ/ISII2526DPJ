@@ -129,6 +129,9 @@
   <data name="CreatePlan" xml:space="preserve">
     <value>Crear plan</value>
   </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Oscuro</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Por Defecto</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>Elige tu idioma preferido</value>
+  </data>
   <data name="Large" xml:space="preserve">
     <value>Grande</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Claro</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Cerrar sesión</value>
@@ -173,6 +182,12 @@
   </data>
   <data name="Small" xml:space="preserve">
     <value>Pequeño</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="ThemeDescription" xml:space="preserve">
+    <value>Elige tu tema preferido</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Tu Sistema Completo de Gestión de Gimnasio</value>
