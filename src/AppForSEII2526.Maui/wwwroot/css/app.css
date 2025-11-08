@@ -248,8 +248,173 @@ body {
     background-size: 16px;
 }
 
-/* ===== OPCIONAL: Clases antiguas, ya no necesarias si usas JS ----
-.font-small { font-size: 12px; }
-.font-large { font-size: 18px; }
-.font-default { font-size: 14px; }
-*/
+
+
+/* ===== CONFIGURATION SELECTORS ===== */
+.lang-select,
+.theme-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+    .lang-select:focus,
+    .theme-select:focus {
+        outline: none;
+        border-color: var(--color-orange-primary);
+        box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.2);
+    }
+
+.setting-description {
+    margin-top: 8px;
+    color: #666;
+    font-size: calc(var(--font-size-base) * 0.9);
+    line-height: 1.4;
+}
+
+/* ===== LIGHT MODE (default) ===== */
+.light-mode {
+    --color-background: #EFEDED;
+    --color-text-dark: #333333;
+    --color-white: #FFFFFF;
+    --color-border: #BDBDBD;
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+/* ===== DARK MODE ===== */
+.dark-mode {
+    --color-background: #1a1a1a;
+    --color-text-dark: #ffffff;
+    --color-white: #2d2d2d;
+    --color-border: #444444;
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+    /* Apply dark mode to all elements */
+    .dark-mode .header {
+        background-color: var(--color-background);
+    }
+
+    .dark-mode .header-text h1,
+    .dark-mode .header-text p {
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .menu-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+    }
+
+    .dark-mode .menu-box {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+        .dark-mode .menu-box:hover,
+        .dark-mode .menu-box-active {
+            background-color: var(--color-orange-primary);
+            color: var(--color-white);
+            border-color: var(--color-orange-primary);
+        }
+
+    .dark-mode .settings-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .setting-group {
+        background-color: transparent;
+    }
+
+        .dark-mode .setting-group h3 {
+            color: var(--color-text-dark);
+        }
+
+    .dark-mode .setting-description {
+        color: #cccccc;
+    }
+
+    .dark-mode .lang-select,
+    .dark-mode .theme-select {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+        border-color: var(--color-border);
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    }
+
+    .dark-mode .filters-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .filter-group label {
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .filter-group select {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+        border-color: var(--color-border);
+    }
+
+    .dark-mode .show-filters-btn {
+        background-color: var(--color-orange-primary);
+        color: var(--color-white);
+    }
+
+    .dark-mode .filters-content {
+        border-top-color: var(--color-border);
+    }
+
+    .dark-mode .settings-icon {
+        color: var(--color-orange-primary);
+    }
+
+        .dark-mode .settings-icon:hover {
+            background-color: rgba(230, 81, 0, 0.1);
+        }
+
+    /* Ensure all text is readable in dark mode */
+    .dark-mode h1,
+    .dark-mode h2,
+    .dark-mode h3,
+    .dark-mode h4,
+    .dark-mode h5,
+    .dark-mode h6,
+    .dark-mode p,
+    .dark-mode label,
+    .dark-mode span {
+        color: var(--color-text-dark);
+    }
+
+    /* Improve contrast in select options */
+    .dark-mode select option {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+    }
+
+/* Smooth transition between themes */
+body,
+.header,
+.menu-container,
+.settings-container,
+.menu-box,
+.lang-select,
+.theme-select {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

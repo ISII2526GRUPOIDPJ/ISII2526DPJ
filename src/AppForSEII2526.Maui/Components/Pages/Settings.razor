@@ -3,10 +3,12 @@
 @inject IStringLocalizer<Shared> Localizer
 @using System.Globalization
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <div class="settings-container">
     <h2>@Localizer["Settings"]</h2>
-    
+
+    <!-- Configuración de Idioma -->
     <div class="setting-group">
         <h3>@Localizer["Language"]</h3>
         <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
@@ -17,16 +19,35 @@
         <p class="setting-description">@Localizer["LanguageDescription"]</p>
     </div>
 
-    <!-- Puedes agregar más configuraciones aquí -->
+    <!-- Configuración de Tema -->
+    <div class="setting-group">
+        <h3>@Localizer["Theme"]</h3>
+        <select @onchange="ChangeTheme" class="theme-select" value="@currentTheme">
+            <option value="light">@Localizer["LightTheme"]</option>
+            <option value="dark">@Localizer["DarkTheme"]</option>
+            <!-- Aquí podrás agregar más temas después -->
+        </select>
+        <p class="setting-description">@Localizer["ThemeDescription"]</p>
+    </div>
 </div>
 
 @code {
     private string currentLang = "en";
+    private string currentTheme = "light";
 
     protected override async Task OnInitializedAsync()
     {
+        // Cargar idioma
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
+
+        // Cargar tema
+        var themeSaved = await SecureStorage.Default.GetAsync("AppTheme");
+        currentTheme = themeSaved ?? "light";
+
+        // Aplicar tema inmediatamente
+        await ApplyTheme();
+
         StateHasChanged();
     }
 
@@ -40,14 +61,48 @@
             {
                 await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
                 currentLang = selectedLang;
-                
-                // Recargar para aplicar cambios
                 NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error cambiando idioma: {ex.Message}");
             }
+        }
+    }
+
+    private async Task ChangeTheme(ChangeEventArgs e)
+    {
+        var selectedTheme = e.Value?.ToString() ?? "light";
+
+        if (selectedTheme != currentTheme)
+        {
+            currentTheme = selectedTheme;
+            await SecureStorage.Default.SetAsync("AppTheme", currentTheme);
+            await ApplyTheme();
+            StateHasChanged();
+        }
+    }
+
+    private async Task ApplyTheme()
+    {
+        try
+        {
+            // Remover todas las clases de tema primero
+            await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.remove('dark-mode', 'light-mode')");
+
+            // Aplicar el tema seleccionado
+            if (currentTheme == "dark")
+            {
+                await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.add('dark-mode')");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.add('light-mode')");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error aplicando tema: {ex.Message}");
         }
     }
 }

@@ -129,6 +129,9 @@
   <data name="CreatePlan" xml:space="preserve">
     <value>Créer un Plan</value>
   </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Sombre</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Par Défaut</value>
   </data>
@@ -153,6 +156,9 @@
   <data name="Large" xml:space="preserve">
     <value>Grand</value>
   </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Clair</value>
+  </data>
   <data name="LogOut" xml:space="preserve">
     <value>Se Déconnecter</value>
   </data>
@@ -176,6 +182,12 @@
   </data>
   <data name="Small" xml:space="preserve">
     <value>Petit</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thème</value>
+  </data>
+  <data name="ThemeDescription" xml:space="preserve">
+    <value>Choisissez votre thème préféré</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Votre Système Complet de Gestion de Salle de Sport</value>
