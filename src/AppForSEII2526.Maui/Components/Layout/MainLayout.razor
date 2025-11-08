@@ -32,31 +32,4 @@
 </main>
 
 @code {
-    private string currentLang = "en";
-
-    protected override async Task OnInitializedAsync()
-    {
-        var saved = await SecureStorage.Default.GetAsync("AppCulture");
-        currentLang = saved ?? "en";
-        StateHasChanged();
-    }
-
-    private async Task ChangeLanguage(ChangeEventArgs e)
-    {
-        var selectedLang = e.Value?.ToString() ?? "en";
-
-        if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es"))
-        {
-            try
-            {
-                await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
-                currentLang = selectedLang;
-                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error cambiando idioma: {ex.Message}");
-            }
-        }
-    }
 }

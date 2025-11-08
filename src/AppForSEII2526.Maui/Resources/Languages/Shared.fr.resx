@@ -118,66 +118,66 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllDays" xml:space="preserve">
-    <value>All Days</value>
+    <value>Tous les Jours</value>
   </data>
   <data name="AllTypes" xml:space="preserve">
-    <value>All Types </value>
+    <value>Tous les Types</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>Retour</value>
   </data>
   <data name="CreatePlan" xml:space="preserve">
-    <value>Create Plan</value>
+    <value>Créer un Plan</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Par Défaut</value>
   </data>
   <data name="FilterByDay" xml:space="preserve">
-    <value>Filter by Day</value>
+    <value>Filtrer par Jour</value>
   </data>
   <data name="FilterByType" xml:space="preserve">
-    <value>Filter by Type</value>
+    <value>Filtrer par Type</value>
   </data>
   <data name="FontSize" xml:space="preserve">
-    <value>Font Size</value>
+    <value>Taille de Police</value>
   </data>
   <data name="HideFilters" xml:space="preserve">
-    <value>Hide Filters</value>
+    <value>Masquer les Filtres</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Langue</value>
   </data>
   <data name="LanguageDescription" xml:space="preserve">
-    <value>Choose your preferred language</value>
+    <value>Choisissez votre langue préférée</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Grand</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Log Out</value>
+    <value>Se Déconnecter</value>
   </data>
   <data name="ReportIncident" xml:space="preserve">
-    <value>Report Incident</value>
+    <value>Signaler un Incident</value>
   </data>
   <data name="SelectClasses" xml:space="preserve">
-    <value>Select Classes</value>
+    <value>Sélectionner les Cours</value>
   </data>
   <data name="SelectClassesDescription" xml:space="preserve">
-    <value>Select the classes you want to enroll in for next week</value>
+    <value>Sélectionnez les cours auxquels vous souhaitez vous inscrire pour la semaine prochaine</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Paramètres</value>
   </data>
   <data name="Shop" xml:space="preserve">
-    <value>Shop</value>
+    <value>Boutique</value>
   </data>
   <data name="ShowFilters" xml:space="preserve">
-    <value>Show Filters</value>
+    <value>Afficher les Filtres</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Petit</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
-    <value>Your Complete Gym Management System</value>
+    <value>Votre Système Complet de Gestion de Salle de Sport</value>
   </data>
 </root>

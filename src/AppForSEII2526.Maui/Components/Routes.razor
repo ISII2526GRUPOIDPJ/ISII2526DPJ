@@ -11,7 +11,7 @@
     protected override async Task OnInitializedAsync()
     {
         await SetCulture();
-        StateHasChanged(); // Forzar actualización
+        StateHasChanged();
     }
 
     private async Task SetCulture()
@@ -22,8 +22,8 @@
 
             Console.WriteLine($"🔍 Routes - Idioma guardado: {savedCulture}");
 
-            // Validar y corregir si es necesario
-            if (savedCulture != "en" && savedCulture != "es")
+
+            if (savedCulture != "en" && savedCulture != "es" && savedCulture != "fr")
             {
                 savedCulture = "en";
                 await SecureStorage.Default.SetAsync("AppCulture", "en");
@@ -31,7 +31,7 @@
 
             var culture = new CultureInfo(savedCulture);
 
-            // Configurar TODAS las culturas consistentemente
+            // Configurar culturas
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentCulture = culture;
@@ -43,7 +43,7 @@
         {
             Console.WriteLine($"❌ Routes - Error: {ex.Message}");
 
-            // Fallback consistente
+            // Fallback a inglés
             var culture = new CultureInfo("en");
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;

@@ -147,6 +147,9 @@
   <data name="Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>Elige tu idioma preferido</value>
+  </data>
   <data name="Large" xml:space="preserve">
     <value>Grande</value>
   </data>
