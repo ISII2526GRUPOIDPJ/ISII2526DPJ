@@ -42,5 +42,19 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
         public string HealthIssues { get; set; }
         public IList<ClassInPlanDTO> Classes { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is GetPlanDTO dTO &&
+                   UserName == dTO.UserName &&
+                   UserSurname == dTO.UserSurname &&
+                   CreatedDate == dTO.CreatedDate &&
+                   TotalPrice == dTO.TotalPrice &&
+                   Name == dTO.Name &&
+                   Description == dTO.Description &&
+                   Weeks == dTO.Weeks &&
+                   HealthIssues == dTO.HealthIssues &&
+                   ((Classes == null && dTO.Classes == null) ||
+                   (Classes != null && dTO.Classes != null && Classes.SequenceEqual(dTO.Classes)));
+        }
     }
 }
