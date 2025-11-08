@@ -25,7 +25,6 @@
         <select @onchange="ChangeTheme" class="theme-select" value="@currentTheme">
             <option value="light">@Localizer["LightTheme"]</option>
             <option value="dark">@Localizer["DarkTheme"]</option>
-            <!-- Aquí podrás agregar más temas después -->
         </select>
         <p class="setting-description">@Localizer["ThemeDescription"]</p>
     </div>
@@ -37,16 +36,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Cargar idioma
+        // Cargar configuración
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
 
-        // Cargar tema
         var themeSaved = await SecureStorage.Default.GetAsync("AppTheme");
         currentTheme = themeSaved ?? "light";
-
-        // Aplicar tema inmediatamente
-        await ApplyTheme();
 
         StateHasChanged();
     }
@@ -57,16 +52,11 @@
 
         if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es" || selectedLang == "fr"))
         {
-            try
-            {
-                await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
-                currentLang = selectedLang;
-                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error cambiando idioma: {ex.Message}");
-            }
+            await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+            currentLang = selectedLang;
+
+            // Actualizar cultura sin recargar
+            await UpdateCulture(selectedLang);
         }
     }
 
@@ -79,26 +69,31 @@
             currentTheme = selectedTheme;
             await SecureStorage.Default.SetAsync("AppTheme", currentTheme);
             await ApplyTheme();
-            StateHasChanged();
         }
+    }
+
+    private async Task UpdateCulture(string culture)
+    {
+        var newCulture = new CultureInfo(culture);
+        CultureInfo.CurrentCulture = newCulture;
+        CultureInfo.CurrentUICulture = newCulture;
+        CultureInfo.DefaultThreadCurrentCulture = newCulture;
+        CultureInfo.DefaultThreadCurrentUICulture = newCulture;
+
+        // Forzar actualización de todos los componentes
+        StateHasChanged();
+
+        // Pequeño delay para asegurar que se aplican los cambios
+        await Task.Delay(100);
+        StateHasChanged();
     }
 
     private async Task ApplyTheme()
     {
         try
         {
-            // Remover todas las clases de tema primero
-            await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.remove('dark-mode', 'light-mode')");
-
-            // Aplicar el tema seleccionado
-            if (currentTheme == "dark")
-            {
-                await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.add('dark-mode')");
-            }
-            else
-            {
-                await JSRuntime.InvokeVoidAsync("eval", "document.body.classList.add('light-mode')");
-            }
+            await JSRuntime.InvokeVoidAsync("eval",
+                $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{currentTheme}-mode')");
         }
         catch (Exception ex)
         {

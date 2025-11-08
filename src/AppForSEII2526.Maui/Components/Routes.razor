@@ -11,8 +11,8 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await SetCulture(); // Language Culture
-        await SetTheme();   // Theme 
+        await SetCulture();
+        await SetTheme();
         StateHasChanged();
     }
 
@@ -22,9 +22,6 @@
         {
             var savedCulture = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
 
-            Console.WriteLine($"🔍 Routes - Idioma guardado: {savedCulture}");
-
-
             if (savedCulture != "en" && savedCulture != "es" && savedCulture != "fr")
             {
                 savedCulture = "en";
@@ -32,24 +29,17 @@
             }
 
             var culture = new CultureInfo(savedCulture);
-
-            // Configurar culturas
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-            Console.WriteLine($"✅ Routes - Cultura configurada: {culture.Name}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Routes - Error: {ex.Message}");
-
-            // Fallback a inglés
+            Console.WriteLine($"Error configurando cultura: {ex.Message}");
             var culture = new CultureInfo("en");
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
-            await SecureStorage.Default.SetAsync("AppCulture", "en");
         }
     }
 
@@ -58,7 +48,6 @@
         try
         {
             var themeSaved = await SecureStorage.Default.GetAsync("AppTheme") ?? "light";
-
             await JSRuntime.InvokeVoidAsync("eval",
                 $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{themeSaved}-mode')");
         }

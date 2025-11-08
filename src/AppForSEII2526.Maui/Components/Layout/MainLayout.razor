@@ -2,7 +2,6 @@
 @using AppForSEII2526.Maui.Resources.Languages
 @inject IStringLocalizer<Shared> Localizer
 @using System.Globalization
-@inject NavigationManager NavigationManager
 
 <div class="header">
     <div class="header-left">
@@ -14,7 +13,6 @@
     </div>
 
     <div class="header-right">
-        <!-- Icono de configuración -->
         <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
             ⚙️
         </a>
@@ -32,4 +30,7 @@
 </main>
 
 @code {
+    protected override void OnInitialized()
+    {
+    }
 }
