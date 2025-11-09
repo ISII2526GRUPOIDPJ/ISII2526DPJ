@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppForSEII2526.API.Controllers
