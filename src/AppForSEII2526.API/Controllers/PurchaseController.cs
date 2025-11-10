@@ -1,4 +1,4 @@
-﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+﻿using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppForSEII2526.API.Controllers
@@ -45,5 +45,11 @@ namespace AppForSEII2526.API.Controllers
 
             return Ok(purchase);
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> CreatePurchase(PurchaseDTO purchase)
     }
 }
