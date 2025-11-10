@@ -49,7 +49,26 @@ namespace AppForSEII2526.API.Controllers
         [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> CreatePurchase(PurchaseDTO purchase)
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+        public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
+            //Mandatory information not introduced
+
+
+            //Quantity = 0
+            if(createPurchase.Quantity == 0) ModelState.AddModelError("PurchaseQuantityZero", "You must buy at least one item.");
+
+            //Quantity > QuantityAvailable
+            if (createPurchase.Quantity > /*QuantityAvailable*/) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
+
+            try {
+                await _context.SaveChangesAsync();
+            } catch (Exception ex) {
+                _logger.LogError(DateTime.Now + ":" + ex.Message);
+                return Conflict("Error" +  ex.Message);
+            }
+
+            //return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
+        }
     }
 }

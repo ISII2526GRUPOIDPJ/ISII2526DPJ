@@ -3,8 +3,16 @@
     public class CreatePurchaseDTO
     {
         public CreatePurchaseDTO() { }
-
-        //Payment Method
+        public CreatePurchaseDTO(PaymentMethod paymentMethod, string city, string country, string street, string? description, int quantity)
+        {
+            PaymentMethod = paymentMethod;
+            City = city;
+            Country = country;
+            Street = street;
+            Description = description;
+            Quantity = quantity;
+        }
+        public PaymentMethod PaymentMethod { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string Street { get; set; }
