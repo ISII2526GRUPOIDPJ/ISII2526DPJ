@@ -53,13 +53,15 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
             //Mandatory information not introduced
-
+            if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseCountry", "Street is required");
+            if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCountry", "City is required");
+            if (string.IsNullOrWhiteSpace(createPurchase.Country)) ModelState.AddModelError("PurchaseCountry", "Country is required");
 
             //Quantity = 0
-            if(createPurchase.Quantity == 0) ModelState.AddModelError("PurchaseQuantityZero", "You must buy at least one item.");
+            if (createPurchase.Quantity == 0) ModelState.AddModelError("PurchaseQuantityZero", "You must buy at least one item.");
 
             //Quantity > QuantityAvailable
-            if (createPurchase.Quantity > /*QuantityAvailable*/) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
+            if (createPurchase.Quantity > 0 /*QuantityAvailable*/) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
 
             try {
                 await _context.SaveChangesAsync();
