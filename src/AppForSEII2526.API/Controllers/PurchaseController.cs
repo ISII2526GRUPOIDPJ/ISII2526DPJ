@@ -46,7 +46,7 @@ namespace AppForSEII2526.API.Controllers
             return Ok(purchase);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("[action]")]
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
@@ -61,7 +61,7 @@ namespace AppForSEII2526.API.Controllers
             if (createPurchase.Quantity == 0) ModelState.AddModelError("PurchaseQuantityZero", "You must buy at least one item.");
 
             //Quantity > QuantityAvailable
-            if (createPurchase.Quantity > 0 /*QuantityAvailable*/) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
+            if (createPurchase.Quantity > QuantityAvailable) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
 
             try {
                 await _context.SaveChangesAsync();
@@ -71,6 +71,6 @@ namespace AppForSEII2526.API.Controllers
             }
 
             //return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
-        }
+        }*/
     }
 }
