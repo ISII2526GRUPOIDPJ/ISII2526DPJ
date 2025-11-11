@@ -1,7 +1,9 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Channels;
+using Newtonsoft.Json;
 
 namespace LogViewer;
 
@@ -57,9 +59,10 @@ public class Subscriber
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
 
-            Subscriber subscriber = new Subscriber();
+            var pedido = JsonConvert.DeserializeObject<Subscriber>(message);
+
             Console.WriteLine($"Pedido recibido: {message}");
-            ProcessOrder(subscriber);
+            ProcessOrder(pedido);
         };
 
         _channel.BasicConsume(
