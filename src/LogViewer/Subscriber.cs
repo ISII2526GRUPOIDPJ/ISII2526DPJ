@@ -9,8 +9,9 @@ public class Subscriber
 {
     private readonly string _hostname = "localhost";
     private readonly string _queueName = "subscriber";
-    private readonly string _userName = "1234";
-    private readonly string _password = "1234";
+    private readonly string _userName = "guest";
+    private readonly string _password = "guest";
+    private readonly string _exchangeName = "Exchange";
     private readonly int _port = 5672;
     private readonly IConnection _connection;
     private readonly IModel _channel;
@@ -29,12 +30,21 @@ public class Subscriber
             Password = _password,
             Port = _port
         };
-        _connection = factory.CreateConnection();
 
+        _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
-        _channel.ExchangeDeclare(_exchangeName, ExchangeType.fanout);
+
+        _channel.ExchangeDeclare(_exchangeName, ExchangeType.Fanout);
         _properties = _channel.CreateBasicProperties();
         _properties.Persistent = true;
+
+        var tempQueue = _channel.QueueDeclare(
+            queue: _queueName,
+            durable: false,
+            exclusive: true,
+            autoDelete: true,
+            arguments: null
+        );
 
         var queueName = tempQueue.QueueName;
 
@@ -46,15 +56,17 @@ public class Subscriber
         {
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
+
+            Subscriber subscriber = new Subscriber();
             Console.WriteLine($"Pedido recibido: {message}");
-            ProcessOrder(message);
+            ProcessOrder(subscriber);
         };
 
         _channel.BasicConsume(
             queue: _queueName,
             autoAck: true,
             consumer: consumer
-);
+        );
 
     }
 }
