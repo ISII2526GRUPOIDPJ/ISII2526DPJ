@@ -45,6 +45,100 @@ namespace AppForSEII2526.UT.PlanController_test
             _context.SaveChanges();
         }
 
+
+        // Test that CreatePlan returns BadRequest for various invalid inputs
+        public static IEnumerable<object[]> TestCasesFor_CreatePlan_BadRequest()
+        {
+            var allTests = new List<object[]>
+            {
+                // Alternative Flow 4: No classes selected
+                new object[] {
+                    new CreatePlanDTO(
+                        null, // <- No classes selected
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        0m,
+                        "Valid Plan",
+                        "Description",
+                        4,
+                        "None",
+                        1
+                    ),
+                    "At least one class must be selected."
+                },
+
+                // Alternative Flow 5: Invalid payment method
+                new object[] {
+                    new CreatePlanDTO(
+                        new List<ClassInPlanDTO> {
+                            new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
+                        },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        10.00m,
+                        "Invalid Payment Plan",
+                        "Description",
+                        4,
+                        "None",
+                        -1 // <- Invalid ID
+                    ),
+                    "Selected payment method not found."
+                },
+
+                // Alternative Flow 5: Empty plan name
+                new object[] {
+                    new CreatePlanDTO(
+                        new List<ClassInPlanDTO> {
+                            new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
+                        },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        10.00m,
+                        "",
+                        "Description",
+                        4,
+                        "None",
+                        1
+                    ),
+                    "Plan name is required"
+                },
+
+                // Alternative Flow 5: Invalid weeks (0)
+                new object[] {
+                    new CreatePlanDTO(
+                        new List<ClassInPlanDTO> {
+                            new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
+                        },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        10.00m,
+                        "Invalid Weeks Plan",
+                        "Description",
+                        0, // <- Invalid weeks
+                        "None",
+                        1
+                    ),
+                    "Weeks must be between 1 and 52"
+                },
+
+                // Alternative Flow 7: Classes without capacity  
+                new object[] {
+                    new CreatePlanDTO(
+                        new List<ClassInPlanDTO> {
+                            new ClassInPlanDTO(3, "Strength Training", new List<string>{"Strength"}, 15.00m, DateTime.Today.AddDays(3).AddHours(17), "Goal")
+                        },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        15.00m,
+                        "Plan No Capacity",
+                        "Description",
+                        4,
+                        "None",
+                        1
+                    ),
+                    "The following classes have no available capacity: Strength Training"
+                }
+        };
+
+            return allTests;
+        }
+
+
         // Test that CreatePlan returns Ok when valid plan data is provided
         [Fact]
         [Trait("LevelTesting", "Unit Testing")]
@@ -87,42 +181,18 @@ namespace AppForSEII2526.UT.PlanController_test
             var result = await controller.CreatePlan(planDto);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var okResult = Assert.IsType<CreatedAtActionResult>(result);
             var returnedPlan = Assert.IsType<GetPlanDTO>(okResult.Value);
         }
 
-        // Test that CreatePlan returns BadRequest when the payment method is invalid or missing
-        [Fact]
+
+        // Test that CreatePlan returns BadRequest for various invalid inputs
+        [Theory]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task CreatePlan_ReturnsBadRequest_WhenPaymentMethodInvalid()
+        [MemberData(nameof(TestCasesFor_CreatePlan_BadRequest))]
+        public async Task CreatePlan_ReturnsBadRequest_WhenInvalidData(CreatePlanDTO planDto, string expectedMessage)
         {
             // Arrange
-            var selectedClasses = _context.Classes
-                .Where(c => c.Capacity > 0)
-                .Take(1)
-                .Select(c => new ClassInPlanDTO(
-                    c.Id,
-                    c.Name,
-                    c.TypeItems.Select(ti => ti.Name).ToList(),
-                    c.Price,
-                    c.Date,
-                    "Improve health"
-                )).ToList();
-
-            // Setting an invalid payment method id
-            var invalidPaymentMethodId = -1;
-
-            var planDto = new CreatePlanDTO(
-                selectedClasses,
-                new List<PaymentMethodDTO>(), 
-                selectedClasses.Sum(c => c.Price),
-                "Invalid Payment Plan",
-                "Testing invalid payment method",
-                2,
-                "None",
-                invalidPaymentMethodId
-            );
-
             var mockLogger = new Mock<ILogger<PlanController>>();
             var controller = new PlanController(_context, mockLogger.Object);
 
@@ -130,169 +200,8 @@ namespace AppForSEII2526.UT.PlanController_test
             var result = await controller.CreatePlan(planDto);
 
             // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Payment method is required.", badRequestResult.Value);
-        }
-
-        // Test that CreatePlan returns BadRequest when any selected class has zero capacity
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task CreatePlan_ReturnsBadRequest_WhenClassHasNoCapacity()
-        {
-            // Arrange: select only classes with zero capacity
-            var selectedClasses = _context.Classes
-                .Where(c => c.Capacity == 0) // Filter classes without capacity
-                .Select(c => new ClassInPlanDTO(
-                    c.Id,
-                    c.Name,
-                    c.TypeItems.Select(ti => ti.Name).ToList(),
-                    c.Price,
-                    c.Date,
-                    "Goal"
-                )).ToList();
-
-            // Ensure there are classes without capacity; fail if empty
-            Assert.NotEmpty(selectedClasses);
-
-            var paymentMethods = _context.PaymentMethods.ToList();
-
-            var planDto = new CreatePlanDTO(
-                selectedClasses,
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type", "Info")).ToList(),
-                selectedClasses.Sum(c => c.Price),
-                "Plan with No Capacity Classes",
-                "This plan includes classes with zero capacity",
-                3,
-                "None",
-                paymentMethods.First().Id
-            );
-
-            var mockLogger = new Mock<ILogger<PlanController>>();
-            var controller = new PlanController(_context, mockLogger.Object);
-
-            // Act
-            var result = await controller.CreatePlan(planDto);
-
-            // Assert
-            var classesWithoutCapacity = selectedClasses.Select(c => c.Name).ToList();
-            var expectedMessage = $"The following classes have no available capacity: {string.Join(", ", classesWithoutCapacity)}";
-
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(expectedMessage, badRequestResult.Value);
-        }
-
-        // Test that CreatePlan returns BadRequest when no classes are selected in the plan
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task CreatePlan_ReturnsBadRequest_WhenNoClassesSelected()
-        {
-            // Arrange
-            var paymentMethods = _context.PaymentMethods.ToList();
-
-            var planDto = new CreatePlanDTO(
-                selectedClasses: null,  // No classes selected
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type", "Info")).ToList(),
-                totalPrice: 0m,
-                name: "Plan without classes",
-                description: "This plan has no classes selected",
-                weeks: 4,
-                healthIssues: "None",
-                selectedPaymentMethodId: paymentMethods.First().Id
-            );
-
-            var mockLogger = new Mock<ILogger<PlanController>>();
-            var controller = new PlanController(_context, mockLogger.Object);
-
-            // Act
-            var result = await controller.CreatePlan(planDto);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("At least one class must be selected.", badRequestResult.Value);
-        }
-
-        // Test that CreatePlan returns BadRequest when the plan name is empty or null
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task CreatePlan_ReturnsBadRequest_WhenPlanNameIsEmpty()
-        {
-            // Arrange
-            var selectedClasses = _context.Classes
-                .Where(c => c.Capacity > 0)
-                .Take(1)
-                .Select(c => new ClassInPlanDTO(
-                    c.Id,
-                    c.Name,
-                    c.TypeItems.Select(ti => ti.Name).ToList(),
-                    c.Price,
-                    c.Date,
-                    "Goal"
-                )).ToList();
-
-            var paymentMethods = _context.PaymentMethods.ToList();
-
-            var planDto = new CreatePlanDTO(
-                selectedClasses,
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type", "Info")).ToList(),
-                selectedClasses.Sum(c => c.Price),
-                name: "",  // Empty plan name to trigger validation
-                description: "Plan with empty name",
-                weeks: 4,
-                healthIssues: "None",
-                selectedPaymentMethodId: paymentMethods.First().Id
-            );
-
-            var mockLogger = new Mock<ILogger<PlanController>>();
-            var controller = new PlanController(_context, mockLogger.Object);
-
-            // Act
-            var result = await controller.CreatePlan(planDto);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Plan name is required", badRequestResult.Value);
-        }
-
-        // Test that CreatePlan returns BadRequest when the number of weeks is zero or less
-        [Fact]
-        [Trait("LevelTesting", "Unit Testing")]
-        public async Task CreatePlan_ReturnsBadRequest_WhenWeeksIsZeroOrLess()
-        {
-            // Arrange
-            var selectedClasses = _context.Classes
-                .Where(c => c.Capacity > 0)
-                .Take(1)
-                .Select(c => new ClassInPlanDTO(
-                    c.Id,
-                    c.Name,
-                    c.TypeItems.Select(ti => ti.Name).ToList(),
-                    c.Price,
-                    c.Date,
-                    "Improve health"
-                )).ToList();
-
-            var paymentMethods = _context.PaymentMethods.ToList();
-
-            var planDto = new CreatePlanDTO(
-                selectedClasses,
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type", "Info")).ToList(),
-                selectedClasses.Sum(c => c.Price),
-                "Plan With Invalid Weeks",
-                "Testing weeks <= 0",
-                0,  // Invalid weeks
-                "None",
-                paymentMethods.First().Id
-            );
-
-            var mockLogger = new Mock<ILogger<PlanController>>();
-            var controller = new PlanController(_context, mockLogger.Object);
-
-            // Act
-            var result = await controller.CreatePlan(planDto);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Number of weeks must be greater than 0.", badRequestResult.Value);
         }
     }
 }

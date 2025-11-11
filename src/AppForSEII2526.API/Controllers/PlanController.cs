@@ -23,8 +23,15 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<GetPlanDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlan(DateTime? date)
         {
+            if(_context.Plans == null)
+            {
+                _logger.LogError("Error: Plans table does not exist");
+                return NotFound();
+            }   
+
             IList<GetPlanDTO> planDTOs = await _context.Plans
                 .Include(p => p.PaymentMethod)
                     .ThenInclude(pm => pm.User)
@@ -53,37 +60,32 @@ namespace AppForSEII2526.API.Controllers
                 ))
                 .ToListAsync();
 
+            if(planDTOs == null || !planDTOs.Any())
+            {
+                _logger.LogError($"Error: Plan with date {date} does not exist");
+                return NotFound();
+            }
+
             return Ok(planDTOs);
         }
 
         [HttpPost]
         [Route("[action]")]
-        [ProducesResponseType(typeof(GetPlanDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetPlanDTO), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> CreatePlan(CreatePlanDTO planDto)
         {
             try
             {
+                // Included because in the tests the [ApiController] automatic validation does not trigger
+                if (string.IsNullOrWhiteSpace(planDto.Name)) return BadRequest("Plan name is required");
+                if (planDto.Weeks < 1 || planDto.Weeks > 52) return BadRequest("Weeks must be between 1 and 52");
+
+
                 // Alternative Flow 4: No classes selected
-                if(planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
+                if (planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
                 {
                     return BadRequest("At least one class must be selected.");
-                }
-
-                // Alternative Flow 5: Mandatory data validation
-                if (string.IsNullOrEmpty(planDto.Name))
-                {
-                    return BadRequest("Plan name is required");
-                }
-
-                if(planDto.Weeks <= 0)
-                {
-                    return BadRequest("Number of weeks must be greater than 0.");
-                }
-
-                if(planDto.SelectedPaymentMethodId <= 0)
-                {
-                    return BadRequest("Payment method is required.");
                 }
 
                 // Alternative Flow 7: Check class capacity
@@ -169,7 +171,7 @@ namespace AppForSEII2526.API.Controllers
                     .FirstOrDefaultAsync();
 
 
-                return Ok(resultDto);
+                return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, resultDto);
             }
             catch (Exception ex)
             {

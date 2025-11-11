@@ -20,5 +20,14 @@ namespace AppForSEII2526.API.DTOs.ItemDTOs
         public decimal Price { get; set; }
         public int Quantity { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is ItemForPurchaseDTO dTO &&
+                   Name == dTO.Name &&
+                   Brand == dTO.Brand &&
+                   Description == dTO.Description &&
+                   Price == dTO.Price &&
+                   Quantity == dTO.Quantity;
+        }
     }
 }

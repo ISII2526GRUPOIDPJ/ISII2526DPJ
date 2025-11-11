@@ -41,7 +41,6 @@ namespace AppForSEII2526.API.Controllers
             IList<ItemForPurchaseDTO> items = await _context.Items
                 .Include(i => i.PurchaseItems)
                 .Where(i => (i.Name.Contains(itemName) || (itemName == null)) && (i.Brand.Name.Equals(brandName) || (brandName == null)))
-                .OrderBy(i => i.Name)
                 .Select(i => new ItemForPurchaseDTO(
                     i.Name,
                     i.Brand.Name,
