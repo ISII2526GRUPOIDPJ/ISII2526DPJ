@@ -51,7 +51,9 @@ public class Subscriber
         var queueName = tempQueue.QueueName;
 
         _channel.QueueBind(queue: queueName, exchange: _exchangeName, routingKey: "");
+    }
 
+    public void StartConsuming() {
         var consumer = new EventingBasicConsumer(_channel);
 
         consumer.Received += (model, ea) =>
@@ -70,6 +72,10 @@ public class Subscriber
             autoAck: true,
             consumer: consumer
         );
+    }
 
+    public void DisposeResources() {
+        _channel?.Close();
+        _connection?.Close();
     }
 }
