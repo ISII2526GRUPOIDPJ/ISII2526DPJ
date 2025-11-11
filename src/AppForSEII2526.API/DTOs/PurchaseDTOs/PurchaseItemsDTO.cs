@@ -13,5 +13,14 @@
         public string Brand { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseItemsDTO dTO &&
+                   Name == dTO.Name &&
+                   Brand == dTO.Brand &&
+                   Quantity == dTO.Quantity &&
+                   Price == dTO.Price;
+        }
     }
 }
