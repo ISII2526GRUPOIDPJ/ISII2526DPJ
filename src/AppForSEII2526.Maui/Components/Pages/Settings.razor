@@ -1,0 +1,99 @@
+﻿@page "/settings"
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@using System.Globalization
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<div class="settings-container">
+    <h2>@Localizer["Settings"]</h2>
+
+    <!-- Configuración de Idioma -->
+    <div class="setting-group">
+        <h3>@Localizer["Language"]</h3>
+        <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
+        <p class="setting-description">@Localizer["LanguageDescription"]</p>
+    </div>
+
+    <!-- Configuración de Tema -->
+    <div class="setting-group">
+        <h3>@Localizer["Theme"]</h3>
+        <select @onchange="ChangeTheme" class="theme-select" value="@currentTheme">
+            <option value="light">@Localizer["LightTheme"]</option>
+            <option value="dark">@Localizer["DarkTheme"]</option>
+        </select>
+        <p class="setting-description">@Localizer["ThemeDescription"]</p>
+    </div>
+</div>
+
+@code {
+    private string currentLang = "en";
+    private string currentTheme = "light";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Cargar configuración
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = saved ?? "en";
+
+        var themeSaved = await SecureStorage.Default.GetAsync("AppTheme");
+        currentTheme = themeSaved ?? "light";
+
+        StateHasChanged();
+    }
+
+    private async Task ChangeLanguage(ChangeEventArgs e)
+    {
+        var selectedLang = e.Value?.ToString() ?? "en";
+
+        if (selectedLang != currentLang && (selectedLang == "en" || selectedLang == "es" || selectedLang == "fr"))
+        {
+            await SecureStorage.Default.SetAsync("AppCulture", selectedLang);
+            currentLang = selectedLang;
+
+            // Actualizar cultura y forzar recarga completa
+            await UpdateCulture(selectedLang);
+
+            // Navegar a la página actual para forzar recarga de todos los componentes
+            NavigationManager.NavigateTo("/settings", forceLoad: true);
+        }
+    }
+
+    private async Task ChangeTheme(ChangeEventArgs e)
+    {
+        var selectedTheme = e.Value?.ToString() ?? "light";
+
+        if (selectedTheme != currentTheme)
+        {
+            currentTheme = selectedTheme;
+            await SecureStorage.Default.SetAsync("AppTheme", currentTheme);
+            await ApplyTheme();
+        }
+    }
+
+    private async Task UpdateCulture(string culture)
+    {
+        var newCulture = new CultureInfo(culture);
+        CultureInfo.CurrentCulture = newCulture;
+        CultureInfo.CurrentUICulture = newCulture;
+        CultureInfo.DefaultThreadCurrentCulture = newCulture;
+        CultureInfo.DefaultThreadCurrentUICulture = newCulture;
+    }
+
+    private async Task ApplyTheme()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("eval",
+                $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{currentTheme}-mode')");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error aplicando tema: {ex.Message}");
+        }
+    }
+}

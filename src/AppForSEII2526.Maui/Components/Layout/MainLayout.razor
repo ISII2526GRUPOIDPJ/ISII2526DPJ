@@ -1,24 +1,68 @@
 ﻿@inherits LayoutComponentBase
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
+@using System.Globalization
+@inject NavigationManager NavigationManager
 
 <div class="header">
     <div class="header-left">
         <img src="images/logo.png" class="logo" alt="Exergymise Logo" />
         <div class="header-text">
             <h1>EXERGYMISE</h1>
-            <p>Your complete gym management system</p>
+            <p>@Localizer["YourCompleteGymManagementSystem"]</p>
         </div>
     </div>
 
-    <button class="logout-btn">Log Out</button>
+    <div class="header-right">
+        <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
+            ⚙️
+        </a>
+    </div>
 </div>
 
 <div class="menu-container">
-    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">Create Plan</NavLink>
-    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">Report Incident</NavLink>
-    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">Shop</NavLink>
+    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">@Localizer["CreatePlan"]</NavLink>
+    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">@Localizer["ReportIncident"]</NavLink>
+    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">@Localizer["Shop"]</NavLink>
 </div>
 
 <main>
     @Body
 </main>
 
+@code {
+    private string currentLang = "en";
+    private Timer refreshTimer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Cargar idioma actual
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        currentLang = saved ?? "en";
+
+        // Configurar timer para verificar cambios cada 2 segundos
+        refreshTimer = new Timer(async _ =>
+        {
+            await CheckForLanguageChange();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(2));
+    }
+
+    private async Task CheckForLanguageChange()
+    {
+        var saved = await SecureStorage.Default.GetAsync("AppCulture");
+        var newLang = saved ?? "en";
+
+        if (newLang != currentLang)
+        {
+            currentLang = newLang;
+            Console.WriteLine($"🔄 Idioma cambiado a: {currentLang}");
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        refreshTimer?.Dispose();
+    }
+}

@@ -9,6 +9,7 @@
     --border-standard: 1px solid var(--color-border);
     --shadow: 0 2px 8px rgba(0,0,0,0.1);
     --shadow-heavy: 0 4px 12px rgba(0,0,0,0.15);
+    --font-size-base: 14px;
 }
 
 /* ===== ESTILOS GLOBALES ===== */
@@ -17,9 +18,10 @@ body {
     color: var(--color-text-dark);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    font-size: var(--font-size-base);
 }
 
-/* ===== HEADER SUPERIOR (fuera del cuadrado) ===== */
+/* ===== HEADER ===== */
 .header {
     display: flex;
     justify-content: space-between;
@@ -45,14 +47,15 @@ body {
     .header-text h1 {
         margin: 0;
         font-weight: bold;
+        font-size: calc(var(--font-size-base) * 1.5);
     }
 
     .header-text p {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: calc(var(--font-size-base) * 0.9);
     }
 
-/* ===== CUADRADO BLANCO MENÚ ===== */
+/* ===== MENÚ PRINCIPAL ===== */
 .menu-container {
     background-color: var(--color-white);
     border: var(--border-standard);
@@ -66,7 +69,6 @@ body {
     width: fit-content;
 }
 
-/* ===== BOTONES DE MENÚ ===== */
 .menu-box {
     background-color: var(--color-white);
     border: var(--border-standard);
@@ -77,6 +79,7 @@ body {
     text-decoration: none;
     box-shadow: var(--shadow);
     transition: all 0.2s ease-in-out;
+    font-size: var(--font-size-base);
 }
 
     .menu-box:hover,
@@ -87,91 +90,394 @@ body {
         border-color: var(--color-orange-primary);
     }
 
-/* ===== BOTÓN LOGOUT ===== */
+/* ===== SETTINGS ===== */
+.settings-container {
+    background-color: var(--color-white);
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 90%;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+    .setting-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: var(--color-text-dark);
+        font-size: var(--font-size-base);
+    }
+
+    .setting-group select {
+        width: 100%;
+        padding: 0.5rem;
+        border: var(--border-standard);
+        border-radius: var(--border-radius);
+        background-color: var(--color-white);
+        font-size: var(--font-size-base);
+    }
+
+.settings-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* ===== BOTONES ===== */
+.logout-btn, .back-btn {
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    font-size: var(--font-size-base);
+    transition: background-color 0.2s ease-in-out;
+}
+
 .logout-btn {
     background-color: var(--color-orange-primary);
     color: var(--color-white);
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.5rem 1.25rem;
-    font-weight: bold;
-    box-shadow: var(--shadow);
-    transition: background-color 0.2s ease-in-out;
 }
 
     .logout-btn:hover {
         background-color: #D84315;
     }
 
+.back-btn {
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
+}
 
+    .back-btn:hover {
+        background-color: #A0A0A0;
+    }
+
+.settings-icon {
+    font-size: 24px;
+    text-decoration: none;
+    color: var(--color-orange-primary);
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+    .settings-icon:hover {
+        background-color: var(--color-orange-light);
+        transform: scale(1.1);
+    }
+
+/* ===== FILTROS ===== */
 .filters-container {
-    background-color: white;
-    border: 1px solid #bdbdbd;
+    background-color: var(--color-white);
+    border: var(--border-standard);
     border-radius: 15px;
     width: 42%;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* mantiene el contenido centrado horizontalmente */
-    text-align: center; /* centra los textos de etiquetas y botón */
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow);
     transition: all 0.3s ease-in-out;
-    margin: 0 auto; /* centra el recuadro blanco dentro de la página */
+    margin: 0 auto;
 }
 
-/* Botón "Show Filters" / "Hide Filters" */
 .show-filters-btn {
-    background-color: #E65100;
-    color: white;
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
     border: none;
     border-radius: 15px;
     padding: 10px 25px;
-    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    margin-bottom: 15px;
     transition: opacity 0.2s ease-in-out;
+    font-size: var(--font-size-base);
 }
 
     .show-filters-btn:hover {
         opacity: 0.85;
     }
 
-/* Contenedor de los filtros */
 .filters-content {
     width: 100%;
-    max-width: 300px; /* evita que se extienda demasiado */
+    max-width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* centra los selects */
+    align-items: center;
     gap: 20px;
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid #e0e0e0; /* línea de separación suave */
+    border-top: 1px solid #e0e0e0;
 }
 
-/* Cada bloque de filtro individual */
-.filter-group {
+.filter-group label {
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-group select {
     width: 100%;
-    text-align: left; /* deja la etiqueta alineada con el select */
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: var(--border-standard);
+    font-size: var(--font-size-base);
+    appearance: none;
+    background-color: #f8f8f8;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
 }
 
-    .filter-group label {
-        font-size: 14px;
-        color: #000;
-        display: block;
-        margin-bottom: 5px;
+
+
+/* ===== CONFIGURATION SELECTORS ===== */
+.lang-select,
+.theme-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+    .lang-select:focus,
+    .theme-select:focus {
+        outline: none;
+        border-color: var(--color-orange-primary);
+        box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.2);
     }
 
-    .filter-group select {
-        width: 100%;
-        padding: 8px 12px;
-        border-radius: 20px;
-        border: 1px solid #bdbdbd;
-        font-size: 14px;
-        appearance: none;
-        background-color: #f8f8f8;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-        background-size: 16px;
+.setting-description {
+    margin-top: 8px;
+    color: #666;
+    font-size: calc(var(--font-size-base) * 0.9);
+    line-height: 1.4;
+}
+
+/* ===== LIGHT MODE (default) ===== */
+.light-mode {
+    --color-background: #EFEDED;
+    --color-text-dark: #333333;
+    --color-white: #FFFFFF;
+    --color-border: #BDBDBD;
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+/* ===== DARK MODE ===== */
+.dark-mode {
+    --color-background: #1a1a1a;
+    --color-text-dark: #ffffff;
+    --color-white: #2d2d2d;
+    --color-border: #444444;
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+}
+
+    /* Apply dark mode to all elements */
+    .dark-mode .header {
+        background-color: var(--color-background);
     }
+
+    .dark-mode .header-text h1,
+    .dark-mode .header-text p {
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .menu-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+    }
+
+    .dark-mode .menu-box {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+        .dark-mode .menu-box:hover,
+        .dark-mode .menu-box-active {
+            background-color: var(--color-orange-primary);
+            color: var(--color-white);
+            border-color: var(--color-orange-primary);
+        }
+
+    .dark-mode .settings-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .setting-group {
+        background-color: transparent;
+    }
+
+        .dark-mode .setting-group h3 {
+            color: var(--color-text-dark);
+        }
+
+    .dark-mode .setting-description {
+        color: #cccccc;
+    }
+
+    .dark-mode .lang-select,
+    .dark-mode .theme-select {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+        border-color: var(--color-border);
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    }
+
+    .dark-mode .filters-container {
+        background-color: var(--color-white);
+        border-color: var(--color-border);
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .filter-group label {
+        color: var(--color-text-dark);
+    }
+
+    .dark-mode .filter-group select {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+        border-color: var(--color-border);
+    }
+
+    .dark-mode .show-filters-btn {
+        background-color: var(--color-orange-primary);
+        color: var(--color-white);
+    }
+
+    .dark-mode .filters-content {
+        border-top-color: var(--color-border);
+    }
+
+    .dark-mode .settings-icon {
+        color: var(--color-orange-primary);
+    }
+
+        .dark-mode .settings-icon:hover {
+            background-color: rgba(230, 81, 0, 0.1);
+        }
+
+    /* Ensure all text is readable in dark mode */
+    .dark-mode h1,
+    .dark-mode h2,
+    .dark-mode h3,
+    .dark-mode h4,
+    .dark-mode h5,
+    .dark-mode h6,
+    .dark-mode p,
+    .dark-mode label,
+    .dark-mode span {
+        color: var(--color-text-dark);
+    }
+
+    /* Improve contrast in select options */
+    .dark-mode select option {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+    }
+
+/* Smooth transition between themes */
+body,
+.header,
+.menu-container,
+.settings-container,
+.menu-box,
+.lang-select,
+.theme-select {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+
+
+
+/* Smooth transitions for all elements */
+body,
+.header,
+.menu-container,
+.settings-container,
+.menu-box,
+.lang-select,
+.theme-select,
+.filters-container,
+.filter-group select,
+.show-filters-btn,
+.settings-icon {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade effect for text content */
+h1, h2, h3, h4, h5, h6, p, span, label, a {
+    transition: color 0.4s ease, opacity 0.3s ease;
+}
+
+/* Specific transition for background changes */
+body {
+    transition: background-color 0.5s ease;
+}
+
+.header,
+.menu-container,
+.settings-container {
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+/* Menu items transition */
+.menu-box {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Select elements transition */
+.lang-select,
+.theme-select {
+    transition: all 0.3s ease;
+}
+
+/* Button transitions */
+.show-filters-btn,
+.logout-btn,
+.back-btn {
+    transition: all 0.3s ease;
+}
+
+/* Settings icon transition */
+.settings-icon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Filter container transitions */
+.filters-container,
+.filters-content {
+    transition: all 0.4s ease;
+}

@@ -1,6 +1,61 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+﻿@using System.Globalization
+@inject IJSRuntime JSRuntime
+
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SetCulture();
+        await SetTheme();
+        StateHasChanged();
+    }
+
+    private async Task SetCulture()
+    {
+        try
+        {
+            var savedCulture = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
+
+            if (savedCulture != "en" && savedCulture != "es" && savedCulture != "fr")
+            {
+                savedCulture = "en";
+                await SecureStorage.Default.SetAsync("AppCulture", "en");
+            }
+
+            var culture = new CultureInfo(savedCulture);
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            Console.WriteLine($"✅ Routes - Cultura configurada: {culture.Name}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Routes - Error configurando cultura: {ex.Message}");
+            var culture = new CultureInfo("en");
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+        }
+    }
+
+    private async Task SetTheme()
+    {
+        try
+        {
+            var themeSaved = await SecureStorage.Default.GetAsync("AppTheme") ?? "light";
+            await JSRuntime.InvokeVoidAsync("eval",
+                $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{themeSaved}-mode')");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error configurando tema: {ex.Message}");
+        }
+    }
+}

@@ -1,30 +1,32 @@
 ﻿@page "/createplan"
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
 
 <div class="create-plan-container">
-    <h2 class="create-plan-title">Create Plan - Select Classes</h2>
+    <h2 class="create-plan-title">@Localizer["CreatePlan"] - @Localizer["SelectClasses"]</h2>
     <p class="create-plan-subtext">
-        Select the classes you want to enroll in for next week
+        @Localizer["SelectClassesDescription"]
     </p>
 
     <div class="filters-container">
         <button class="show-filters-btn" @onclick="ToggleFilters">
-            @(showFilters ? "Hide Filters" : "Show Filters")
+            @(showFilters? Localizer["HideFilters"] : Localizer["ShowFilters"])
         </button>
 
         @if (showFilters)
         {
             <div class="filters-content">
                 <div class="filter-group">
-                    <label>Filter by Type</label>
+                    <label>@Localizer["FilterByType"]</label>
                     <select>
-                        <option>All Types</option>
+                        <option>@Localizer["AllTypes"]</option>
                     </select>
                 </div>
 
                 <div class="filter-group">
-                    <label>Filter by Day</label>
+                    <label>@Localizer["FilterByDay"]</label>
                     <select>
-                        <option>All Days</option>
+                        <option>@Localizer["AllDays"]</option>
                     </select>
                 </div>
             </div>
