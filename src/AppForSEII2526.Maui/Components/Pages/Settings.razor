@@ -32,11 +32,24 @@
         </select>
         <p class="setting-description">@Localizer["ThemeDescription"]</p>
     </div>
+
+    <!-- Font Size Configuration -->
+    <div class="setting-group">
+        <h3>@Localizer["FontSize"]</h3>
+        <select @onchange="ChangeFontSize" class="font-size-select" value="@currentFontSize">
+            <option value="small">@Localizer["Small"]</option>
+            <option value="default">@Localizer["Default"]</option>
+            <option value="large">@Localizer["Large"]</option>
+        </select>
+        <p class="setting-description">@Localizer["FontSizeDescription"]</p>
+    </div>
+
 </div>
 
 @code {
     private string currentLang = "en";
     private string currentTheme = "light";
+    private string currentFontSize = "default";
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,6 +59,10 @@
 
         var themeSaved = await SecureStorage.Default.GetAsync("AppTheme");
         currentTheme = themeSaved ?? "light";
+
+        var fontSizeSaved = await SecureStorage.Default.GetAsync("AppFontSize");
+        currentFontSize = fontSizeSaved ?? "default";
+        await ApplyFontSize();
 
         StateHasChanged();
     }
@@ -79,6 +96,18 @@
         }
     }
 
+    private async Task ChangeFontSize(ChangeEventArgs e)
+    {
+        var selectedFontSize = e.Value?.ToString() ?? "default";
+
+        if (selectedFontSize != currentFontSize)
+        {
+            currentFontSize = selectedFontSize;
+            await SecureStorage.Default.SetAsync("AppFontSize", currentFontSize);
+            await ApplyFontSize();
+        }
+    }
+
     private async Task UpdateCulture(string culture)
     {
         var newCulture = new CultureInfo(culture);
@@ -103,6 +132,20 @@
         catch (Exception ex)
         {
             Console.WriteLine($"Error aplicando tema: {ex.Message}");
+        }
+    }
+
+
+    private async Task ApplyFontSize()
+    {
+        try
+        {
+            // Usar tu función JavaScript personalizada que modifica la variable CSS
+            await JSRuntime.InvokeVoidAsync("applyFontSize", currentFontSize);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error applying font size: {ex.Message}");
         }
     }
 }

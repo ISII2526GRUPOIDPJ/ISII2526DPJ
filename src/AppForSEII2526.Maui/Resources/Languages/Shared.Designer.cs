@@ -151,6 +151,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Adjust the text size for better readability.
+        /// </summary>
+        internal static string FontSizeDescription {
+            get {
+                return ResourceManager.GetString("FontSizeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Hide Filters.
         /// </summary>
         internal static string HideFilters {

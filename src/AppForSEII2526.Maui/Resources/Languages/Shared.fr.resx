@@ -135,9 +135,6 @@
   <data name="Default" xml:space="preserve">
     <value>Par Défaut</value>
   </data>
-  <data name="DeuteranopiaTheme" xml:space="preserve">
-    <value>Deutéranopie (Cécité verte)</value>
-  </data>
   <data name="FilterByDay" xml:space="preserve">
     <value>Filtrer par Jour</value>
   </data>
@@ -164,9 +161,6 @@
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Se Déconnecter</value>
-  </data>
-  <data name="ProtanopiaTheme" xml:space="preserve">
-    <value>Protanopie (Cécité rouge)</value>
   </data>
   <data name="ReportIncident" xml:space="preserve">
     <value>Signaler un Incident</value>
@@ -195,10 +189,19 @@
   <data name="ThemeDescription" xml:space="preserve">
     <value>Choisissez votre thème préféré</value>
   </data>
+  <data name="YourCompleteGymManagementSystem" xml:space="preserve">
+    <value>Votre Système Complet de Gestion de Salle de Sport</value>
+  </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>Deutéranopie (Cécité verte)</value>
+  </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>Protanopie (Cécité rouge)</value>
+  </data>
   <data name="TritanopiaTheme" xml:space="preserve">
     <value>Tritanopie (Cécité bleue)</value>
   </data>
-  <data name="YourCompleteGymManagementSystem" xml:space="preserve">
-    <value>Votre Système Complet de Gestion de Salle de Sport</value>
+  <data name="FontSizeDescription" xml:space="preserve">
+    <value>Ajustez la taille du texte pour une meilleure lisibilité</value>
   </data>
 </root>
