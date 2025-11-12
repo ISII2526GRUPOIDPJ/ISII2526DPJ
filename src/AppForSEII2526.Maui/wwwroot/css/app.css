@@ -598,3 +598,26 @@ body {
 .font-size-select {
     transition: all 0.3s ease;
 }
+
+/* Theme for descriptions in settings menu */
+.setting-description {
+    margin-top: 8px;
+    color: var(--color-text-dark);
+    font-size: calc(var(--font-size-base) * 0.9);
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+/* Dark mode para descripciones */
+.dark-mode .setting-description {
+    color: var(--color-text-dark);
+    opacity: 0.7;
+}
+
+/* Daltonism modes para descripciones */
+.protanopia-mode .setting-description,
+.deuteranopia-mode .setting-description,
+.tritanopia-mode .setting-description {
+    color: var(--color-text-dark);
+    opacity: 0.8;
+}
