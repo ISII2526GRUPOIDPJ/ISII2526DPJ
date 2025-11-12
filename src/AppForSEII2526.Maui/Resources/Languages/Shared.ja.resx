@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllBrands" xml:space="preserve">
+    <value>すべてのブランド</value>
+  </data>
   <data name="AllDays" xml:space="preserve">
     <value>すべての日</value>
+  </data>
+  <data name="AllNames" xml:space="preserve">
+    <value>すべての名前</value>
   </data>
   <data name="AllTypes" xml:space="preserve">
     <value>すべての種類</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>戻る</value>
+  </data>
+  <data name="BrowseItems" xml:space="preserve">
+    <value>商品を探す</value>
   </data>
   <data name="CreatePlan" xml:space="preserve">
     <value>プランを作成</value>
@@ -135,11 +144,17 @@
   <data name="Default" xml:space="preserve">
     <value>デフォルト</value>
   </data>
+  <data name="FilterByBrand" xml:space="preserve">
+    <value>ブランドで絞り込む</value>
+  </data>
   <data name="FilterByDay" xml:space="preserve">
-    <value>日でフィルター</value>
+    <value>日で絞り込む</value>
+  </data>
+  <data name="FilterByName" xml:space="preserve">
+    <value>名前で絞り込む</value>
   </data>
   <data name="FilterByType" xml:space="preserve">
-    <value>種類でフィルター</value>
+    <value>種類で絞り込む</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>フォントサイズ</value>
@@ -170,6 +185,9 @@
   </data>
   <data name="SelectClassesDescription" xml:space="preserve">
     <value>来週登録したいクラスを選択してください</value>
+  </data>
+  <data name="SelectItemsDescription" xml:space="preserve">
+    <value>購入したい商品を選択してください</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>

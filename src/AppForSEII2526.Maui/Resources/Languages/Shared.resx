@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllBrands" xml:space="preserve">
+    <value>All Brands</value>
+  </data>
   <data name="AllDays" xml:space="preserve">
     <value>All Days</value>
+  </data>
+  <data name="AllNames" xml:space="preserve">
+    <value>All Names</value>
   </data>
   <data name="AllTypes" xml:space="preserve">
     <value>All Types </value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Back</value>
+  </data>
+  <data name="BrowseItems" xml:space="preserve">
+    <value>Browse Items</value>
   </data>
   <data name="CreatePlan" xml:space="preserve">
     <value>Create Plan</value>
@@ -135,8 +144,14 @@
   <data name="Default" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="FilterByBrand" xml:space="preserve">
+    <value>Filter by Brand</value>
+  </data>
   <data name="FilterByDay" xml:space="preserve">
     <value>Filter by Day</value>
+  </data>
+  <data name="FilterByName" xml:space="preserve">
+    <value>Filter by Name</value>
   </data>
   <data name="FilterByType" xml:space="preserve">
     <value>Filter by Type</value>
@@ -170,6 +185,9 @@
   </data>
   <data name="SelectClassesDescription" xml:space="preserve">
     <value>Select the classes you want to enroll in for next week</value>
+  </data>
+  <data name="SelectItemsDescription" xml:space="preserve">
+    <value>Select the items you want to purchase</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
