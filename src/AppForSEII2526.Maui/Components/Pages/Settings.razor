@@ -92,8 +92,13 @@
     {
         try
         {
+            // Remove all classes of the primary theme
             await JSRuntime.InvokeVoidAsync("eval",
-                $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{currentTheme}-mode')");
+                "document.body.classList.remove('dark-mode', 'light-mode', 'protanopia-mode', 'deuteranopia-mode', 'tritanopia-mode')");
+
+            // Apply selected theme
+            await JSRuntime.InvokeVoidAsync("eval",
+                $"document.body.classList.add('{currentTheme}-mode')");
         }
         catch (Exception ex)
         {
