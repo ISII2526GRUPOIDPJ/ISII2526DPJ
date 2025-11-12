@@ -135,6 +135,9 @@
   <data name="Default" xml:space="preserve">
     <value>Por Defecto</value>
   </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>Deuteranopia (Ceguera verde)</value>
+  </data>
   <data name="FilterByDay" xml:space="preserve">
     <value>Filtrar por Día</value>
   </data>
@@ -162,6 +165,9 @@
   <data name="LogOut" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>Protanopia (Ceguera roja)</value>
+  </data>
   <data name="ReportIncident" xml:space="preserve">
     <value>Reportar incidencia</value>
   </data>
@@ -188,6 +194,9 @@
   </data>
   <data name="ThemeDescription" xml:space="preserve">
     <value>Elige tu tema preferido</value>
+  </data>
+  <data name="TritanopiaTheme" xml:space="preserve">
+    <value>Tritanopia (Ceguera azul)</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Tu Sistema Completo de Gestión de Gimnasio</value>

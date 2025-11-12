@@ -8,7 +8,7 @@
 <div class="settings-container">
     <h2>@Localizer["Settings"]</h2>
 
-    <!-- Configuración de Idioma -->
+    <!-- Language Configuration -->
     <div class="setting-group">
         <h3>@Localizer["Language"]</h3>
         <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
@@ -19,12 +19,16 @@
         <p class="setting-description">@Localizer["LanguageDescription"]</p>
     </div>
 
-    <!-- Configuración de Tema -->
+    <!-- Theme Configuration -->
     <div class="setting-group">
         <h3>@Localizer["Theme"]</h3>
         <select @onchange="ChangeTheme" class="theme-select" value="@currentTheme">
             <option value="light">@Localizer["LightTheme"]</option>
             <option value="dark">@Localizer["DarkTheme"]</option>
+            <!-- Color blind Themes -->
+            <option value="protanopia">@Localizer["ProtanopiaTheme"]</option>
+            <option value="deuteranopia">@Localizer["DeuteranopiaTheme"]</option>
+            <option value="tritanopia">@Localizer["TritanopiaTheme"]</option>
         </select>
         <p class="setting-description">@Localizer["ThemeDescription"]</p>
     </div>

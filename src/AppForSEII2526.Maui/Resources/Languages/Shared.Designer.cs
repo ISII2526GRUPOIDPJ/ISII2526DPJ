@@ -115,6 +115,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Deuteranopia (Green-blind).
+        /// </summary>
+        internal static string DeuteranopiaTheme {
+            get {
+                return ResourceManager.GetString("DeuteranopiaTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter by Day.
         /// </summary>
         internal static string FilterByDay {
@@ -196,6 +205,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Protanopia (Red-blind).
+        /// </summary>
+        internal static string ProtanopiaTheme {
+            get {
+                return ResourceManager.GetString("ProtanopiaTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Report Incident.
         /// </summary>
         internal static string ReportIncident {
@@ -273,6 +291,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string ThemeDescription {
             get {
                 return ResourceManager.GetString("ThemeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tritanopia (Blue-blind).
+        /// </summary>
+        internal static string TritanopiaTheme {
+            get {
+                return ResourceManager.GetString("TritanopiaTheme", resourceCulture);
             }
         }
         

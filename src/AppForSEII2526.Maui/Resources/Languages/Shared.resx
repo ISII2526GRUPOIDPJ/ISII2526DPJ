@@ -135,6 +135,9 @@
   <data name="Default" xml:space="preserve">
     <value>Default</value>
   </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>Deuteranopia (Green-blind)</value>
+  </data>
   <data name="FilterByDay" xml:space="preserve">
     <value>Filter by Day</value>
   </data>
@@ -162,6 +165,9 @@
   <data name="LogOut" xml:space="preserve">
     <value>Log Out</value>
   </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>Protanopia (Red-blind)</value>
+  </data>
   <data name="ReportIncident" xml:space="preserve">
     <value>Report Incident</value>
   </data>
@@ -188,6 +194,9 @@
   </data>
   <data name="ThemeDescription" xml:space="preserve">
     <value>Choose your preferred theme</value>
+  </data>
+  <data name="TritanopiaTheme" xml:space="preserve">
+    <value>Tritanopia (Blue-blind)</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Your Complete Gym Management System</value>
