@@ -22,7 +22,7 @@
         {
             var savedCulture = await SecureStorage.Default.GetAsync("AppCulture") ?? "en";
 
-            if (savedCulture != "en" && savedCulture != "es" && savedCulture != "fr")
+            if (savedCulture != "en" && savedCulture != "es" && savedCulture != "fr" && savedCulture != "ja")
             {
                 savedCulture = "en";
                 await SecureStorage.Default.SetAsync("AppCulture", "en");

@@ -118,108 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllBrands" xml:space="preserve">
-    <value>Toutes les Marques</value>
+    <value>すべてのブランド</value>
   </data>
   <data name="AllDays" xml:space="preserve">
-    <value>Tous les Jours</value>
+    <value>すべての日</value>
   </data>
   <data name="AllNames" xml:space="preserve">
-    <value>Tous les Noms</value>
+    <value>すべての名前</value>
   </data>
   <data name="AllTypes" xml:space="preserve">
-    <value>Tous les Types</value>
+    <value>すべての種類</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Retour</value>
+    <value>戻る</value>
   </data>
   <data name="BrowseItems" xml:space="preserve">
-    <value>Rechercher des Produits</value>
+    <value>商品を探す</value>
   </data>
   <data name="CreatePlan" xml:space="preserve">
-    <value>Créer un Plan</value>
+    <value>プランを作成</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Sombre</value>
+    <value>暗い</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Par Défaut</value>
+    <value>デフォルト</value>
   </data>
   <data name="FilterByBrand" xml:space="preserve">
-    <value>Filter par Marque</value>
+    <value>ブランドで絞り込む</value>
   </data>
   <data name="FilterByDay" xml:space="preserve">
-    <value>Filtrer par Jour</value>
+    <value>日で絞り込む</value>
   </data>
   <data name="FilterByName" xml:space="preserve">
-    <value>Filter par Noms</value>
+    <value>名前で絞り込む</value>
   </data>
   <data name="FilterByType" xml:space="preserve">
-    <value>Filtrer par Type</value>
+    <value>種類で絞り込む</value>
   </data>
   <data name="FontSize" xml:space="preserve">
-    <value>Taille de Police</value>
+    <value>フォントサイズ</value>
   </data>
   <data name="HideFilters" xml:space="preserve">
-    <value>Masquer les Filtres</value>
+    <value>フィルターを非表示</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Langue</value>
+    <value>言語</value>
   </data>
   <data name="LanguageDescription" xml:space="preserve">
-    <value>Choisissez votre langue préférée</value>
+    <value>言語を選択してください</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>Grand</value>
+    <value>大きい</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Clair</value>
+    <value>明るい</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Se Déconnecter</value>
+    <value>ログアウト</value>
   </data>
   <data name="ReportIncident" xml:space="preserve">
-    <value>Signaler un Incident</value>
+    <value>問題を報告</value>
   </data>
   <data name="SelectClasses" xml:space="preserve">
-    <value>Sélectionner les Cours</value>
+    <value>クラスを選択</value>
   </data>
   <data name="SelectClassesDescription" xml:space="preserve">
-    <value>Sélectionnez les cours auxquels vous souhaitez vous inscrire pour la semaine prochaine</value>
+    <value>来週登録したいクラスを選択してください</value>
   </data>
   <data name="SelectItemsDescription" xml:space="preserve">
-    <value>Sélectionnez les produits que vous souhaitez acheter</value>
+    <value>購入したい商品を選択してください</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Paramètres</value>
+    <value>設定</value>
   </data>
   <data name="Shop" xml:space="preserve">
-    <value>Boutique</value>
+    <value>ショップ</value>
   </data>
   <data name="ShowFilters" xml:space="preserve">
-    <value>Afficher les Filtres</value>
+    <value>フィルターを表示</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Petit</value>
+    <value>小さい</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value>Thème</value>
+    <value>テーマ</value>
   </data>
   <data name="ThemeDescription" xml:space="preserve">
-    <value>Choisissez votre thème préféré</value>
+    <value>テーマを選択してください</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
-    <value>Votre Système Complet de Gestion de Salle de Sport</value>
-  </data>
-  <data name="DeuteranopiaTheme" xml:space="preserve">
-    <value>Deutéranopie (Cécité verte)</value>
-  </data>
-  <data name="ProtanopiaTheme" xml:space="preserve">
-    <value>Protanopie (Cécité rouge)</value>
-  </data>
-  <data name="TritanopiaTheme" xml:space="preserve">
-    <value>Tritanopie (Cécité bleue)</value>
-  </data>
-  <data name="FontSizeDescription" xml:space="preserve">
-    <value>Ajustez la taille du texte pour une meilleure lisibilité</value>
+    <value>完全なジム管理システム</value>
   </data>
 </root>

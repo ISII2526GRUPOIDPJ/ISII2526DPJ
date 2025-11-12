@@ -1,16 +1,18 @@
 ﻿@page "/shop"
 @using System.Collections.Generic
 @using AppForSEII2526.API.Models
+@using AppForSEII2526.Maui.Resources.Languages
+@inject IStringLocalizer<Shared> Localizer
 
 <div class="shop-container">
-    <h2 class="shop-title">Shop - Browse Items</h2>
+    <h2 class="shop-title">@Localizer["Shop"] - @Localizer["BrowseItems"]</h2>
     <p class="shop-subtext">
-        Select the items you want to purchase
+        @Localizer["SelectItemsDescription"]
     </p>
 
     <div class="filters-container">
         <button class="show-filters-btn" @onclick="ToggleFilters">
-            @(showFilters ? "Hide Filters" : "Show Filters")
+            @(showFilters ? Localizer["HideFilters"] : Localizer["ShowFilters"])
         </button>
 
         @code {
@@ -42,9 +44,9 @@
         {
             <div class="filters-content">
                 <div class="filter-group">
-                    <label>Filter by Name</label>
+                    <label>@Localizer["FilterByName"]</label>
                     <select>
-                        <option>All Names</option>
+                        <option>@Localizer["AllNames"]</option>
                         @foreach (var item in items)
                         {
                             <option value="@item.Name">@item.Name</option>
@@ -53,9 +55,9 @@
                 </div>
 
                 <div class="filter-group">
-                    <label>Filter by Brand</label>
+                    <label>@Localizer["FilterByBrand"]</label>
                     <select>
-                        <option>All Brands</option>
+                        <option>@Localizer["AllBrands"]</option>
                         @foreach (var brand in brands)
                         {
                             <option value="@brand.Name">@brand.Name</option>
