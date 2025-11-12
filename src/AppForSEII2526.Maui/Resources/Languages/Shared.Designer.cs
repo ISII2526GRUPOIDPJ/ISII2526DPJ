@@ -61,11 +61,29 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a All Brands.
+        /// </summary>
+        internal static string AllBrands {
+            get {
+                return ResourceManager.GetString("AllBrands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a All Days.
         /// </summary>
         internal static string AllDays {
             get {
                 return ResourceManager.GetString("AllDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a All Names.
+        /// </summary>
+        internal static string AllNames {
+            get {
+                return ResourceManager.GetString("AllNames", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Browse Items.
+        /// </summary>
+        internal static string BrowseItems {
+            get {
+                return ResourceManager.GetString("BrowseItems", resourceCulture);
             }
         }
         
@@ -115,11 +142,29 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Filter by Brand.
+        /// </summary>
+        internal static string FilterByBrand {
+            get {
+                return ResourceManager.GetString("FilterByBrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter by Day.
         /// </summary>
         internal static string FilterByDay {
             get {
                 return ResourceManager.GetString("FilterByDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Filter by Name.
+        /// </summary>
+        internal static string FilterByName {
+            get {
+                return ResourceManager.GetString("FilterByName", resourceCulture);
             }
         }
         
@@ -219,6 +264,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string SelectClassesDescription {
             get {
                 return ResourceManager.GetString("SelectClassesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select the items you want to purchase.
+        /// </summary>
+        internal static string SelectItemsDescription {
+            get {
+                return ResourceManager.GetString("SelectItemsDescription", resourceCulture);
             }
         }
         

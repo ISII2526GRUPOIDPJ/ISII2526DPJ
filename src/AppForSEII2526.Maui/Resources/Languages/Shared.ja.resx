@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllBrands" xml:space="preserve">
-    <value>Todas las Marcas</value>
+    <value>すべてのブランド</value>
   </data>
   <data name="AllDays" xml:space="preserve">
-    <value>Todos los Días</value>
+    <value>すべての日</value>
   </data>
   <data name="AllNames" xml:space="preserve">
-    <value>Todos los Nombres</value>
+    <value>すべての名前</value>
   </data>
   <data name="AllTypes" xml:space="preserve">
-    <value>Todos los Tipos</value>
+    <value>すべての種類</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Volver</value>
+    <value>戻る</value>
   </data>
   <data name="BrowseItems" xml:space="preserve">
-    <value>Buscar Productos</value>
+    <value>商品を探す</value>
   </data>
   <data name="CreatePlan" xml:space="preserve">
-    <value>Crear plan</value>
+    <value>プランを作成</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Oscuro</value>
+    <value>暗い</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Por Defecto</value>
+    <value>デフォルト</value>
   </data>
   <data name="FilterByBrand" xml:space="preserve">
-    <value>Filtrar por Marca</value>
+    <value>ブランドで絞り込む</value>
   </data>
   <data name="FilterByDay" xml:space="preserve">
-    <value>Filtrar por Día</value>
+    <value>日で絞り込む</value>
   </data>
   <data name="FilterByName" xml:space="preserve">
-    <value>Filtrar por Nombre</value>
+    <value>名前で絞り込む</value>
   </data>
   <data name="FilterByType" xml:space="preserve">
-    <value>Filtrar por Tipo</value>
+    <value>種類で絞り込む</value>
   </data>
   <data name="FontSize" xml:space="preserve">
-    <value>Tamaño de Fuente</value>
+    <value>フォントサイズ</value>
   </data>
   <data name="HideFilters" xml:space="preserve">
-    <value>Ocultar Filtros</value>
+    <value>フィルターを非表示</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Idioma</value>
+    <value>言語</value>
   </data>
   <data name="LanguageDescription" xml:space="preserve">
-    <value>Elige tu idioma preferido</value>
+    <value>言語を選択してください</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>Grande</value>
+    <value>大きい</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Claro</value>
+    <value>明るい</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Cerrar sesión</value>
+    <value>ログアウト</value>
   </data>
   <data name="ReportIncident" xml:space="preserve">
-    <value>Reportar incidencia</value>
+    <value>問題を報告</value>
   </data>
   <data name="SelectClasses" xml:space="preserve">
-    <value>Seleccionar Clases</value>
+    <value>クラスを選択</value>
   </data>
   <data name="SelectClassesDescription" xml:space="preserve">
-    <value>Selecciona las clases en las que quieres inscribirte para la próxima semana</value>
+    <value>来週登録したいクラスを選択してください</value>
   </data>
   <data name="SelectItemsDescription" xml:space="preserve">
-    <value>Selecciona los productos que quieres comprar</value>
+    <value>購入したい商品を選択してください</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Configuración</value>
+    <value>設定</value>
   </data>
   <data name="Shop" xml:space="preserve">
-    <value>Tienda</value>
+    <value>ショップ</value>
   </data>
   <data name="ShowFilters" xml:space="preserve">
-    <value>Mostrar Filtros</value>
+    <value>フィルターを表示</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Pequeño</value>
+    <value>小さい</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value>Tema</value>
+    <value>テーマ</value>
   </data>
   <data name="ThemeDescription" xml:space="preserve">
-    <value>Elige tu tema preferido</value>
+    <value>テーマを選択してください</value>
   </data>
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
-    <value>Tu Sistema Completo de Gestión de Gimnasio</value>
+    <value>完全なジム管理システム</value>
   </data>
 </root>
