@@ -151,6 +151,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Filter by Brand.
+        /// </summary>
+        internal static string FilterByBrand {
+            get {
+                return ResourceManager.GetString("FilterByBrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter by Day.
         /// </summary>
         internal static string FilterByDay {
