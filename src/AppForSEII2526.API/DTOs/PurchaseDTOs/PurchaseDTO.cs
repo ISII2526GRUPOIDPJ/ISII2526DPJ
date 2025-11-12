@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.ItemDTOs
+﻿
+namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
     public class PurchaseDTO
     {
@@ -18,5 +19,16 @@
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseDTO dTO &&
+                   City == dTO.City &&
+                   Country == dTO.Country &&
+                   Street == dTO.Street &&
+                   TotalPrice == dTO.TotalPrice &&
+                   Description == dTO.Description &&
+                   EqualityComparer<PaymentMethod>.Default.Equals(PaymentMethod, dTO.PaymentMethod);
+        }
     }
 }
