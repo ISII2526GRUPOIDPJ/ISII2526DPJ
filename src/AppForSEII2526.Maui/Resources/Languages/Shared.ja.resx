@@ -210,4 +210,16 @@
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>完全なジム管理システム</value>
   </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>緑盲（緑色盲）</value>
+  </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>赤盲（プロタノピア）</value>
+  </data>
+  <data name="TritanopiaTheme" xml:space="preserve">
+    <value>トリタノピア（青盲）</value>
+  </data>
+  <data name="FontSizeDescription" xml:space="preserve">
+    <value>読みやすさを向上させるため、文字サイズを調整してください</value>
+  </data>
 </root>

@@ -210,4 +210,16 @@
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Your Complete Gym Management System</value>
   </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>Deuteranopia (Green-blind)</value>
+  </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>Protanopia (Red-blind)</value>
+  </data>
+  <data name="TritanopiaTheme" xml:space="preserve">
+    <value>Tritanopia (Blue-blind)</value>
+  </data>
+  <data name="FontSizeDescription" xml:space="preserve">
+    <value>Adjust the text size for better readability</value>
+  </data>
 </root>

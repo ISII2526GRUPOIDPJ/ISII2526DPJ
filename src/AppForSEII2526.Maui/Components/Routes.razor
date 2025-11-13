@@ -50,12 +50,15 @@
         try
         {
             var themeSaved = await SecureStorage.Default.GetAsync("AppTheme") ?? "light";
+        
+            // Apply theme globally including daltonism
             await JSRuntime.InvokeVoidAsync("eval",
-                $"document.body.classList.remove('dark-mode', 'light-mode'); document.body.classList.add('{themeSaved}-mode')");
+                $"document.body.classList.remove('dark-mode', 'light-mode', 'protanopia-mode', 'deuteranopia-mode', 'tritanopia-mode'); document.body.classList.add('{themeSaved}-mode')");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error configurando tema: {ex.Message}");
         }
     }
+
 }

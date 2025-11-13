@@ -142,6 +142,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Deuteranopia (Green-blind).
+        /// </summary>
+        internal static string DeuteranopiaTheme {
+            get {
+                return ResourceManager.GetString("DeuteranopiaTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Filter by Brand.
         /// </summary>
         internal static string FilterByBrand {
@@ -183,6 +192,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string FontSize {
             get {
                 return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Adjust the text size for better readability.
+        /// </summary>
+        internal static string FontSizeDescription {
+            get {
+                return ResourceManager.GetString("FontSizeDescription", resourceCulture);
             }
         }
         
@@ -237,6 +255,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string LogOut {
             get {
                 return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Protanopia (Red-blind).
+        /// </summary>
+        internal static string ProtanopiaTheme {
+            get {
+                return ResourceManager.GetString("ProtanopiaTheme", resourceCulture);
             }
         }
         
@@ -327,6 +354,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string ThemeDescription {
             get {
                 return ResourceManager.GetString("ThemeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tritanopia (Blue-blind).
+        /// </summary>
+        internal static string TritanopiaTheme {
+            get {
+                return ResourceManager.GetString("TritanopiaTheme", resourceCulture);
             }
         }
         

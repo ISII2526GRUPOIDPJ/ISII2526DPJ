@@ -55,7 +55,7 @@ body {
         font-size: calc(var(--font-size-base) * 0.9);
     }
 
-/* ===== MENÚ PRINCIPAL ===== */
+/* ===== MAIN MENU ===== */
 .menu-container {
     background-color: var(--color-white);
     border: var(--border-standard);
@@ -479,4 +479,145 @@ body {
 .filters-container,
 .filters-content {
     transition: all 0.4s ease;
+}
+
+
+
+/* ===== DALTONISMS ===== */
+
+/* Protanopia (Red-blind) */
+.protanopia-mode {
+    --color-orange-primary: #5D8AA8; /* Azul en lugar de naranja */
+    --color-orange-light: #B9D9EB; /* Azul claro */
+    --color-background: #F5F5F5;
+    --color-text-dark: #2F4F4F; /* Dark slate gray */
+    --color-white: #FFFFFF;
+    --color-border: #A9A9A9;
+    filter: grayscale(0.3) hue-rotate(180deg) saturate(1.2);
+}
+
+/* Deuteranopia (Green-blind) */
+.deuteranopia-mode {
+    --color-orange-primary: #8B4513; /* Marrón en lugar de naranja */
+    --color-orange-light: #DEB887; /* Burlywood */
+    --color-background: #FAF0E6;
+    --color-text-dark: #556B2F; /* Dark olive green */
+    --color-white: #FFFFFF;
+    --color-border: #BC8F8F;
+    filter: grayscale(0.2) hue-rotate(120deg) saturate(1.1);
+}
+
+/* Tritanopia (Blue-blind) */
+.tritanopia-mode {
+    --color-orange-primary: #8B008B; /* Magenta oscuro */
+    --color-orange-light: #DDA0DD; /* Plum */
+    --color-background: #FFF0F5;
+    --color-text-dark: #4B0082; /* Indigo */
+    --color-white: #FFFFFF;
+    --color-border: #BA55D3;
+    filter: grayscale(0.1) hue-rotate(60deg) saturate(1.3);
+}
+
+    /* Asegurar que los filtros se apliquen correctamente */
+    .protanopia-mode *,
+    .deuteranopia-mode *,
+    .tritanopia-mode * {
+        transition: filter 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Mejorar contraste para texto en modos de daltonismo */
+    .protanopia-mode .menu-box,
+    .deuteranopia-mode .menu-box,
+    .tritanopia-mode .menu-box {
+        font-weight: 600;
+        border-width: 2px;
+    }
+
+        /* Ajustar colores de estados hover y activos */
+        .protanopia-mode .menu-box:hover,
+        .protanopia-mode .menu-box-active {
+            background-color: var(--color-orange-primary);
+            color: white;
+            border-color: var(--color-orange-primary);
+        }
+
+        .deuteranopia-mode .menu-box:hover,
+        .deuteranopia-mode .menu-box-active {
+            background-color: var(--color-orange-primary);
+            color: white;
+            border-color: var(--color-orange-primary);
+        }
+
+        .tritanopia-mode .menu-box:hover,
+        .tritanopia-mode .menu-box-active {
+            background-color: var(--color-orange-primary);
+            color: white;
+            border-color: var(--color-orange-primary);
+        }
+
+/* ===== FONT SIZE SELECTOR STYLES ===== */
+
+/* Agregar esto donde tengas los otros select styles */
+.font-size-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+}
+
+/* Dark mode */
+.dark-mode .font-size-select {
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    border-color: var(--color-border);
+}
+
+/* Daltonism modes */
+.protanopia-mode .font-size-select,
+.deuteranopia-mode .font-size-select,
+.tritanopia-mode .font-size-select {
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    border-color: var(--color-border);
+}
+
+    /* Ensure options have proper contrast in all modes */
+    .dark-mode .font-size-select option,
+    .protanopia-mode .font-size-select option,
+    .deuteranopia-mode .font-size-select option,
+    .tritanopia-mode .font-size-select option {
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+    }
+
+/* Add transition for smooth theme changes */
+.font-size-select {
+    transition: all 0.3s ease;
+}
+
+/* Theme for descriptions in settings menu */
+.setting-description {
+    margin-top: 8px;
+    color: var(--color-text-dark);
+    font-size: calc(var(--font-size-base) * 0.9);
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+/* Dark mode para descripciones */
+.dark-mode .setting-description {
+    color: var(--color-text-dark);
+    opacity: 0.7;
+}
+
+/* Daltonism modes para descripciones */
+.protanopia-mode .setting-description,
+.deuteranopia-mode .setting-description,
+.tritanopia-mode .setting-description {
+    color: var(--color-text-dark);
+    opacity: 0.8;
 }

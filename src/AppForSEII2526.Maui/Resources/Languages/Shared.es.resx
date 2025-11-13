@@ -210,4 +210,16 @@
   <data name="YourCompleteGymManagementSystem" xml:space="preserve">
     <value>Tu Sistema Completo de Gestión de Gimnasio</value>
   </data>
+  <data name="DeuteranopiaTheme" xml:space="preserve">
+    <value>Deuteranopia (Ceguera verde)</value>
+  </data>
+  <data name="ProtanopiaTheme" xml:space="preserve">
+    <value>Protanopia (Ceguera roja)</value>
+  </data>
+  <data name="TritanopiaTheme" xml:space="preserve">
+    <value>Tritanopia (Ceguera azul)</value>
+  </data>
+  <data name="FontSizeDescription" xml:space="preserve">
+    <value>Ajusta el tamaño del texto para mejor legibilidad</value>
+  </data>
 </root>
