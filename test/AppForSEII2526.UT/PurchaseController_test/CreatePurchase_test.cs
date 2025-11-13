@@ -12,7 +12,10 @@ using System.Threading.Tasks;
 
 namespace AppForSEII2526.UT.PurchaseController_test
 {
-    internal class CreatePurchase_test : AppForSEII25264SqliteUT
+    public class CreatePurchase_test : AppForSEII25264SqliteUT
     {
+        public CreatePurchase_test() {
+
+        }
     }
 }
