@@ -56,9 +56,11 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
             //Mandatory information not introduced
-            if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseCountry", "Street is required");
-            if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCountry", "City is required");
+            if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseStreet", "Street is required");
+            if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCity", "City is required");
             if (string.IsNullOrWhiteSpace(createPurchase.Country)) ModelState.AddModelError("PurchaseCountry", "Country is required");
+            if (createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
+            if (createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
 
             var itemNames = createPurchase.PurchaseItems.Select(pi => pi.Name).ToList<string>();
 
@@ -69,8 +71,7 @@ namespace AppForSEII2526.API.Controllers
                     i.Id,
                     i.Name,
                     i.QuantityAvailableForPurchase,
-                    i.PurchasePrice,
-                    Amount = i.PurchaseItems.Count()
+                    i.PurchasePrice
                 })
                 .ToList();
 
@@ -78,22 +79,26 @@ namespace AppForSEII2526.API.Controllers
 
             foreach(var i in createPurchase.PurchaseItems) {
                 var item = items.FirstOrDefault(m => m.Name == i.Name);
-                if ((item == null) || (item.Amount >= item.QuantityAvailableForPurchase)) {
-                    ModelState.AddModelError("PurchaseItems", $"Error! Item named '{i.Name}' isn't available for being purchased.");
+                if ((item == null) || (i.Quantity > item.QuantityAvailableForPurchase)) {
+                    ModelState.AddModelError("PurchaseItems", $"Error! There's no stock for '{i.Name}'.");
                 } else {
-                    purchase.PurchaseItems.Add(new PurchaseItem(item.Id, item.Amount, item.PurchasePrice, purchase));
+                    purchase.PurchaseItems.Add(new PurchaseItem(item.Id, i.Quantity, item.PurchasePrice, purchase));
                     i.Price = item.PurchasePrice;
                 }
             }
 
-            if(ModelState.ErrorCount > 0) {
+            if (ModelState.ErrorCount > 0) {
                 return BadRequest(new ValidationProblemDetails(ModelState));
             }
 
+            purchase.Total_price = purchase.PurchaseItems
+                .Sum(pi => pi.Amount_bought * pi.Price);
+
             try {
+                _context.Purchases.Add(purchase);
                 await _context.SaveChangesAsync();
             } catch (Exception ex) {
-                _logger.LogError(DateTime.Now + ":" + ex.Message);
+                _logger.LogError(ex, "...");
                 return Conflict("Error" +  ex.Message);
             }
 
