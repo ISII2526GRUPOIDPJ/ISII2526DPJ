@@ -46,22 +46,46 @@ namespace AppForSEII2526.API.Controllers
             return Ok(purchase);
         }
 
-        /*[HttpPost]
+        [HttpPost]
         [Route("[action]")]
-        [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
             //Mandatory information not introduced
             if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseCountry", "Street is required");
             if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCountry", "City is required");
             if (string.IsNullOrWhiteSpace(createPurchase.Country)) ModelState.AddModelError("PurchaseCountry", "Country is required");
 
-            //Quantity = 0
-            if (createPurchase.Quantity == 0) ModelState.AddModelError("PurchaseQuantityZero", "You must buy at least one item.");
+            var itemNames = createPurchase.PurchaseItems.Select(pi => pi.Name).ToList<string>();
 
-            //Quantity > QuantityAvailable
-            if (createPurchase.Quantity > QuantityAvailable) ModelState.AddModelError("PurchaseQuantityExcess", "There are not that many items available.");
+            var items = _context.Items.Include(i => i.PurchaseItems)
+                .ThenInclude(pi => pi.Purchase)
+                .Where(i => itemNames.Contains(i.Name))
+                .Select(i => new {
+                    i.Id,
+                    i.Name,
+                    i.QuantityAvailableForPurchase,
+                    i.PurchasePrice,
+                    Amount = i.PurchaseItems.Count()
+                })
+                .ToList();
+
+            Purchase purchase = new Purchase(createPurchase.City, createPurchase.Country, createPurchase.Street, createPurchase.Date, createPurchase.Description, createPurchase.Total_price, new List<PurchaseItem>(), createPurchase.PaymentMethod);
+
+            foreach(var i in createPurchase.PurchaseItems) {
+                var item = items.FirstOrDefault(m => m.Name == i.Name);
+                if ((item == null) || (item.Amount >= item.QuantityAvailableForPurchase)) {
+                    ModelState.AddModelError("PurchaseItems", $"Error! Item named '{i.Name}' isn't available for being purchased.");
+                } else {
+                    purchase.PurchaseItems.Add(new PurchaseItem(item.Id, item.Amount, item.PurchasePrice, purchase));
+                    i.Price = item.PurchasePrice;
+                }
+            }
+
+            if(ModelState.ErrorCount > 0) {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+            }
 
             try {
                 await _context.SaveChangesAsync();
@@ -70,7 +94,9 @@ namespace AppForSEII2526.API.Controllers
                 return Conflict("Error" +  ex.Message);
             }
 
-            //return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
-        }*/
+            var purchaseDetail = new PurchaseDTO(purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, purchase.PaymentMethod, createPurchase.PurchaseItems);
+
+            return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
+        }
     }
 }
