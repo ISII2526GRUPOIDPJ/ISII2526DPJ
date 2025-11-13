@@ -67,7 +67,13 @@ builder.Services.AddSwaggerGen(options => {
 
 });
 
-builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
+//// Temporarily commented out for deployment on Azure, 
+// because App Service does not have RabbitMQ and cannot connect to localhost.
+// The RabbitMQ logging feature is tested locally as required by the assignment.
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Production")
+{
+    builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
+}
 
 var app = builder.Build();
 
