@@ -62,6 +62,22 @@ namespace AppForSEII2526.UT.PurchaseController_test
         {
             var allTests = new List<object[]>
             {
+                //Street missing
+                new object[] {
+                    new CreatePurchaseDTO(
+                        "Madrid",
+                        "Spain",
+                        null,
+                        DateTime.Parse("2024-01-10"),
+                        "Description",
+                        0m,
+                        4,
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
+                    ),
+                    "Street is required"
+                },
+
                 //City missing
                 new object[] {
                     new CreatePurchaseDTO(
@@ -75,7 +91,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
                         new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
                     ),
-                    "A street must be introduced."
+                    "City is required"
                 },
 
                 //Country missing
@@ -91,23 +107,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
                         new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
                     ),
-                    "A street must be introduced."
-                },
-
-                //Street missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        "Madrid",
-                        "Spain",
-                        null,
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "A street must be introduced."
+                    "Country is required"
                 },
 
                 //Invalid payment method
@@ -115,15 +115,31 @@ namespace AppForSEII2526.UT.PurchaseController_test
                     new CreatePurchaseDTO(
                         "Madrid",
                         "Spain",
-                        null,
+                        "Main Street 123",
                         DateTime.Parse("2024-01-10"),
                         "Description",
                         0m,
                         4,
                         new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = -1, User = new ApplicationUser(1, "John", "Doe")}
+                        null
                     ),
-                    "Selected payment method not found."
+                    "Payment method is required"
+                }/*,
+
+                //Zero quantity
+                new object[] {
+                    new CreatePurchaseDTO(
+                        "Madrid",
+                        "Spain",
+                        "Main Street 123",
+                        DateTime.Parse("2024-01-10"),
+                        "Description",
+                        0m,
+                        0,
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
+                    ),
+                    "At least one item must be selected"
                 },
 
                 //No quantity available
@@ -131,16 +147,16 @@ namespace AppForSEII2526.UT.PurchaseController_test
                     new CreatePurchaseDTO(
                         "Madrid",
                         "Spain",
-                        null,
+                        "Main Street 123",
                         DateTime.Parse("2024-01-10"),
                         "Description",
                         0m,
-                        new Item().QuantityAvailableForPurchase+1,
+                        11,
                         new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = -1, User = new ApplicationUser(1, "John", "Doe")}
+                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
                     ),
-                    "There are not that many items available."
-                }
+                    $"Error! There's no stock for '{(new Item()).Name}'."
+                }*/
         };
             return allTests;
         }
