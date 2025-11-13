@@ -50,7 +50,8 @@ namespace AppForSEII2526.API.Controllers
                     .Where(c => c.Date >= startDate && c.Date <= endDate) // Next week only
                     .Where(c => !date.HasValue || c.Date.Date == date.Value.Date) // Date filter
                     .Where(c => types == null || !types.Any() || c.TypeItems.Any(ti => types.Contains(ti.Name))) // Type filter
-                    .OrderBy(c => c.Name)
+                    .OrderBy(c => c.Date)
+                        .ThenBy(c => c.Name)
                     .Select(c => new ClassForPlanDTO(
                         c.Id,
                         c.Name,

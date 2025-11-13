@@ -47,16 +47,16 @@ namespace AppForSEII2526.UT.ClassController_test
 
             var classesDTOS = new List<ClassForPlanDTO>()
             {
-                new ClassForPlanDTO(4, "Kick-Boxing", new List<string>{"Martial Arts"}, today.AddDays(4).AddHours(17).AddMinutes(30), 19.00m),
-                new ClassForPlanDTO(2, "Meditation", new List<string>{"Meditation"}, today.AddDays(2).AddHours(10), 8.00m),
                 new ClassForPlanDTO(1, "Strength Training", new List<string>{"Strength"}, today.AddDays(1).AddHours(15), 20.00m),
-                new ClassForPlanDTO(3, "Zumba", new List<string>{"Dance"}, today.AddDays(3).AddHours(18).AddMinutes(30), 12.00m)
+                new ClassForPlanDTO(2, "Meditation", new List<string>{"Meditation"}, today.AddDays(2).AddHours(10), 8.00m),
+                new ClassForPlanDTO(3, "Zumba", new List<string>{"Dance"}, today.AddDays(3).AddHours(18).AddMinutes(30), 12.00m),
+                new ClassForPlanDTO(4, "Kick-Boxing", new List<string>{"Martial Arts"}, today.AddDays(4).AddHours(17).AddMinutes(30), 19.00m)
             };
 
-            var allClasses = new List<ClassForPlanDTO>() { classesDTOS[0], classesDTOS[1], classesDTOS[2], classesDTOS[3] };
-            var danceMartialArts = new List<ClassForPlanDTO>() { classesDTOS[0], classesDTOS[3] };
+            var allClasses = new List<ClassForPlanDTO>() {classesDTOS[0], classesDTOS[1], classesDTOS[2], classesDTOS[3]};
+            var danceMartialArts = new List<ClassForPlanDTO>() { classesDTOS[2], classesDTOS[3] };
             var day2Classes = new List<ClassForPlanDTO>() { classesDTOS[1] };
-            var day1Strength = new List<ClassForPlanDTO>() { classesDTOS[2] };
+            var day1Strength = new List<ClassForPlanDTO>() { classesDTOS[0] };
 
 
             var allTests = new List<object[]>
