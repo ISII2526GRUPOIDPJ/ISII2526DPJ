@@ -70,11 +70,15 @@ builder.Services.AddSwaggerGen(options => {
 // Temporarily commented out for deployment on Azure App Service
 // because it does not have RabbitMQ running locally and cannot connect to localhost.
 // RabbitMQ logging is tested locally as required by the assignment.
-if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") != "true")
+if (Environment.GetEnvironmentVariable("AZURE_WEBAPP_NAME") == null)
 {
     builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
 }
-
+else
+{
+    builder.Logging.AddConsole();
+    Console.WriteLine("Running in Azure - RabbitMQ disabled, using Console logging");
+}
 
 var app = builder.Build();
 
