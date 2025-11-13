@@ -1,4 +1,5 @@
-﻿using AppForSEII2526.API.DTOs.PurchaseDTOs;
+﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppForSEII2526.API.Controllers
@@ -14,6 +15,8 @@ namespace AppForSEII2526.API.Controllers
         {
             _context = context;
             _logger = logger;
+
+            _logger.LogInformation("PurchaseController initialized.");
         }
 
         [HttpGet]

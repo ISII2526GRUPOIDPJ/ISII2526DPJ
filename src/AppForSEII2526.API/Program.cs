@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
+using AppForSEII2526.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,18 @@ builder.Services.AddSwaggerGen(options => {
 
 });
 
+// Temporarily commented out for deployment on Azure App Service
+// because it does not have RabbitMQ running locally and cannot connect to localhost.
+// RabbitMQ logging is tested locally as required by the assignment.
+if (Environment.GetEnvironmentVariable("AZURE_WEBAPP_NAME") == null)
+{
+    builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
+}
+else
+{
+    builder.Logging.AddConsole();
+    Console.WriteLine("Running in Azure - RabbitMQ disabled, using Console logging");
+}
 
 var app = builder.Build();
 
