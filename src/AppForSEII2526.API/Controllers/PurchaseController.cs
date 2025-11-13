@@ -87,7 +87,8 @@ namespace AppForSEII2526.API.Controllers
                 }
             }
 
-            if (ModelState.ErrorCount > 0) {
+            if (ModelState.ErrorCount > 0)
+            {
                 return BadRequest(new ValidationProblemDetails(ModelState));
             }
 

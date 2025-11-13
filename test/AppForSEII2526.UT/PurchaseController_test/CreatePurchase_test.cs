@@ -124,7 +124,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         null
                     ),
                     "Payment method is required"
-                }/*,
+                },
 
                 //Zero quantity
                 new object[] {
@@ -136,7 +136,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         0,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new List<PurchaseItemsDTO> {},
                         new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
                     ),
                     "At least one item must be selected"
@@ -152,11 +152,11 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         11,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 11, 25m)},
                         new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
                     ),
-                    $"Error! There's no stock for '{(new Item()).Name}'."
-                }*/
+                    $"Error! There's no stock for 'Yoga Mat'."
+                }
         };
             return allTests;
         }
