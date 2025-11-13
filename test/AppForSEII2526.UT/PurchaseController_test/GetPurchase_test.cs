@@ -26,8 +26,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
             };
 
             var purchase = new List<Purchase>() {
-                new Purchase("Madrid", "Spain", DateTime.Parse("2024-01-10"), "Gym equipment", "Main Street 123", 150, paymentMethod)//,
-                //new Purchase("Barcelona", "Spain", DateTime.Parse("2024-01-12"), "Sports clothing", "Park Avenue 456", 89.99m, new TestPaymentMethod() {Id=2, User=user})
+                new Purchase("Madrid", "Spain", DateTime.Parse("2024-01-10"), "Gym equipment", "Main Street 123", 150, paymentMethod)
             };
 
             _context.AddRange(user);
