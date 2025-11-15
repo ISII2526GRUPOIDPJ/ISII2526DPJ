@@ -67,6 +67,7 @@ builder.Services.AddSwaggerGen(options => {
 
 });
 
+// Configure logging - RabbitMQ disabled for testing, using Console instead
 builder.Logging.AddConsole();
 Console.WriteLine("Using Console logging for testing - RabbitMQ disabled");
 
