@@ -12,6 +12,16 @@ builder.Services.AddControllers()
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Logging.AddConsole();
+try
+{
+    builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
+}
+catch
+{
+    // Do nothing if RabbitMQ configuration section is not present
+}
+
 // Add service for managing a sqlserver database that will be managed using ApplicationDBContext
 // the connection to the database was defined in appsettings
 
@@ -66,10 +76,6 @@ builder.Services.AddSwaggerGen(options => {
     });
 
 });
-
-// Configure logging - RabbitMQ disabled for testing, using Console instead
-builder.Logging.AddConsole();
-Console.WriteLine("Using Console logging for testing - RabbitMQ disabled");
 
 var app = builder.Build();
 
