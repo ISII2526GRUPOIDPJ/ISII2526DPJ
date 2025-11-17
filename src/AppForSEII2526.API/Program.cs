@@ -15,11 +15,15 @@ builder.Services.AddControllers()
 builder.Logging.AddConsole();
 try
 {
-    builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
+    var rabbitSection = builder.Configuration.GetSection("RabbitMQ");
+    if (rabbitSection.Exists())
+    {
+        builder.Logging.AddRabbitMQ(rabbitSection);
+    }
 }
 catch
 {
-    // Do nothing if RabbitMQ configuration section is not present
+    // Do nothing
 }
 
 // Add service for managing a sqlserver database that will be managed using ApplicationDBContext
