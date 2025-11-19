@@ -14,7 +14,7 @@ namespace AppForSEII2526.Maui
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("nunito.ttf", "Nunito");
                 });
 
             builder.Services.AddMauiBlazorWebView();
