@@ -624,19 +624,18 @@ body {
 
 
 
-/* ===== CREATE PLAN PAGE ===== */
-.create-plan-container {
+.page-container {
     text-align: left;
     padding: 2rem;
 }
 
-.create-plan-title {
+.page-title {
     margin-bottom: 0px;
     color: var(--color-text-dark);
     font-size: calc(var(--font-size-base) * 1.8);
 }
 
-.create-plan-subtext {
+.page-subtext {
     margin-bottom: 15px;
     color: var(--color-text-dark);
     font-size: calc(var(--font-size-base) * 1.1);
