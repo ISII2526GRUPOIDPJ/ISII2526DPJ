@@ -1,6 +1,5 @@
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
-using AppForSEII2526.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,18 +12,6 @@ builder.Services.AddControllers()
 });
 
 builder.Logging.AddConsole();
-try
-{
-    var rabbitSection = builder.Configuration.GetSection("RabbitMQ");
-    if (rabbitSection.Exists())
-    {
-        builder.Logging.AddRabbitMQ(rabbitSection);
-    }
-}
-catch
-{
-    // Do nothing
-}
 
 // Add service for managing a sqlserver database that will be managed using ApplicationDBContext
 // the connection to the database was defined in appsettings
