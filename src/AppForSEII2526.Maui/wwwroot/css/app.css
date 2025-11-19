@@ -16,7 +16,7 @@
 body {
     background-color: var(--color-background);
     color: var(--color-text-dark);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', sans-serif;
     margin: 0;
     font-size: var(--font-size-base);
 }
@@ -59,7 +59,7 @@ body {
 .menu-container {
     background-color: var(--color-white);
     border: var(--border-standard);
-    border-radius: var(--border-radius);
+    border-radius: 12px;
     box-shadow: var(--shadow);
     margin: 0 auto;
     padding: 1rem 1.5rem;
@@ -72,7 +72,7 @@ body {
 .menu-box {
     background-color: var(--color-white);
     border: var(--border-standard);
-    border-radius: var(--border-radius);
+    border-radius: 20px;
     color: var(--color-text-dark);
     padding: 1rem 2rem;
     font-weight: bold;
@@ -620,4 +620,25 @@ body {
 .tritanopia-mode .setting-description {
     color: var(--color-text-dark);
     opacity: 0.8;
+}
+
+
+
+.page-container {
+    text-align: left;
+    padding: 2rem;
+}
+
+.page-title {
+    margin-bottom: 0px;
+    color: var(--color-text-dark);
+    font-size: calc(var(--font-size-base) * 1.8);
+}
+
+.page-subtext {
+    margin-bottom: 15px;
+    color: var(--color-text-dark);
+    font-size: calc(var(--font-size-base) * 1.1);
+    line-height: 1.5;
+    text-align: left;
 }
