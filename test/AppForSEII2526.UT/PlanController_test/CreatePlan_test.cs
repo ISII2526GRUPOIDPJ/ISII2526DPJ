@@ -116,6 +116,22 @@ namespace AppForSEII2526.UT.PlanController_test
                     ),
                     "Weeks must be between 1 and 52"
                 },
+                // Alternative Flow 5: Invalid weeks (greater than 52)
+                new object[] {
+                    new CreatePlanDTO(
+                        new List<ClassInPlanDTO> {
+                            new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
+                        },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
+                        10.00m,
+                        "Invalid Weeks Plan High",
+                        "Description",
+                        999, // <- Invalid weeks (too high)
+                        "None",
+                        1
+                    ),
+                    "Weeks must be between 1 and 52"
+                },
 
                 // Alternative Flow 7: Classes without capacity  
                 new object[] {
