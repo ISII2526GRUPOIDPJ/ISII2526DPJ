@@ -28,7 +28,6 @@ namespace AppForSEII2526.API.Controllers
         {
             if(_context.Plans == null)
             {
-                _logger.LogError("Error: Plans table does not exist");
                 return NotFound();
             }   
 
@@ -62,7 +61,6 @@ namespace AppForSEII2526.API.Controllers
 
             if(planDTOs == null || !planDTOs.Any())
             {
-                _logger.LogError($"Error: Plan with date {date} does not exist");
                 return NotFound();
             }
 
@@ -175,7 +173,6 @@ namespace AppForSEII2526.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating plan");
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Error creating plan");
             }
         }

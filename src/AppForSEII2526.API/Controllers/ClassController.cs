@@ -34,8 +34,6 @@ namespace AppForSEII2526.API.Controllers
             var startDate = DateTime.Today;
             var endDate = DateTime.Today.AddDays(7);
 
-                _logger.LogDebug("Querying classes for date range: {StartDate} to {EndDate}.", startDate, endDate);
-
                 IList<ClassForPlanDTO> classesDTOS = await _context.Classes
                     .Include(c => c.TypeItems)
                     .Where(c => c.Date >= startDate && c.Date <= endDate) // Next week only
