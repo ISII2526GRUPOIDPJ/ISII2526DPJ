@@ -26,7 +26,7 @@ jobs:
       - name: Check out repository code branch development
         uses: actions/checkout@v4
         with:
-            ref: 'development'
+            ref: 'JoseAngelSotoca-CI-CD'
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -82,5 +82,6 @@ jobs:
           package: .
 
           
+
 
 
