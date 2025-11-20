@@ -15,8 +15,6 @@ namespace AppForSEII2526.API.Controllers
         {
             _context = context;
             _logger = logger;
-
-            _logger.LogInformation("PurchaseController initialized.");
         }
 
         [HttpGet]
@@ -42,7 +40,6 @@ namespace AppForSEII2526.API.Controllers
 
             if (purchase == null)
             {
-                _logger.LogError($"Error: Purchase with the ID {id} does not exist.");
                 return NotFound();
             }
 
@@ -99,7 +96,6 @@ namespace AppForSEII2526.API.Controllers
                 _context.Purchases.Add(purchase);
                 await _context.SaveChangesAsync();
             } catch (Exception ex) {
-                _logger.LogError(ex, "...");
                 return Conflict("Error" +  ex.Message);
             }
 
