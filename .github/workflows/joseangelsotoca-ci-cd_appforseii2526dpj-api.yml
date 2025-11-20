@@ -6,8 +6,8 @@ name: Build and deploy ASP.Net Core app to Azure Web App - appforseii2526dpj-api
 on:
   push:
     branches:
-#      - JoseAngelSotoca-CI-CD
-       - development
+       - JoseAngelSotoca-CI-CD
+#       - development
     paths:
       - 'src/AppForSEII2526.API**'
   workflow_dispatch:
