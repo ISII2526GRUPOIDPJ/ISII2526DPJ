@@ -77,11 +77,12 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'appforseii2526dpj-api-djc2bgfag0h6gbby'
+          app-name: 'appforseii2526dpj-api'
           slot-name: 'Production'
           package: .
 
           
+
 
 
 
