@@ -1,6 +1,5 @@
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
-using AppForSEII2526.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,7 +66,6 @@ builder.Services.AddSwaggerGen(options => {
 
 });
 
-builder.Logging.AddRabbitMQ(builder.Configuration.GetSection("RabbitMQ"));
 
 var app = builder.Build();
 

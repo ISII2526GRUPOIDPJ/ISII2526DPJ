@@ -17,8 +17,6 @@ namespace AppForSEII2526.API.Controllers
         {
             _context = context;
             _logger = logger;
-
-            _logger.LogInformation("PlanController initialized.");
         }
 
 
@@ -28,59 +26,47 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetPlan(DateTime? date)
         {
-            _logger.LogInformation("GetPlan initiated - Date: {Date}", date?.ToString("yyyy-MM-dd") ?? "null");
-
-            try
+            if(_context.Plans == null)
             {
-                if (_context.Plans == null)
-                {
-                    _logger.LogError("Error: Plans table does not exist");
-                    return NotFound();
-                }
+                _logger.LogError("Error: Plans table does not exist");
+                return NotFound();
+            }   
 
+            IList<GetPlanDTO> planDTOs = await _context.Plans
+                .Include(p => p.PaymentMethod)
+                    .ThenInclude(pm => pm.User)
+                .Include(p => p.PlanItems)
+                    .ThenInclude(pi => pi.Class)
+                        .ThenInclude(c => c.TypeItems)
+                .Where(p => !date.HasValue || p.CreatedDate.Date == date.Value.Date)
+                .OrderBy(p => p.CreatedDate)
+                .Select(p => new GetPlanDTO(
+                    p.PaymentMethod.User.Name,
+                    p.PaymentMethod.User.Surname,
+                    p.CreatedDate,
+                    p.TotalPrice,
+                    p.Name,
+                    p.Description != null ? p.Description : string.Empty,
+                    p.Weeks,
+                    p.HealthIssues,
+                    p.PlanItems.Select(pi => new ClassInPlanDTO(
+                        pi.Class.Id,
+                        pi.Class.Name,
+                        pi.Class.TypeItems.Select(ti => ti.Name).ToList(),
+                        pi.Price,
+                        pi.Class.Date,
+                        pi.Goal
+                    )).ToList()
+                ))
+                .ToListAsync();
 
-                IList<GetPlanDTO> planDTOs = await _context.Plans
-                    .Include(p => p.PaymentMethod)
-                        .ThenInclude(pm => pm.User)
-                    .Include(p => p.PlanItems)
-                        .ThenInclude(pi => pi.Class)
-                            .ThenInclude(c => c.TypeItems)
-                    .Where(p => !date.HasValue || p.CreatedDate.Date == date.Value.Date)
-                    .OrderBy(p => p.CreatedDate)
-                    .Select(p => new GetPlanDTO(
-                        p.PaymentMethod.User.Name,
-                        p.PaymentMethod.User.Surname,
-                        p.CreatedDate,
-                        p.TotalPrice,
-                        p.Name,
-                        p.Description != null ? p.Description : string.Empty,
-                        p.Weeks,
-                        p.HealthIssues,
-                        p.PlanItems.Select(pi => new ClassInPlanDTO(
-                            pi.Class.Id,
-                            pi.Class.Name,
-                            pi.Class.TypeItems.Select(ti => ti.Name).ToList(),
-                            pi.Price,
-                            pi.Class.Date,
-                            pi.Goal
-                        )).ToList()
-                    ))
-                    .ToListAsync();
-
-                if (planDTOs == null || !planDTOs.Any())
-                {
-                    _logger.LogError($"Error: Plan with date {date} does not exist");
-                    return NotFound();
-                }
-
-                _logger.LogInformation("GetPlan completed successfully with {PlanCount} plans found.", planDTOs.Count);
-
-                return Ok(planDTOs);
+            if(planDTOs == null || !planDTOs.Any())
+            {
+                _logger.LogError($"Error: Plan with date {date} does not exist");
+                return NotFound();
             }
-            catch (Exception ex){
-                _logger.LogError(ex, "An error occurred while retrieving plans.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
-            }
+
+            return Ok(planDTOs);
         }
 
         [HttpPost]
@@ -89,23 +75,18 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> CreatePlan(CreatePlanDTO planDto)
         {
-            _logger.LogInformation("CreatePlan initiated - Plan Name: {PlanName}", planDto.Name);
-
             try
             {
                 // Included because in the tests the [ApiController] automatic validation does not trigger
                 if (string.IsNullOrWhiteSpace(planDto.Name)) return BadRequest("Plan name is required");
                 if (planDto.Weeks < 1 || planDto.Weeks > 52) return BadRequest("Weeks must be between 1 and 52");
 
-                _logger.LogInformation("Input validation passed for CreatePlan.");
 
                 // Alternative Flow 4: No classes selected
                 if (planDto.SelectedClasses == null || !planDto.SelectedClasses.Any())
                 {
                     return BadRequest("At least one class must be selected.");
                 }
-
-                _logger.LogInformation("Class selection validation passed for CreatePlan.");
 
                 // Alternative Flow 7: Check class capacity
                 var classIds = planDto.SelectedClasses.Select(sc => sc.Id).ToList();
@@ -118,8 +99,6 @@ namespace AppForSEII2526.API.Controllers
                 {
                     return BadRequest($"The following classes have no available capacity: {string.Join(", ", classesWithoutCapacity)}");
                 }
-
-                _logger.LogInformation("Class capacity validation passed for CreatePlan.");
 
                 // Calculate total price
                 var prices = await _context.Classes
@@ -136,8 +115,6 @@ namespace AppForSEII2526.API.Controllers
                     return BadRequest("Selected payment method not found.");
                 }
 
-                _logger.LogInformation("Payment method validation passed for CreatePlan.");
-
                 // Create Plan entity with the information introduced by the user
                 var plan = new Plan
                 {
@@ -153,8 +130,6 @@ namespace AppForSEII2526.API.Controllers
                 _context.Plans.Add(plan);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Plan entity created with ID: {PlanId}", plan.Id);
-
                 // Create PlanItems with goals
                 var planItems = planDto.SelectedClasses.Select(sc => new PlanItem
                 {
@@ -166,8 +141,6 @@ namespace AppForSEII2526.API.Controllers
 
                 _context.PlanItems.AddRange(planItems);
                 await _context.SaveChangesAsync();
-
-                _logger.LogInformation("PlanItems created for Plan ID: {PlanId}", plan.Id);
 
                 // Return the created plan DTO
                 var resultDto = await _context.Plans
@@ -197,7 +170,6 @@ namespace AppForSEII2526.API.Controllers
                     ))
                     .FirstOrDefaultAsync();
 
-                _logger.LogInformation("CreatePlan completed successfully for Plan ID: {PlanId}", plan.Id);
 
                 return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, resultDto);
             }
