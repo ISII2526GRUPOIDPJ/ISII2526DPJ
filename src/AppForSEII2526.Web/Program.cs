@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using AppForSEII2526.Web.Components;
 using AppForSEII2526.Web.Components.Account;
 using AppForSEII2526.Web.Data;
+using AppForSEII2526.Web.API;
+
+// Alias for Data ApplicationUser to avoid ambiguity
+using DataUser = AppForSEII2526.Web.Data.ApplicationUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +32,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<DataUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddSingleton<IEmailSender<DataUser>, IdentityNoOpEmailSender>();
+
+
+string? URI2API = builder.Configuration.GetValue(typeof(string), "AppForSEII2526_API") as string;
+
+builder.Services.AddScoped<AppForSEII2526APIClient>(sp => new AppForSEII2526APIClient(URI2API, new HttpClient()));
 
 var app = builder.Build();
 
