@@ -642,3 +642,13 @@ body {
     line-height: 1.5;
     text-align: left;
 }
+
+
+.menu-box {
+    transform: scale(0.8);
+    transition: transform 0.25s ease;
+}
+
+.menu-box-active {
+    transform: scale(1);
+}

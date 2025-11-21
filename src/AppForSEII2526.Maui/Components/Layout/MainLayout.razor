@@ -4,6 +4,9 @@
 @using System.Globalization
 @inject NavigationManager NavigationManager
 
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <div class="header">
     <div class="header-left">
         <img src="images/logo.png" class="logo" alt="Exergymise Logo" />
@@ -15,15 +18,21 @@
 
     <div class="header-right">
         <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
-            ⚙️
+            <i class="fas fa-cog"></i>
         </a>
     </div>
 </div>
 
 <div class="menu-container">
-    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">@Localizer["CreatePlan"]</NavLink>
-    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">@Localizer["ReportIncident"]</NavLink>
-    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">@Localizer["Shop"]</NavLink>
+    <NavLink href="createplan" class="menu-box" activeClass="menu-box-active">
+        <i class="fas fa-dumbbell me-2"></i> @Localizer["CreatePlan"]
+    </NavLink>
+    <NavLink href="reportincident" class="menu-box" activeClass="menu-box-active">
+        <i class="fas fa-exclamation-triangle me-2"></i> @Localizer["ReportIncident"]
+    </NavLink>
+    <NavLink href="shop" class="menu-box" activeClass="menu-box-active">
+        <i class="fas fa-shopping-cart me-2"></i> @Localizer["Shop"]
+    </NavLink>
 </div>
 
 <main>
