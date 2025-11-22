@@ -8,12 +8,11 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
         public CreatePlanDTO(){ }
 
         public CreatePlanDTO(List<ClassInPlanDTO> selectedClasses, List<PaymentMethodDTO> availablePaymentMethods,
-                             decimal totalPrice, string name, string description, int weeks, string healthIssues,
+                             string name, string description, int weeks, string healthIssues,
                              int selectedPaymentMethodId)
         {
             SelectedClasses = selectedClasses; // Uses ClassInPlanDTO so each selected class includes its own optional goal
             AvailablePaymentMethods = availablePaymentMethods;
-            TotalPrice = totalPrice;
             Name = name;
             Description = description;
             Weeks = weeks;
@@ -43,8 +42,6 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
         [Required(ErrorMessage = "Payment method is required")]
         public int SelectedPaymentMethodId { get; set; }
 
-        [Precision(10, 2)]
-        public decimal TotalPrice { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -57,8 +54,7 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
                    HealthIssues == dTO.HealthIssues &&
                    ((AvailablePaymentMethods == null && dTO.AvailablePaymentMethods == null) ||
                     (AvailablePaymentMethods != null && dTO.AvailablePaymentMethods != null && AvailablePaymentMethods.SequenceEqual(dTO.AvailablePaymentMethods))) &&
-                   SelectedPaymentMethodId == dTO.SelectedPaymentMethodId &&
-                   TotalPrice == dTO.TotalPrice;
+                   SelectedPaymentMethodId == dTO.SelectedPaymentMethodId;
         }
     }
 }
