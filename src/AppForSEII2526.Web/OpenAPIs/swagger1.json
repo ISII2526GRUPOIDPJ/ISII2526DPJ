@@ -727,10 +727,6 @@
           "selectedPaymentMethodId": {
             "type": "integer",
             "format": "int32"
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
           }
         },
         "additionalProperties": false
