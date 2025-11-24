@@ -14,15 +14,14 @@
     <div class="row">
         <div class="col-8">
             <div class="row">
-
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Type</span>
-                        <input type="text" id="inputType" @bind=type class="form-control" placeholder="Type" aria-label="Type" aria-describedby="basic-addon1">
+                        <input type="text" id="inputType" @bind="type" class="form-control" placeholder="Type" aria-label="Type" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-primary" @onclick=@SearchPlanning id="searchPlan">Search plan</button>
+                    <button type="button" class="btn btn-primary" @onclick="@SearchPlanning" id="searchPlan">Search plan</button>
                 </div>
             </div>
             <div class="row">
@@ -30,9 +29,14 @@
                 {
                     <p>Loading classes...</p>
                 }
+                else if (classes.Count == 0)
+                {
+                    <p>No classes found for the selected type.</p>
+                }
                 else
                 {
-                    <p>Number of classes @classes.Count</p>
+                    <p>Number of classes: @classes.Count</p>
+                    <!-- Aquí luego pondremos la tabla -->
                 }
             </div>
         </div>
@@ -40,8 +44,6 @@
             <p>Here I will show the planning list</p>
         </div>
     </div>
-
-
 </div>
 
 @code {
@@ -50,22 +52,24 @@
     private bool hideErrors { get { return errors.Length == 0; } }
     private string errors = "";
 
-    private DateTime date { get; set; }
     private string type { get; set; }
 
-    private DateTime? fromDate { get; set; }
-    private DateTime? toDate { get; set; }
-
-
     private CreatePlanDTO plan => planState.Plan;
-
-    // cuando le des a buscar muestre pelis y salga un boton y el siguiente mostrar en el resumen de la derecha
 
     public async void SearchPlanning()
     {
         try
         {
-            classes = await apiClient.GetClassesForPlanningAsync(null, null);
+            // Transforming type filter into array
+            string[] typesArray = null;
+            if (!string.IsNullOrEmpty(type))
+            {
+                typesArray = new string[] { type };
+            }
+
+            // Using the API client to get classes for planning
+            classes = await apiClient.GetClassesForPlanningAsync(null, typesArray);
+            errors = "";
         }
         catch (Exception ex)
         {
