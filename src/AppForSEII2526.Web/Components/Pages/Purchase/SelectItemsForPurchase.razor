@@ -1,7 +1,67 @@
-﻿@page "/purchase/selectitemsforpurchase"
+﻿@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiclient
+@inject ILogger<SelectItemsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+
+@page "/purchase/selectitemsforpurchase"
 
 <h3>Select Items For Purchase</h3>
+<div class="container-fluid">
+    <div class="row" hidden="@hideErrors">
+        <p>@errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <p>Filters</p>
+                <div class="col">
+                    @*<button type="button" class="btn btn-primary" @onclick=@SearchItems id="searchItems">Search Items</button>*@
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Name</span>
+                        <input type="text" id="inputName" @bind=itemName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1"></input>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Brand</span>
+                        <input type="text" id="inputBrand" @bind=itemBrand class="form-control" placeholder="Brand" aria-label="Brand" aria-describedby="basic-addon1"></input>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @if(items == null) {
+                    <p>Loading Items...</p>
+                } else {
+                    <p>Number of Items: @items.Count</p>
+                }
+            </div>
+        </div>
+        <div class="col-2">
+            <p>Cart</p>
+        </div>
+    </div>
+</div>
 
 @code {
+    private ICollection<ItemForPurchaseDTO> items;
+    private bool hideErrors {get { return errors.Length == 0; }}
+    private string errors = "";
+    private string itemName { get; set; }
+    private string itemBrand { get; set; }
+
+    public async void SearchItems() {
+        try {
+            items = await apiclient.GetItemsForPurchaseAsync(itemName, itemBrand);
+        } catch (ApiException ex) {
+            logger.LogError("${DateTime.Now} Error: {ex}");
+            errors = "Error while trying to connect to the system.";
+        }
+        StateHasChanged();
+    }
+
+    protected override Task OnInitializedAsync() {
+        SearchItems();
+
+        return base.OnInitializedAsync();
+    }
+
 
 }
