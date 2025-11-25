@@ -325,7 +325,7 @@ body {
         .dark-mode .menu-box:hover,
         .dark-mode .menu-box-active {
             background-color: var(--color-orange-primary);
-            color: var(--color-white);
+            color: #FFFFFF !important;
             border-color: var(--color-orange-primary);
         }
 
@@ -372,8 +372,8 @@ body {
     }
 
     .dark-mode .show-filters-btn {
-        background-color: var(--color-orange-primary);
-        color: var(--color-white);
+        background-color: var(--color-orange-primary) !important;
+        color: #FFFFFF !important;
     }
 
     .dark-mode .filters-content {
@@ -643,7 +643,7 @@ body {
     text-align: left;
 }
 
-
+/* Hacer recuadro seleccionado mas grande que los otros */
 .menu-box {
     transform: scale(0.8);
     transition: transform 0.25s ease;
@@ -651,4 +651,29 @@ body {
 
 .menu-box-active {
     transform: scale(1);
+}
+
+/* Banderas paises */
+.lang-select option {
+    padding-left: 25px; /* espacio para la bandera */
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 20px 20px;
+}
+
+/* Bandera por idioma */
+.flag-en {
+    background-image: url('/images/flags/en.png');
+}
+
+.flag-es {
+    background-image: url('/images/flags/es.png');
+}
+
+.flag-fr {
+    background-image: url('/images/flags/fr.png');
+}
+
+.flag-ja {
+    background-image: url('/images/flags/ja.png');
 }
