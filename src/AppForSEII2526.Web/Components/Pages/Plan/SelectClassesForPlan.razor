@@ -4,6 +4,7 @@
 @inject AppForSEII2526APIClient apiClient
 @inject ILogger<SelectClassesForPlan> logger
 @inject PlanStateContainer planState
+@inject NavigationManager navigation
 
 
 <h3>Select Classes For Plan</h3>
@@ -75,8 +76,23 @@
                 }
             </div>
         </div>
-        <div class="col-2">
-            <p>Here I will show the planning list</p>
+        <div class="col-2" hidden="@hidePlanList">
+            <div class="row">
+                <h3>Planning List</h3>
+            </div>
+
+            @foreach (var item in plan.SelectedClasses)
+            {
+                <div class="row mb-1">
+                    <button type="button" class="btn btn-light" @onclick="@(() => RemoveClassFromPlan(item))">
+                        x @item.Name - @item.Price€
+                    </button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" @onclick="@GoToCreatePlan">Create Plan</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -93,6 +109,9 @@
     private DateTime? selectedDate { get; set; }
 
     private CreatePlanDTO plan => planState.Plan;
+
+    private bool hidePlanList => plan.SelectedClasses.Count == 0;
+
 
     public async void SearchPlanning()
     {
@@ -142,4 +161,13 @@
         planState.AddClassToPlan(classInPlan);
     }
 
+    private void RemoveClassFromPlan(ClassInPlanDTO classItem)
+    {
+        planState.RemoveClassFromPlan(classItem);
+    }
+
+    private void GoToCreatePlan()
+    {
+        navigation.NavigateTo("/plan/createplan");
+    }
 }
