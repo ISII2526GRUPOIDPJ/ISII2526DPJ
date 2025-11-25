@@ -43,7 +43,35 @@
                 }
                 else
                 {
-                    <p>Number of classes: @classes.Count</p>
+                   <div class="mh-100 table-responsive">
+                       <table class="table table-condensed table-hover">
+
+                           <thead>
+                               <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                    <th>Add to Plan</th>
+                               </tr>
+                           </thead>
+
+                           <tbody>
+                                @foreach (var classItem in classes)
+                                {
+                                    <tr id="ClassData_@classItem.Name">
+                                        <td>@classItem.Name</td>
+                                        <td>@string.Join(", ", classItem.TypeItemNames)</td>
+                                        <td>@classItem.DateTime.ToString()</td>
+                                        <td>@classItem.Price</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="classToAdd_@classItem.Name" @onclick="@(() => AddClassToPlan(classItem))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                           </tbody>
+                       </table>
+                   </div>
                 }
             </div>
         </div>
@@ -99,4 +127,19 @@
         SearchPlanning();
         return base.OnInitializedAsync();
     }
+
+    private void AddClassToPlan(ClassForPlanDTO classItem)
+    {
+        var classInPlan = new ClassInPlanDTO
+        {
+            Id = classItem.Id,
+            Name = classItem.Name,
+            Price = classItem.Price,
+            Date = classItem.DateTime,
+            TypeItemNames = classItem.TypeItemNames
+        };
+
+        planState.AddClassToPlan(classInPlan);
+    }
+
 }
