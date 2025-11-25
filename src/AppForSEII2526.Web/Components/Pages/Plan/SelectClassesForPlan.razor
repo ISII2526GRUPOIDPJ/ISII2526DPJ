@@ -63,7 +63,7 @@
                                     <tr id="ClassData_@classItem.Name">
                                         <td>@classItem.Name</td>
                                         <td>@string.Join(", ", classItem.TypeItemNames)</td>
-                                        <td>@classItem.DateTime.ToString()</td>
+                                        <td>@classItem.DateTime.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td>@classItem.Price</td>
                                         <td>
                                             <button class="btn btn-outline-secondary" id="classToAdd_@classItem.Name" @onclick="@(() => AddClassToPlan(classItem))">Add</button>
