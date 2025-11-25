@@ -12,10 +12,10 @@
     <div class="setting-group">
         <h3>@Localizer["Language"]</h3>
         <select @onchange="ChangeLanguage" class="lang-select" value="@currentLang">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="ja">日本語</option>
+            <option value="en"><img src="/images/flags/en.png" /> English</option>
+            <option value="es" class="flag-es">Español</option>
+            <option value="fr" class="flag-fr">Français</option>
+            <option value="ja" class="flag-ja">日本語</option>
         </select>
         <p class="setting-description">@Localizer["LanguageDescription"]</p>
     </div>
