@@ -1,12 +1,14 @@
 ﻿@page "/plan/selectclassesforplan"
 
+
+@using Microsoft.AspNetCore.Authorization
 @using AppForSEII2526.Web.API;
 @inject AppForSEII2526APIClient apiClient
 @inject ILogger<SelectClassesForPlan> logger
 @inject PlanStateContainer planState
 @inject NavigationManager navigation
 
-
+@attribute [Authorize]
 <h3>Select Classes For Plan</h3>
 <div class="container-fluid">
     <!-- ERRORS -->
