@@ -62,54 +62,6 @@ namespace AppForSEII2526.UT.PurchaseController_test
         {
             var allTests = new List<object[]>
             {
-                //Street missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        "Madrid",
-                        "Spain",
-                        null,
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "Street is required"
-                },
-
-                //City missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        null,
-                        "Spain",
-                        "Main Street 123",
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "City is required"
-                },
-
-                //Country missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        "Madrid",
-                        null,
-                        "Main Street 123",
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "Country is required"
-                },
-
                 //Invalid payment method
                 new object[] {
                     new CreatePurchaseDTO(

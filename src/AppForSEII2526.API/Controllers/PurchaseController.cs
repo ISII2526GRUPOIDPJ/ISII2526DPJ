@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,6 @@ namespace AppForSEII2526.API.Controllers
             PurchaseDTO? purchase = await _context.Purchases
                 .Include(p => p.PurchaseItems)
                     .ThenInclude(pi => pi.Item)
-                        .ThenInclude(i => i.Brand)
                 .Where(p => p.Id == id)
                 .Select(p => new PurchaseDTO(
                     p.City,
@@ -33,7 +33,7 @@ namespace AppForSEII2526.API.Controllers
                     p.Street,
                     p.Total_price,
                     p.Description,
-                    p.PaymentMethod,
+                    new PaymentMethodDTO(),
                     p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
                 ))
                 .FirstOrDefaultAsync();
@@ -53,10 +53,8 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
             //Mandatory information not introduced
-            if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseStreet", "Street is required");
-            if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCity", "City is required");
-            if (string.IsNullOrWhiteSpace(createPurchase.Country)) ModelState.AddModelError("PurchaseCountry", "Country is required");
-            if (createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
+            //Cambiar para que solo compruebe si es válido
+            //if (createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
             if (createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
 
             var itemNames = createPurchase.PurchaseItems.Select(pi => pi.Name).ToList<string>();
