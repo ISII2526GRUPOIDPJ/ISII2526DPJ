@@ -113,7 +113,7 @@ namespace AppForSEII2526.UT.PlanController_test
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnPlan = Assert.IsType<GetPlanDTO>(okResult.Value);
 
-            Assert.Equal(expectedPlan, returnPlan); // now comparing single objects
+            Assert.Equal(expectedPlan, returnPlan);
         }
 
         // Test that covers scenario when no plans are found
