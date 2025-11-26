@@ -1,5 +1,6 @@
 ﻿using AppForSEII2526.API.Controllers;
 using AppForSEII2526.API.DTOs.ItemDTOs;
+using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using AppForSEII2526.UT;
 using SQLitePCL;
@@ -73,7 +74,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 "Main Street 123",
                 150,
                 "Gym equipment",
-                purchase.PaymentMethod,
+                new PaymentMethodDTO(1, "CreditCard", "Info"),
                 new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)}
             );
 
