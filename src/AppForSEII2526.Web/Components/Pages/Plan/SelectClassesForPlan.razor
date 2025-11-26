@@ -15,13 +15,27 @@
     <div class="row">
         <div class="col-8">
             <div class="row">
+
+                <!-- TYPE -->
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Type</span>
-                        <input type="text" id="inputType" @bind="type" class="form-control" placeholder="Type" aria-label="Type" aria-describedby="basic-addon1">
+                            
+                        <select class="form-select" @bind="type">
+                            <option value="">All</option>
+                            @if (typesNames != null)
+                            {
+                                @foreach (var typeName in typesNames)
+                                {
+                                    <option value="@typeName">@typeName</option>
+                                }
+                            }
+                        </select>
+
                     </div>
                 </div>
 
+                <!-- DATE -->
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Date</span>
@@ -29,10 +43,14 @@
                     </div>
                 </div>
 
+                <!-- SEARCH BUTTON -->
                 <div class="col">
                     <button type="button" class="btn btn-primary" @onclick="@SearchPlanning" id="searchPlan">Search plan</button>
                 </div>
+
             </div>
+
+            <!-- RESULTS -->
             <div class="row">
                 @if (classes == null)
                 {
@@ -76,6 +94,8 @@
                 }
             </div>
         </div>
+
+        <!-- PLAN LIST -->
         <div class="col-2" hidden="@hidePlanList">
             <div class="row">
                 <h3>Planning List</h3>
@@ -105,18 +125,32 @@
 
     private string type { get; set; }
 
-    // Provide a way to filter by a specific date
+    // Filter by date
     private DateTime? selectedDate { get; set; }
 
-    private CreatePlanDTO plan => planState.Plan;
+    // For the dropdown of types
+    private string typeSelected = "All";
+    private ICollection<string>? typesNames = new List<string>();
 
+
+    private CreatePlanDTO plan => planState.Plan;
     private bool hidePlanList => plan.SelectedClasses.Count == 0;
 
+    
 
     public async void SearchPlanning()
     {
         try
         {
+            if (selectedDate.HasValue && selectedDate.Value.Date < DateTime.Today)
+            {
+                errors = "Selected date must be today or later";
+                classes = new List<ClassForPlanDTO>();
+                typesNames = new List<string>();
+                StateHasChanged();
+                return;
+            }
+
             string[] typesArray = null;
             if (!string.IsNullOrEmpty(type))
             {
@@ -125,6 +159,14 @@
 
             classes = await apiClient.GetClassesForPlanningAsync(selectedDate, typesArray);
             errors = "";
+
+            // Populate typesNames for the dropdown
+            typesNames = classes
+                .Where(c => c.TypeItemNames != null)
+                .SelectMany(c => c.TypeItemNames)
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
         }
         catch (ApiException ex) when (ex.StatusCode == 404)
         {
