@@ -186,6 +186,10 @@
                 .OrderBy(x => x)
                 .ToList();
         }
+        catch (ApiException ex) when (ex.StatusCode == 404)
+        {
+            errors = "No classes found for the selected criteria.";
+        }
         catch (Exception ex)
         {
             logger.LogError($"{DateTime.Now} Error: {ex}");
