@@ -33,7 +33,7 @@ namespace AppForSEII2526.API.Controllers
                     p.Street,
                     p.Total_price,
                     p.Description,
-                    new PaymentMethodDTO(p.PaymentMethod.Id, "type", "displayInfo"),
+                    new PaymentMethodDTO(p.PaymentMethod.Id, "Type"),
                     p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
                 ))
                 .FirstOrDefaultAsync();

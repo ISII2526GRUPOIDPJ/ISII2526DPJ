@@ -74,7 +74,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 "Main Street 123",
                 150,
                 "Gym equipment",
-                new PaymentMethodDTO(1, "CreditCard", "Info"),
+                new PaymentMethodDTO(1, "CreditCard"),
                 new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)}
             );
 
