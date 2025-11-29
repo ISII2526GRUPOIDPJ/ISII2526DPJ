@@ -22,7 +22,7 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(IList<ClassForPlanDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> GetClassesForPlanning(DateTime? date, string[]? types)
+        public async Task<ActionResult> GetClassesForPlanning(DateTime? date, string? type)
         {
             // Alternative flow 2: Date Validation (not before today)
             if (date.HasValue && date.Value.Date < DateTime.Today)
@@ -38,7 +38,7 @@ namespace AppForSEII2526.API.Controllers
             IList<ClassForPlanDTO> classesDTOS = await _context.Classes
                 .Include(c => c.TypeItems)
                 .Where(c => c.Date >= startDate && c.Date < endDate)
-                .Where(c => types == null || !types.Any() || c.TypeItems.Any(ti => types.Contains(ti.Name)))
+                .Where(c => string.IsNullOrEmpty(type) || c.TypeItems.Any(ti => ti.Name == type))
                 .OrderBy(c => c.Date)
                     .ThenBy(c => c.Name)
                 .Select(c => new ClassForPlanDTO(
