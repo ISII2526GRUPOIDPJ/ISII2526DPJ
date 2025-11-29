@@ -703,3 +703,147 @@ body {
 .flag-ja {
     background-image: url('/images/flags/ja.png');
 }
+
+
+
+
+/* ===== BOTONES DE FILTROS ===== */
+.apply-filters-btn, .clear-filters-btn {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--font-size-base);
+    margin: 5px;
+    min-width: 120px;
+}
+
+    .apply-filters-btn:hover {
+        background-color: #D84315;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+.clear-filters-btn {
+    background-color: var(--color-border);
+    color: var(--color-text-dark);
+}
+
+    .clear-filters-btn:hover {
+        background-color: #A0A0A0;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+/* ===== INPUT DE FECHA ===== */
+.filter-group input[type="date"] {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: var(--border-standard);
+    font-size: var(--font-size-base);
+    background-color: #f8f8f8;
+    font-family: 'Nunito', sans-serif;
+}
+
+    .filter-group input[type="date"]:focus {
+        outline: none;
+        border-color: var(--color-orange-primary);
+        box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.2);
+    }
+
+/* ===== GRUPO DE FILTROS MEJORADO ===== */
+.filter-group {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+}
+
+    .filter-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: var(--color-text-dark);
+    }
+
+/* ===== CONTENEDOR DE BOTONES DE FILTROS ===== */
+.filters-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* ===== LISTA DE CLASES ===== */
+.classes-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+    .classes-list li {
+        background-color: var(--color-white);
+        border: var(--border-standard);
+        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+        .classes-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--color-orange-primary);
+        }
+
+    .classes-list strong {
+        color: var(--color-orange-primary);
+        font-size: calc(var(--font-size-base) * 1.1);
+    }
+
+/* ===== DARK MODE PARA NUEVOS ELEMENTOS ===== */
+.dark-mode .apply-filters-btn,
+.dark-mode .clear-filters-btn {
+    color: #FFFFFF;
+}
+
+.dark-mode .clear-filters-btn {
+    background-color: var(--color-border);
+}
+
+.dark-mode .filter-group input[type="date"] {
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    border-color: var(--color-border);
+}
+
+.dark-mode .classes-list li {
+    background-color: var(--color-white);
+    border-color: var(--color-border);
+}
+
+/* ===== MODOS DALTONISMO ===== */
+.protanopia-mode .apply-filters-btn,
+.deuteranopia-mode .apply-filters-btn,
+.tritanopia-mode .apply-filters-btn {
+    background-color: var(--color-orange-primary);
+}
+
+.protanopia-mode .classes-list li:hover,
+.deuteranopia-mode .classes-list li:hover,
+.tritanopia-mode .classes-list li:hover {
+    border-color: var(--color-orange-primary);
+}
+
+.protanopia-mode .classes-list strong,
+.deuteranopia-mode .classes-list strong,
+.tritanopia-mode .classes-list strong {
+    color: var(--color-orange-primary);
+}

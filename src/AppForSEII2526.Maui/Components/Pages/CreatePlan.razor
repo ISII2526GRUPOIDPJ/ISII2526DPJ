@@ -34,12 +34,14 @@
                     <input type="date" @bind="selectedDate" @bind:format="yyyy-MM-dd" />
                 </div>
 
-                <button class="apply-filters-btn" @onclick="ApplyFilters">
-                    @Localizer["ApplyFilters"]
-                </button>
-                <button class="clear-filters-btn" @onclick="ClearFilters">
-                    @Localizer["ClearFilters"]
-                </button>
+                <div class="filters-buttons">
+                    <button class="apply-filters-btn" @onclick="ApplyFilters">
+                        @Localizer["ApplyFilters"]
+                    </button>
+                    <button class="clear-filters-btn" @onclick="ClearFilters">
+                        @Localizer["ClearFilters"]
+                    </button>
+                </div>
             </div>
         }
     </div>
