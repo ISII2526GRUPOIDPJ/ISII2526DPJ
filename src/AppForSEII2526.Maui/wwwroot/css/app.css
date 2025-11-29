@@ -847,3 +847,112 @@ body {
 .tritanopia-mode .classes-list strong {
     color: var(--color-orange-primary);
 }
+
+
+
+.class-card {
+    background-color: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .class-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-heavy);
+        border-color: var(--color-orange-primary);
+    }
+
+    .class-card.selected {
+        border-color: var(--color-orange-primary);
+        background-color: #FFF3E0;
+    }
+
+.class-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+}
+
+    .class-meta span {
+        background-color: #f2f2f2;
+        padding: 4px 10px;
+        border-radius: 12px;
+    }
+ 
+/* Resumen precio */
+.selection-summary {
+    background-color: #FFE0B2;
+    border: 2px solid var(--color-border); 
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.create-plan-btn.disabled {
+    background-color: #F29C63;
+    color: #FFFFFF;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    opacity: 0.9;
+}
+
+
+
+.create-plan-btn {
+    background-color: var(--color-orange-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--font-size-base);
+}
+
+    .create-plan-btn:hover {
+        background-color: #D84315;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-heavy);
+    }
+
+
+.class-attributes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 2rem;
+    margin-top: 0.5rem;
+}
+
+.class-attribute {
+    display: flex;
+    flex-direction: column;
+}
+
+    .class-attribute .label {
+        font-size: 0.85rem;
+        color: var(--color-text-dark);
+        opacity: 0.7;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .class-attribute .value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-orange-primary);
+    }

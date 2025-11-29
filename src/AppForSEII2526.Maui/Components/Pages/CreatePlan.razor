@@ -62,12 +62,39 @@
             {
                 @foreach (var c in clases)
                 {
-                    <li>
-                        <strong>@c.Name</strong> - @c.DateTime.ToShortDateString() - @string.Join(", ", c.TypeItemNames) - $@c.Price
+                    <li class="class-card @(selectedClasses.Contains(c) ? "selected" : "")" @onclick="@(() => ToggleClassSelection(c))">
+                        <div class="class-attributes-grid">
+                            <div class="class-attribute">
+                                <span class="label">Nombre de la clase</span>
+                                <span class="value">@c.Name</span>
+                            </div>
+                            <div class="class-attribute">
+                                <span class="label">Fecha</span>
+                                <span class="value">@c.DateTime.ToShortDateString()</span>
+                            </div>
+                            <div class="class-attribute">
+                                <span class="label">Tipo</span>
+                                <span class="value">@string.Join(", ", c.TypeItemNames)</span>
+                            </div>
+                            <div class="class-attribute">
+                                <span class="label">Precio</span>
+                                <span class="value">$@c.Price</span>
+                            </div>
+                        </div>
                     </li>
                 }
             }
         </ul>
+
+        <div class="selection-summary">
+            <div>
+                <p><strong>@Localizer["SelectedClasses"]:</strong> @selectedClasses.Count</p>
+                <p><strong>@Localizer["TotalPrice"]:</strong> @selectedClasses.Sum(c => c.Price)€</p>
+            </div>
+                <button class="create-plan-btn @(selectedClasses.Count == 0 ? "disabled" : "")" disabled="@(selectedClasses.Count == 0)">
+                @Localizer["CreatePlan"]
+            </button>
+        </div>
     }
 </div>
 
@@ -145,4 +172,15 @@
         isLoading = false;
         StateHasChanged();
     }
+
+    private List<ClassForPlanDTO> selectedClasses = new();
+
+    private void ToggleClassSelection(ClassForPlanDTO clase)
+    {
+        if (selectedClasses.Contains(clase))
+            selectedClasses.Remove(clase);
+        else
+            selectedClasses.Add(clase);
+    }
+
 }
