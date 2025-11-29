@@ -54,19 +54,18 @@ namespace AppForSEII2526.UT.ClassController_test
             };
 
             var allClasses = new List<ClassForPlanDTO>() {classesDTOS[0], classesDTOS[1], classesDTOS[2], classesDTOS[3]};
-            var danceMartialArts = new List<ClassForPlanDTO>() { classesDTOS[2], classesDTOS[3] };
             var day2Classes = new List<ClassForPlanDTO>() { classesDTOS[1] };
             var day1Strength = new List<ClassForPlanDTO>() { classesDTOS[0] };
 
 
             var allTests = new List<object[]>
             {
-                new object[] { null, null, allClasses},
-                new object[] { today.AddDays(2), null, day2Classes },
-                new object[] { today.AddDays(2), new string[] { }, day2Classes },
-                new object[] { null, new string[] { "Dance", "Martial Arts" }, danceMartialArts },
-                new object[] { today.AddDays(1), new string[] { "Strength" }, day1Strength }
-
+                new object[] { null, null, allClasses },                
+                new object[] { today.AddDays(2), null, day2Classes },   
+                new object[] { today.AddDays(2), "", day2Classes },     
+                new object[] { null, "Dance", new List<ClassForPlanDTO>{ classesDTOS[2] } },         
+                new object[] { null, "Martial Arts", new List<ClassForPlanDTO>{ classesDTOS[3] } }, 
+                new object[] { today.AddDays(1), "Strength", day1Strength }                       
             };
 
             return allTests;
@@ -79,10 +78,10 @@ namespace AppForSEII2526.UT.ClassController_test
 
             var allTests = new List<object[]>
             {
-                new object[] { today.AddDays(-1), null},                  // BadRequest
-                new object[] { today.AddDays(10), null},                  // NotFound  
-                new object[] { null, new string[] { "NonExistentType" }}, // NotFound  
-                new object[] { today.AddDays(5), new string[] { "Yoga" }} // NotFound  
+                new object[] { today.AddDays(-1), null},   // BadRequest
+                new object[] { today.AddDays(10), null},   // NotFound  
+                new object[] { null, "NonExistentType" },  // NotFound  
+                new object[] { today.AddDays(5), "Yoga" }  // NotFound  
             };
 
             return allTests;
@@ -92,7 +91,7 @@ namespace AppForSEII2526.UT.ClassController_test
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetClassesForPlanning_OK))]
-        public async Task GetClassesForPlanning_filter_test(DateTime? date, string[]? types, List<ClassForPlanDTO> expectedClasses)
+        public async Task GetClassesForPlanning_filter_test(DateTime? date, string? type, List<ClassForPlanDTO> expectedClasses)
         {
             var today = DateTime.Today;
 
@@ -103,7 +102,7 @@ namespace AppForSEII2526.UT.ClassController_test
             var controller = new ClassController(_context, logger);
 
             // Act
-            var result = await controller.GetClassesForPlanning(date, types);
+            var result = await controller.GetClassesForPlanning(date, type);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -117,7 +116,7 @@ namespace AppForSEII2526.UT.ClassController_test
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetClassesForPlanning_Error))]
-        public async Task GetClassesForPlanning_ReturnsError_WithInvalidParameters( DateTime? date, string[]? types)
+        public async Task GetClassesForPlanning_ReturnsError_WithInvalidParameters( DateTime? date, string? type)
         {
             // Arrange
             var mock = new Mock<ILogger<ClassController>>();
@@ -125,7 +124,7 @@ namespace AppForSEII2526.UT.ClassController_test
             var controller = new ClassController(_context, logger);
 
             // Act
-            var result = await controller.GetClassesForPlanning(date, types);
+            var result = await controller.GetClassesForPlanning(date, type);
 
             // Assert
             if (date.HasValue && date.Value.Date < DateTime.Today)
