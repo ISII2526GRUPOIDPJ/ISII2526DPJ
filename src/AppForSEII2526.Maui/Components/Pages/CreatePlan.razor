@@ -62,23 +62,30 @@
             {
                 @foreach (var c in clases)
                 {
-                    <li class="class-card @(selectedClasses.Contains(c) ? "selected" : "")" @onclick="@(() => ToggleClassSelection(c))">
-                        <div class="class-attributes-grid">
-                            <div class="class-attribute">
-                                <span class="label">Nombre de la clase</span>
-                                <span class="value">@c.Name</span>
-                            </div>
-                            <div class="class-attribute">
-                                <span class="label">Fecha</span>
-                                <span class="value">@c.DateTime.ToShortDateString()</span>
-                            </div>
-                            <div class="class-attribute">
-                                <span class="label">Tipo</span>
-                                <span class="value">@string.Join(", ", c.TypeItemNames)</span>
-                            </div>
-                            <div class="class-attribute">
-                                <span class="label">Precio</span>
-                                <span class="value">$@c.Price</span>
+                    <li class="class-card">
+                        <div class="class-card-row">
+                            <input type="checkbox"
+                                   class="class-checkbox"
+                                   checked="@selectedClasses.Contains(c)"
+                                   @onchange="@(() => ToggleClassSelection(c))" />
+
+                            <div class="class-attributes-grid">
+                                <div class="class-attribute">
+                                    <span class="label">Nombre de la clase</span>
+                                    <span class="value">@c.Name</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Fecha</span>
+                                    <span class="value">@c.DateTime.ToShortDateString()</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Tipo</span>
+                                    <span class="value">@string.Join(", ", c.TypeItemNames)</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Precio</span>
+                                    <span class="value">$@c.Price</span>
+                                </div>
                             </div>
                         </div>
                     </li>
