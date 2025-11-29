@@ -1,7 +1,7 @@
-﻿// ApiService.cs
-using AppForSEII2526.Maui.Models.DTOs;
+﻿using AppForSEII2526.Maui.Models.DTOs;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Diagnostics;
 
 public class ApiService
 {
@@ -19,32 +19,34 @@ public class ApiService
             var query = new List<string>();
             if (date.HasValue)
                 query.Add($"date={date.Value:yyyy-MM-dd}");
-            if (types != null && types.Any())
-                query.AddRange(types.Select(t => $"types={Uri.EscapeDataString(t)}"));
 
-            var url = "api/Class/GetClassesForPlanning"; // Agregué "api/Class/"
+            // SEGUNDA OPCIÓN: Formato separado por comas
+            if (types != null && types.Any())
+                query.Add($"types={string.Join(",", types.Select(Uri.EscapeDataString))}");
+
+            var url = "api/Class/GetClassesForPlanning";
             if (query.Any())
                 url += "?" + string.Join("&", query);
 
-            Console.WriteLine($"Calling API: {url}");
+            Debug.WriteLine($"🔍 URL generada: {url}");
 
             var response = await client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<IList<ClassForPlanDTO>>();
-                Console.WriteLine($"API call successful: {result?.Count ?? 0} classes received");
+                Debug.WriteLine($"✅ Clases recibidas: {result?.Count ?? 0}");
                 return result ?? new List<ClassForPlanDTO>();
             }
             else
             {
-                Console.WriteLine($"API call failed: {response.StatusCode}");
+                Debug.WriteLine($"❌ Error API: {response.StatusCode}");
                 return new List<ClassForPlanDTO>();
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error in API call: {ex.Message}");
+            Debug.WriteLine($"💥 Exception: {ex.Message}");
             return new List<ClassForPlanDTO>();
         }
     }
