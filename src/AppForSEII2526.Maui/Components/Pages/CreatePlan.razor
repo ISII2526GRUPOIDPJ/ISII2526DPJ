@@ -1,6 +1,8 @@
 ﻿@page "/createplan"
 @using AppForSEII2526.Maui.Resources.Languages
+@using AppForSEII2526.Maui.Models.DTOs
 @inject IStringLocalizer<Shared> Localizer
+@inject ApiService Api
 
 <div class="page-container">
     <h2 class="page-title">@Localizer["CreatePlan"] - @Localizer["SelectClasses"]</h2>
@@ -18,27 +20,102 @@
             <div class="filters-content">
                 <div class="filter-group">
                     <label>@Localizer["FilterByType"]</label>
-                    <select>
-                        <option>@Localizer["AllTypes"]</option>
+                    <select @bind="selectedType">
+                        <option value="">@Localizer["AllTypes"]</option>
+                        @foreach (var t in allTypes)
+                        {
+                            <option value="@t">@t</option>
+                        }
                     </select>
                 </div>
 
                 <div class="filter-group">
                     <label>@Localizer["FilterByDay"]</label>
-                    <select>
-                        <option>@Localizer["AllDays"]</option>
-                    </select>
+                    <input type="date" @bind="selectedDate" @bind:format="yyyy-MM-dd" />
                 </div>
+
+                <button class="apply-filters-btn" @onclick="ApplyFilters">
+                    @Localizer["ApplyFilters"]
+                </button>
+                <button class="clear-filters-btn" @onclick="ClearFilters">
+                    @Localizer["ClearFilters"]
+                </button>
             </div>
         }
     </div>
+
+    @if (isLoading)
+    {
+        <div>Cargando clases...</div>
+    }
+    else
+    {
+        <ul class="classes-list">
+            @if (clases == null || !clases.Any())
+            {
+                <li>@Localizer["NoClassesFound"]</li>
+            }
+            else
+            {
+                @foreach (var c in clases)
+                {
+                    <li>
+                        <strong>@c.Name</strong> - @c.DateTime.ToShortDateString() - @string.Join(", ", c.TypeItemNames) - $@c.Price
+                    </li>
+                }
+            }
+        </ul>
+    }
 </div>
 
 @code {
     private bool showFilters = false;
+    private bool isLoading = false;
+    private string? selectedType;
+    private DateTime? selectedDate;
+    private IList<ClassForPlanDTO> clases = new List<ClassForPlanDTO>();
+    private IList<string> allTypes = new List<string> { "Yoga", "Pilates", "Zumba", "Crossfit" };
 
     private void ToggleFilters()
     {
         showFilters = !showFilters;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+    }
+
+    private async Task ApplyFilters()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        string[]? types = null;
+        if (!string.IsNullOrEmpty(selectedType))
+            types = new[] { selectedType };
+
+        clases = await Api.GetClassesForPlanning(selectedDate, types);
+
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task ClearFilters()
+    {
+        selectedType = null;
+        selectedDate = null;
+        await LoadClasses();
+    }
+
+    private async Task LoadClasses()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        clases = await Api.GetClassesForPlanning(null, null);
+
+        isLoading = false;
+        StateHasChanged();
     }
 }
