@@ -132,7 +132,6 @@
     private DateTime? selectedDate { get; set; }
 
     // For the dropdown of types
-    private string typeSelected = "All";
     private ICollection<string>? allTypesNames = new List<string>(); // Complete list of all types
     private ICollection<string>? filteredTypesNames = new List<string>(); // Filtered list of types to show
 
@@ -157,13 +156,7 @@
 
         try
         {
-            string[] typesArray = null;
-            if (!string.IsNullOrEmpty(type))
-            {
-                typesArray = new string[] { type };
-            }
-
-            classes = await apiClient.GetClassesForPlanningAsync(selectedDate, typesArray);
+            classes = await apiClient.GetClassesForPlanningAsync(selectedDate, type);
            
             // Alternative Flow 0: No classes available
             if (classes.Count == 0)
