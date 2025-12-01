@@ -1,6 +1,7 @@
 ﻿using AppForSEII2526.API.DTOs.ItemDTOs;
 using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
+using AppForSEII2526.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppForSEII2526.API.Controllers
@@ -46,17 +47,18 @@ namespace AppForSEII2526.API.Controllers
             return Ok(purchase);
         }
 
-        public class PaymentMethodUsed : PaymentMethod { }
-
         [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
-            //Mandatory information not introduced
-            if (createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
-            if (createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
+            if(createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
+            if(createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
+
+            if (ModelState.ErrorCount > 0) {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+            }
 
             var itemNames = createPurchase.PurchaseItems.Select(pi => pi.Name).ToList<string>();
 
@@ -71,21 +73,19 @@ namespace AppForSEII2526.API.Controllers
                 })
                 .ToList();
 
-            Purchase purchase = new Purchase(createPurchase.City, createPurchase.Country, createPurchase.Street, createPurchase.Date, createPurchase.Description, createPurchase.Total_price, new List<PurchaseItem>(), new PaymentMethodUsed());
+            var paymentMethod = await _context.PaymentMethods.FindAsync(createPurchase.PaymentMethod.Id);
+
+            Purchase purchase = new Purchase(createPurchase.City, createPurchase.Country, createPurchase.Street, createPurchase.Date, createPurchase.Description, createPurchase.Total_price, new List<PurchaseItem>(), paymentMethod);
 
             foreach(var i in createPurchase.PurchaseItems) {
                 var item = items.FirstOrDefault(m => m.Name == i.Name);
                 if ((item == null) || (i.Quantity > item.QuantityAvailableForPurchase)) {
                     ModelState.AddModelError("PurchaseItems", $"Error! There's no stock for '{i.Name}'.");
+                    return BadRequest(new ValidationProblemDetails(ModelState));
                 } else {
                     purchase.PurchaseItems.Add(new PurchaseItem(item.Id, i.Quantity, item.PurchasePrice, purchase));
                     i.Price = item.PurchasePrice;
                 }
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return BadRequest(new ValidationProblemDetails(ModelState));
             }
 
             purchase.Total_price = purchase.PurchaseItems
