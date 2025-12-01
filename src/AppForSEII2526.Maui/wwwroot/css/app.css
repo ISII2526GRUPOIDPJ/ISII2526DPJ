@@ -1133,3 +1133,27 @@ body {
     background-color: var(--color-orange-primary);
     color: var(--color-white);
 }
+
+/* ===== BOTÓN CERRAR ASSISTANT ===== */
+.assistant-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-border);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+}
+
+    .assistant-close-btn:hover {
+        background-color: var(--color-orange-primary);
+        transform: scale(1.1);
+    }
