@@ -37,6 +37,7 @@ namespace AppForSEII2526.API.Controllers
                         .ThenInclude(c => c.TypeItems)
                 .Where(p => p.Id == id)
                 .Select(p => new GetPlanDTO(
+                    p.Id,
                     p.PaymentMethod.User.Name,
                     p.PaymentMethod.User.Surname,
                     p.CreatedDate,
@@ -115,7 +116,7 @@ namespace AppForSEII2526.API.Controllers
                     Name = planDto.Name,
                     Description = planDto.Description,
                     Weeks = planDto.Weeks,
-                    HealthIssues = planDto.HealthIssues != null ? planDto.HealthIssues : string.Empty,
+                    HealthIssues = planDto.HealthIssues ?? string.Empty,
                     TotalPrice = totalPrice,
                     CreatedDate = DateTime.Now,
                     PaymentMethod = paymentMethod
@@ -145,6 +146,7 @@ namespace AppForSEII2526.API.Controllers
                             .ThenInclude(c => c.TypeItems)
                     .Where(p => p.Id == plan.Id)
                     .Select(p => new GetPlanDTO(
+                        p.Id,
                         p.PaymentMethod.User.Name,
                         p.PaymentMethod.User.Surname,
                         p.CreatedDate,
