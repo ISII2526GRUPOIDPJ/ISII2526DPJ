@@ -989,3 +989,37 @@ body {
     gap: 1rem 2rem;
     flex: 1;
 }
+
+
+
+.assistant-icon {
+    margin-left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.assistant-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.chat-window {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+}
+
+.chat-message {
+    margin: 2px 0;
+    padding: 4px 6px;
+    background: #eee;
+    border-radius: 4px;
+}

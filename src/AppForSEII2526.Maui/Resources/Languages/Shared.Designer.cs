@@ -97,6 +97,105 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Click &apos;Apply filters&apos; after selecting type and/or date..
+        /// </summary>
+        internal static string AssistantApplyFilters {
+            get {
+                return ResourceManager.GetString("AssistantApplyFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Click &apos;Clear filters&apos; to see all available classes again..
+        /// </summary>
+        internal static string AssistantClearFilters {
+            get {
+                return ResourceManager.GetString("AssistantClearFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select the classes you want and click the &apos;Create Plan&apos; button..
+        /// </summary>
+        internal static string AssistantCreatePlan {
+            get {
+                return ResourceManager.GetString("AssistantCreatePlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You can filter by day to see only the classes on that date..
+        /// </summary>
+        internal static string AssistantFilterDay {
+            get {
+                return ResourceManager.GetString("AssistantFilterDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You can filter by class type, like Yoga or Strength..
+        /// </summary>
+        internal static string AssistantFilterType {
+            get {
+                return ResourceManager.GetString("AssistantFilterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hello! How can I help you today?.
+        /// </summary>
+        internal static string AssistantGreeting {
+            get {
+                return ResourceManager.GetString("AssistantGreeting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a I can help you select classes, apply filters, and create your plan..
+        /// </summary>
+        internal static string AssistantHelp {
+            get {
+                return ResourceManager.GetString("AssistantHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a I can show you all the classes you can add to your plan this week..
+        /// </summary>
+        internal static string AssistantListClasses {
+            get {
+                return ResourceManager.GetString("AssistantListClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Uncheck the class in the list and your selection and total price will update..
+        /// </summary>
+        internal static string AssistantRemoveClass {
+            get {
+                return ResourceManager.GetString("AssistantRemoveClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The total price updates automatically according to the classes you select..
+        /// </summary>
+        internal static string AssistantTotalPrice {
+            get {
+                return ResourceManager.GetString("AssistantTotalPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sorry, I didn’t understand that. Can you rephrase it?.
+        /// </summary>
+        internal static string AssistantUnknown {
+            get {
+                return ResourceManager.GetString("AssistantUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Back.
         /// </summary>
         internal static string Back {

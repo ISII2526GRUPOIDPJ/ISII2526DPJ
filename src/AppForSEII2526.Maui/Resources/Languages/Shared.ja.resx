@@ -222,4 +222,37 @@
   <data name="FontSizeDescription" xml:space="preserve">
     <value>読みやすさを向上させるため、文字サイズを調整してください</value>
   </data>
+  <data name="AssistantGreeting" xml:space="preserve">
+    <value>こんにちは！今日はどのようにお手伝いできますか？</value>
+  </data>
+  <data name="AssistantListClasses" xml:space="preserve">
+    <value>今週追加できるすべてのクラスをお見せできます。</value>
+  </data>
+  <data name="AssistantFilterType" xml:space="preserve">
+    <value>ヨガや筋力トレーニングなど、クラスの種類で絞り込めます。</value>
+  </data>
+  <data name="AssistantFilterDay" xml:space="preserve">
+    <value>選んだ日のクラスだけを見るように日付で絞り込めます。</value>
+  </data>
+  <data name="AssistantTotalPrice" xml:space="preserve">
+    <value>選択したクラスに応じて合計金額が自動で更新されます。</value>
+  </data>
+  <data name="AssistantCreatePlan" xml:space="preserve">
+    <value>追加したいクラスを選択して「プラン作成」ボタンを押してください。</value>
+  </data>
+  <data name="AssistantRemoveClass" xml:space="preserve">
+    <value>リストでクラスのチェックを外すと、選択内容と合計金額が更新されます。</value>
+  </data>
+  <data name="AssistantApplyFilters" xml:space="preserve">
+    <value>種類や日付を選択した後、「フィルター適用」を押してください。</value>
+  </data>
+  <data name="AssistantClearFilters" xml:space="preserve">
+    <value>「フィルタークリア」を押すと、すべての利用可能なクラスが再表示されます。</value>
+  </data>
+  <data name="AssistantHelp" xml:space="preserve">
+    <value>クラスの選択、フィルター適用、プラン作成をサポートできます。</value>
+  </data>
+  <data name="AssistantUnknown" xml:space="preserve">
+    <value>すみません、理解できませんでした。言い換えていただけますか？</value>
+  </data>
 </root>

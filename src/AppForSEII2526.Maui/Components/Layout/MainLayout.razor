@@ -20,6 +20,10 @@
         <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
             <i class="fas fa-cog"></i>
         </a>
+
+        <a href="#" class="assistant-icon" title="Assistant" @onclick="OpenAssistant">
+            <i class="fas fa-robot"></i>
+        </a>
     </div>
 </div>
 
@@ -39,17 +43,49 @@
     @Body
 </main>
 
+@if (showAssistant)
+{
+    <div class="assistant-panel">
+        <h3>Assistant</h3>
+        <div class="chat-window">
+            @foreach (var msg in messages)
+            {
+                <div class="chat-message">@msg</div>
+            }
+        </div>
+        <input @bind="userInput" placeholder="Escribe algo..." />
+        <button @onclick="SendMessage">Enviar</button>
+    </div>
+}
+
 @code {
     private string currentLang = "en";
     private Timer refreshTimer;
 
+    private bool showAssistant = false;
+    private List<string> messages = new();
+    private string userInput;
+
+    // Diccionario de palabras clave y claves de resx para la ayuda
+    private Dictionary<string[], string> intentKeywords = new()
+    {
+        { new string[]{"hola","hi"}, "AssistantGreeting" },
+        { new string[]{"clases","classes","available"}, "AssistantListClasses" },
+        { new string[]{"yoga","strength"}, "AssistantFilterType" },
+        { new string[]{"lunes","monday","martes","tuesday"}, "AssistantFilterDay" },
+        { new string[]{"precio","total price"}, "AssistantTotalPrice" },
+        { new string[]{"crear plan","create plan"}, "AssistantCreatePlan" },
+        { new string[]{"eliminar clase","remove class"}, "AssistantRemoveClass" },
+        { new string[]{"aplicar filtros","apply filters"}, "AssistantApplyFilters" },
+        { new string[]{"limpiar filtros","clear filters"}, "AssistantClearFilters" },
+        { new string[]{"ayuda","help"}, "AssistantHelp" }
+    };
+
     protected override async Task OnInitializedAsync()
     {
-        // Cargar idioma actual
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
 
-        // Configurar timer para verificar cambios cada 2 segundos
         refreshTimer = new Timer(async _ =>
         {
             await CheckForLanguageChange();
@@ -73,5 +109,39 @@
     public void Dispose()
     {
         refreshTimer?.Dispose();
+    }
+
+    private void OpenAssistant()
+    {
+        showAssistant = !showAssistant;
+    }
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(userInput))
+        {
+            messages.Add("Tú: " + userInput);
+            string response = GetAssistantResponse(userInput);
+            messages.Add("Assistant: " + response);
+            userInput = "";
+        }
+    }
+
+    private string GetAssistantResponse(string input)
+    {
+        input = input.ToLower();
+
+        foreach (var pair in intentKeywords)
+        {
+            foreach (var keyword in pair.Key)
+            {
+                if (input.Contains(keyword))
+                {
+                    return Localizer[pair.Value];
+                }
+            }
+        }
+
+        return Localizer["AssistantUnknown"];
     }
 }
