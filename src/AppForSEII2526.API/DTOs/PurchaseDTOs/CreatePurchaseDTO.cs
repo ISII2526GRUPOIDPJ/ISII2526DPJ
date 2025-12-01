@@ -1,5 +1,6 @@
 ﻿using System;
 using AppForSEII2526.API.DTOs.PlanDTOs;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
@@ -41,8 +42,8 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
                    Description == dTO.Description &&
                    Total_price == dTO.Total_price &&
                    Quantity == dTO.Quantity &&
-                   EqualityComparer<IList<PurchaseItemsDTO>>.Default.Equals(PurchaseItems, dTO.PurchaseItems) &&
-                   EqualityComparer<PaymentMethodDTO>.Default.Equals(PaymentMethod, dTO.PaymentMethod);
+                   Sequence.Equals(PurchaseItems, dTO.PurchaseItems) &&
+                   PaymentMethod == dTO.PaymentMethod;
         }
     }
 }

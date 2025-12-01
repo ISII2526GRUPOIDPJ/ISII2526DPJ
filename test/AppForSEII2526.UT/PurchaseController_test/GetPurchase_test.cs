@@ -2,6 +2,7 @@
 using AppForSEII2526.API.DTOs.ItemDTOs;
 using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
+using AppForSEII2526.API.Models;
 using AppForSEII2526.UT;
 using SQLitePCL;
 using System;
@@ -15,22 +16,48 @@ namespace AppForSEII2526.UT.PurchaseController_test
 {
     public class GetPurchase_test : AppForSEII25264SqliteUT
     {
-        public class TestPaymentMethod : PaymentMethod { }
+        public class CreditCard : PaymentMethod { }
 
         public GetPurchase_test() {
 
             ApplicationUser user = new ApplicationUser(1, "John", "Doe");
 
-            var paymentMethod = new TestPaymentMethod() {
+            var paymentMethod = new CreditCard() {
                 Id = 1,
-                User = user
+                User = user,
+                Description = "123456789 2025-12-31"
+            };
+
+            var brands = new List<Brand>() {
+                    new Brand("Nike"),
+                    new Brand("Adidas")
+            };
+
+            var types = new List<TypeItem>() {
+                    new TypeItem("Yoga"),
+                    new TypeItem("Cardio"),
+                    new TypeItem("Strenght")
+            };
+
+            var items = new List<Item> {
+                new Item("Yoga mat for exercises", "Yoga Mat", 25.0m, 10, 5, 20, types[0], brands[0]),
+                new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, types[1], brands[1]),
+                new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, types[2], brands[0])
+            };
+
+            var purchaseItems = new List<PurchaseItem> {
+                new PurchaseItem(1, 1, items[0].PurchasePrice, items[0])
             };
 
             var purchase = new List<Purchase>() {
-                new Purchase("Madrid", "Spain", DateTime.Parse("2024-01-10"), "Gym equipment", "Main Street 123", 150, paymentMethod)
+                new Purchase("Madrid", "Spain", "Main Street 123", DateTime.Parse("2024-01-10"), "Gym equipment", 150, purchaseItems, paymentMethod)
             };
 
             _context.AddRange(user);
+            _context.AddRange(brands);
+            _context.AddRange(types);
+            _context.AddRange(items);
+            _context.AddRange(paymentMethod);
             _context.AddRange(purchase);
             _context.SaveChanges();
         }
@@ -75,7 +102,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 150,
                 "Gym equipment",
                 new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31"),
-                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)}
+                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25.0m)}
             );
 
             //Act
