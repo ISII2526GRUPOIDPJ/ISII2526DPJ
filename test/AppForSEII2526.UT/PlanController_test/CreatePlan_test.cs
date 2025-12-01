@@ -55,7 +55,7 @@ namespace AppForSEII2526.UT.PlanController_test
                 new object[] {
                     new CreatePlanDTO(
                         null, // <- No classes selected
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "Valid Plan",
                         "Description",
                         4,
@@ -71,7 +71,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "Invalid Payment Plan",
                         "Description",
                         4,
@@ -87,7 +87,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "",
                         "Description",
                         4,
@@ -103,7 +103,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "Invalid Weeks Plan",
                         "Description",
                         0, // <- Invalid weeks
@@ -118,7 +118,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "Invalid Weeks Plan High",
                         "Description",
                         999, // <- Invalid weeks (too high)
@@ -134,7 +134,7 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(3, "Strength Training", new List<string>{"Strength"}, 15.00m, DateTime.Today.AddDays(3).AddHours(17), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard") },
+                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31") },
                         "Plan No Capacity",
                         "Description",
                         4,
@@ -173,7 +173,7 @@ namespace AppForSEII2526.UT.PlanController_test
 
             var planDto = new CreatePlanDTO(
                 selectedClasses,
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type")).ToList(),
+                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, pm.GetType().Name, pm.Description)).ToList(),
                 "Plan Fitness",
                 "General wellness plan",
                 4,
