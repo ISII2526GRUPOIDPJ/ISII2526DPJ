@@ -6,5 +6,8 @@
         public IList<Plan> Plans { get; set; }
         public IList<Purchase> Purchases { get; set; }
         public ApplicationUser User { get; set; }
+
+        [NotMapped]
+        public string? Description { get; set; }
     }
 }

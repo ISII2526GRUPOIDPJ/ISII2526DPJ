@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.PlanDTOs;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
@@ -31,8 +32,8 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
                    Street == dTO.Street &&
                    TotalPrice == dTO.TotalPrice &&
                    Description == dTO.Description &&
-                   EqualityComparer<PaymentMethodDTO>.Default.Equals(PaymentMethod, dTO.PaymentMethod) &&
-                   EqualityComparer<IList<PurchaseItemsDTO>>.Default.Equals(PurchaseItems, dTO.PurchaseItems);
+                   PaymentMethod == dTO.PaymentMethod &&
+                   Sequence.Equals(PurchaseItems, dTO.PurchaseItems);
         }
     }
 }
