@@ -116,7 +116,7 @@ namespace AppForSEII2526.API.Controllers
                     Name = planDto.Name,
                     Description = planDto.Description,
                     Weeks = planDto.Weeks,
-                    HealthIssues = planDto.HealthIssues != null ? planDto.HealthIssues : string.Empty,
+                    HealthIssues = planDto.HealthIssues ?? string.Empty,
                     TotalPrice = totalPrice,
                     CreatedDate = DateTime.Now,
                     PaymentMethod = paymentMethod
