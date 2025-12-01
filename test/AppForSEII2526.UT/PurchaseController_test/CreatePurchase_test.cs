@@ -89,7 +89,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         0m,
                         0,
                         new List<PurchaseItemsDTO> {},
-                        new PaymentMethodDTO(1, "CreditCard", "Info")
+                        new PaymentMethodDTO(1, "CreditCard")
                     ),
                     "At least one item must be selected"
                 },
@@ -105,7 +105,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         0m,
                         11,
                         new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 11, 25m)},
-                        new PaymentMethodDTO(1, "CreditCard", "Info")
+                        new PaymentMethodDTO(1, "CreditCard")
                     ),
                     $"Error! There's no stock for 'Yoga Mat'."
                 }
@@ -127,7 +127,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 150m,
                 4,
                 new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                new PaymentMethodDTO(1, "CreditCard", "Info")
+                new PaymentMethodDTO(1, "CreditCard")
             );
 
             var mock = new Mock<ILogger<PurchaseController>>();
