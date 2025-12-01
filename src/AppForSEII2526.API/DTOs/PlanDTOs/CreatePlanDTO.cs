@@ -7,12 +7,10 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
     {
         public CreatePlanDTO(){ }
 
-        public CreatePlanDTO(List<ClassInPlanDTO> selectedClasses, List<PaymentMethodDTO> availablePaymentMethods,
-                             string name, string description, int weeks, string healthIssues,
+        public CreatePlanDTO(List<ClassInPlanDTO> selectedClasses, string name, string? description, int weeks, string? healthIssues,
                              int selectedPaymentMethodId)
         {
-            SelectedClasses = selectedClasses; // Uses ClassInPlanDTO so each selected class includes its own optional goal
-            AvailablePaymentMethods = availablePaymentMethods;
+            SelectedClasses = selectedClasses;
             Name = name;
             Description = description;
             Weeks = weeks;
@@ -37,8 +35,6 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
         [StringLength(200, ErrorMessage = "Health issues cannot be longer than 200 characters.")]
         public string? HealthIssues { get; set; }
 
-        public List<PaymentMethodDTO> AvailablePaymentMethods { get; set; } 
-
         [Required(ErrorMessage = "Payment method is required")]
         public int SelectedPaymentMethodId { get; set; }
 
@@ -52,8 +48,6 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
                    Description == dTO.Description &&
                    Weeks == dTO.Weeks &&
                    HealthIssues == dTO.HealthIssues &&
-                   ((AvailablePaymentMethods == null && dTO.AvailablePaymentMethods == null) ||
-                    (AvailablePaymentMethods != null && dTO.AvailablePaymentMethods != null && AvailablePaymentMethods.SequenceEqual(dTO.AvailablePaymentMethods))) &&
                    SelectedPaymentMethodId == dTO.SelectedPaymentMethodId;
         }
     }
