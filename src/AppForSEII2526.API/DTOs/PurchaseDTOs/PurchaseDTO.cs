@@ -32,8 +32,8 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
                    Street == dTO.Street &&
                    TotalPrice == dTO.TotalPrice &&
                    Description == dTO.Description &&
-                   PaymentMethod == dTO.PaymentMethod &&
-                   Sequence.Equals(PurchaseItems, dTO.PurchaseItems);
+                   PaymentMethod.Equals(dTO.PaymentMethod) &&
+                   PurchaseItems.SequenceEqual(dTO.PurchaseItems);
         }
     }
 }
