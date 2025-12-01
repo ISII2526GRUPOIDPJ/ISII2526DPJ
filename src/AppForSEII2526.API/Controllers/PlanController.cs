@@ -174,14 +174,5 @@ namespace AppForSEII2526.API.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Error creating plan");
             }
         }
-
-
-        [HttpGet]
-        [Route("[action]")]
-        public async Task<ActionResult<List<PaymentMethodDTO>>> GetPaymentMethods()
-        {
-            var methods = await _context.PaymentMethods.ToListAsync();
-            return Ok(methods);
-        }
     }
 }
