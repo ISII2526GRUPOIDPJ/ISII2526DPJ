@@ -4,23 +4,23 @@
     {
         public PaymentMethodDTO() { }
 
-        public PaymentMethodDTO(int id, string type, string displayInfo)
+        public PaymentMethodDTO(int id, string type, string description)
         {
             Id = id;
             Type = type;
-            DisplayInfo = displayInfo;
+            Description = description;
         }
 
         public int Id { get; set; }
         public string Type { get; set; }
-        public string DisplayInfo { get; set; }
+        public string Description { get; set; } 
 
         public override bool Equals(object? obj)
         {
             return obj is PaymentMethodDTO dTO &&
                    Id == dTO.Id &&
                    Type == dTO.Type &&
-                   DisplayInfo == dTO.DisplayInfo;
+                   Description == dTO.Description;
         }
     }
 }
