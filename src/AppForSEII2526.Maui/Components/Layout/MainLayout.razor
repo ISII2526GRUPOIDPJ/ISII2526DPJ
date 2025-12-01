@@ -67,19 +67,40 @@
     private string userInput;
 
     // Diccionario de palabras clave y claves de resx para la ayuda
+    // Diccionario de palabras clave y claves de resx para la ayuda (multilenguaje)
     private Dictionary<string[], string> intentKeywords = new()
     {
-        { new string[]{"hola","hi"}, "AssistantGreeting" },
-        { new string[]{"clases","classes","available"}, "AssistantListClasses" },
-        { new string[]{"yoga","strength"}, "AssistantFilterType" },
-        { new string[]{"lunes","monday","martes","tuesday"}, "AssistantFilterDay" },
-        { new string[]{"precio","total price"}, "AssistantTotalPrice" },
-        { new string[]{"crear plan","create plan"}, "AssistantCreatePlan" },
-        { new string[]{"eliminar clase","remove class"}, "AssistantRemoveClass" },
-        { new string[]{"aplicar filtros","apply filters"}, "AssistantApplyFilters" },
-        { new string[]{"limpiar filtros","clear filters"}, "AssistantClearFilters" },
-        { new string[]{"ayuda","help"}, "AssistantHelp" }
+        // Saludos
+        { new string[]{"hola","hi","hello","bonjour","こんにちは"}, "AssistantGreeting" },
+
+        // Listar clases disponibles
+        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス"}, "AssistantListClasses" },
+
+        // Filtrar por tipo de clase
+        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力"}, "AssistantFilterType" },
+
+        // Filtrar por día
+        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","月曜日","火曜日"}, "AssistantFilterDay" },
+
+        // Mostrar precio total
+        { new string[]{"precio","total price","costo","coste","prix total","合計金額"}, "AssistantTotalPrice" },
+
+        // Crear plan
+        { new string[]{"crear plan","create plan","crear mi plan","créer plan","プラン作成"}, "AssistantCreatePlan" },
+
+        // Eliminar clase
+        { new string[]{"eliminar clase","remove class","quitar clase","supprimer cours","クラス削除"}, "AssistantRemoveClass" },
+
+        // Aplicar filtros
+        { new string[]{"aplicar filtros","apply filters","aplico filtros","appliquer filtres","フィルター適用"}, "AssistantApplyFilters" },
+
+        // Limpiar filtros
+        { new string[]{"limpiar filtros","clear filters","limpio filtros","effacer filtres","フィルタークリア"}, "AssistantClearFilters" },
+
+        // Ayuda
+        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ"}, "AssistantHelp" }
     };
+
 
     protected override async Task OnInitializedAsync()
     {
