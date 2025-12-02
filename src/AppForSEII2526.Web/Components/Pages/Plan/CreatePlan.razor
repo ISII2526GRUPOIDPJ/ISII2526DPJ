@@ -134,7 +134,6 @@
 
         if (isOk)
         {
-            // Procesar los datos introducidos por el usuario si son válidos
             if (plan.SelectedClasses.Count > 0)
             {
                 try
@@ -151,10 +150,15 @@
                         foreach (var errList in exValidation.Result.Errors.Values)
                             errors = string.Join(" (*) ", errors, string.Join(" (*) ", errList));
                     }
+
+                    // Return to class selection if any class has no capacity
+                    navigation.NavigateTo("/plan/selectclassesforplan");
                 }
                 catch (ApiException)
                 {
                     errors = "Error while processing your request, please try again later!";
+
+                    navigation.NavigateTo("/plan/selectclassesforplan");
                 }
             }
         }
