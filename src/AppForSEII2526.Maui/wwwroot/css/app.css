@@ -1157,3 +1157,31 @@ body {
         background-color: var(--color-orange-primary);
         transform: scale(1.1);
     }
+
+/* Colocacion asistente (a la izquierda de settings) */
+.assistant-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-orange-primary) !important;
+    font-size: 1.4rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center; /* Alinea verticalmente en el centro */
+    gap: 10px; /* Separación entre iconos */
+}
+
+.assistant-icon, .settings-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assistant-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
