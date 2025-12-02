@@ -255,4 +255,10 @@
   <data name="AssistantUnknown" xml:space="preserve">
     <value>すみません、理解できませんでした。言い換えていただけますか？</value>
   </data>
+  <data name="AssistantSend" xml:space="preserve">
+    <value>送信</value>
+  </data>
+  <data name="AssistantPlaceholder" xml:space="preserve">
+    <value>メッセージを入力してください...</value>
+  </data>
 </root>

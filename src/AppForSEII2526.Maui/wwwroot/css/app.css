@@ -1131,7 +1131,7 @@ body {
 
 .dark-mode .assistant-panel button {
     background-color: var(--color-orange-primary);
-    color: var(--color-white);
+    color: #ffffff !important;
 }
 
 /* ===== BOTÓN CERRAR ASSISTANT ===== */

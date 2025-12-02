@@ -56,8 +56,8 @@
                 <div class="chat-message">@msg</div>
             }
         </div>
-        <input @bind="userInput" placeholder="Escribe algo..." />
-        <button @onclick="SendMessage">Enviar</button>
+        <input @bind="userInput" placeholder="@Localizer["AssistantPlaceholder"]" />
+        <button @onclick="SendMessage">@Localizer["AssistantSend"]</button>
     </div>
 }
 

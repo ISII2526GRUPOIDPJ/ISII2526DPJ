@@ -169,11 +169,29 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Type your message....
+        /// </summary>
+        internal static string AssistantPlaceholder {
+            get {
+                return ResourceManager.GetString("AssistantPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Uncheck the class in the list and your selection and total price will update..
         /// </summary>
         internal static string AssistantRemoveClass {
             get {
                 return ResourceManager.GetString("AssistantRemoveClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Send.
+        /// </summary>
+        internal static string AssistantSend {
+            get {
+                return ResourceManager.GetString("AssistantSend", resourceCulture);
             }
         }
         

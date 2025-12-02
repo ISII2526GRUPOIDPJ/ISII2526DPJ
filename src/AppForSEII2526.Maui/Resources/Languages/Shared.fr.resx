@@ -255,4 +255,10 @@
   <data name="AssistantUnknown" xml:space="preserve">
     <value>Désolé, je n'ai pas compris. Pouvez-vous reformuler ?</value>
   </data>
+  <data name="AssistantSend" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="AssistantPlaceholder" xml:space="preserve">
+    <value>Écris quelque chose...</value>
+  </data>
 </root>
