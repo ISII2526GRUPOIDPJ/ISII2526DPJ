@@ -15,5 +15,8 @@
 
         public int CreditCardNumber { get; set; }
         public DateTime ExpirationDate { get; set; }
+
+        [NotMapped]
+        public new string Description { get { return CreditCardNumber.ToString() + "" + ExpirationDate.ToString(); } }
     }
 }

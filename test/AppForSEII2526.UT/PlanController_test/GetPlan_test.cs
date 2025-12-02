@@ -65,6 +65,7 @@ namespace AppForSEII2526.UT.PlanController_test
             var today = DateTime.Today;
 
             var expectedPlan = new GetPlanDTO(
+                1,
                 "Antonio",
                 "Garcia",
                 today,
