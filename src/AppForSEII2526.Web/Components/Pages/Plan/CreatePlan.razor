@@ -23,28 +23,27 @@
         <div class="col-md">
             <div class="form-floating mb-3">
                 <InputText @bind-Value="plan.Name" class="form-control" id="Name"></InputText>
-                <label for="Name">Name</label>
+                <label for="Name">Name*</label>
             </div>
         </div>
         <div class="col-md">
             <div class="form-floating mb-3">
                 <InputText @bind-Value="plan.Description" class="form-control" id="Description"></InputText>
-                <label for="Description">Description</label>
+                <label for="Description">Description (Optional)</label>
             </div>
         </div>
         <div class="col-md">
             <div class="form-floating mb-3">
                 <InputText @bind-Value="WeeksString" class="form-control" id="Weeks"></InputText>
-                <label for="Weeks">Weeks</label>
+                <label for="Weeks">Weeks*</label>
             </div>
         </div>
         <div class="col-md">
             <div class="form-floating mb-3">
                 <InputText @bind-Value="plan.HealthIssues" class="form-control" id="HealthIssues"></InputText>
-                <label for="HealthIssues">HealthIssues</label>
+                <label for="HealthIssues">HealthIssues (Optional)</label>
             </div>
         </div>
-        <!-- TODO: Goal for each goal -->
     </div>
 
     <div class="row g-2">
@@ -76,6 +75,7 @@
                     <th>Type</th>
                     <th>Price</th>
                     <th>Day and time</th>
+                    <th>Goal</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,6 +86,9 @@
                         <td>@string.Join(", ", classs.TypeItemNames)</td>
                         <td>@classs.Price</td>
                         <td>@classs.Date.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" />
+                        </td>
                     </tr>
                 }
             </tbody>
