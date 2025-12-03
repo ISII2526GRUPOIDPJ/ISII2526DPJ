@@ -264,4 +264,16 @@
   <data name="AssistantShop" xml:space="preserve">
     <value>En la tienda de la aplicación puedes comprar productos o accesorios.</value>
   </data>
+  <data name="ClassName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Precio</value>
+  </data>
 </root>
