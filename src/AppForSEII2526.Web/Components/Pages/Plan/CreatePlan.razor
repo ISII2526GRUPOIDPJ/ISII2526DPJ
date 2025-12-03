@@ -13,6 +13,12 @@
 @* @attribute [Authorize] *@
 <h3>CreatePlan</h3>
 
+
+@if (errors != null)
+{
+    <div class="alert alert-danger">@errors</div>
+}
+
 <EditForm Model="plan" OnValidSubmit="OpenDialog">
     <div class="row">
         <DataAnnotationsValidator />
@@ -156,7 +162,11 @@
                 }
                 catch (ApiException)
                 {
-                    errors = "Error while processing your request, please try again later!";
+                    errors = "The selected class(es) do not have available capacity. Please modify your selection.";
+
+                    // To show the error message
+                    StateHasChanged();
+                    await Task.Delay(5000); // 5 seconds to see the error message
 
                     navigation.NavigateTo("/plan/selectclassesforplan");
                 }
