@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="class-attribute">
                                     <span class="label">@Localizer["Price"]</span>
-                                    <span class="value">$@c.Price</span>
+                                    <span class="value">@c.Price €</span>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
         <div class="selection-summary">
             <div>
                 <p><strong>@Localizer["SelectedClasses"]:</strong> @selectedClasses.Count</p>
-                <p><strong>@Localizer["TotalPrice"]:</strong> @selectedClasses.Sum(c => c.Price)€</p>
+                <p><strong>@Localizer["TotalPrice"]:</strong> @selectedClasses.Sum(c => c.Price) €</p>
             </div>
                 <button class="create-plan-btn @(selectedClasses.Count == 0 ? "disabled" : "")" disabled="@(selectedClasses.Count == 0)">
                 @Localizer["CreatePlan"]
