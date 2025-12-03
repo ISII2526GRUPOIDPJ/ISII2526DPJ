@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AppForSEII2526.UIT.UC_Plan
 {
-    public class UC_SelectClasses_UIT : UC_UIT
+    public class SelectClassesForPlan_PO : PageObject
     {
-        public UC_SelectClasses_UIT(ITestOutputHelper output) : base(output)
+        public SelectClassesForPlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
     }
