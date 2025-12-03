@@ -1207,6 +1207,15 @@ body {
 }
 
 
+/* Daltonismos ajustes asistente */
+.deuteranopia-mode .assistant-panel .chat-message:nth-child(even) {
+    color: #FFFFFF !important;
+}
+
+.tritanopia-mode .assistant-panel .chat-message:nth-child(even) {
+    color: #FFFFFF !important;
+}
+
 /* ===== Responsive breakpoints ===== */
 
 /* Tablet y abajo */
