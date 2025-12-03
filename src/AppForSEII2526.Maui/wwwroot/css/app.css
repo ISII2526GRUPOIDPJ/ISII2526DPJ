@@ -527,7 +527,7 @@ body {
     --color-orange-primary: #8B4513; /* Marrón en lugar de naranja */
     --color-orange-light: #DEB887; /* Burlywood */
     --color-background: #FAF0E6;
-    --color-text-dark: #556B2F; /* Dark olive green */
+    --color-text-dark: #117B11; /* Dark olive green */
     --color-white: #FFFFFF;
     --color-border: #BC8F8F;
     filter: grayscale(0.2) hue-rotate(120deg) saturate(1.1);
@@ -1034,7 +1034,7 @@ body {
     right: 20px;
     width: 320px;
     max-width: 90%;
-    background-color: var(--color-white);
+    background-color: #dddddd;
     border: var(--border-standard);
     border-radius: 16px;
     box-shadow: var(--shadow-heavy);
