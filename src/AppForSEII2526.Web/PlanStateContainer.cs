@@ -7,7 +7,6 @@ namespace AppForSEII2526.Web
         public CreatePlanDTO Plan { get; private set; } = new CreatePlanDTO()
         {
             SelectedClasses = new List<ClassInPlanDTO>(),
-            AvailablePaymentMethods = new List<PaymentMethodDTO>()
         };
 
         // Calculates the estimated total price of the plan
