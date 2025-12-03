@@ -513,41 +513,38 @@ body {
 
 /* Protanopia (Red-blind) */
 .protanopia-mode {
-    --color-orange-primary: #5D8AA8; /* Azul en lugar de naranja */
-    --color-orange-light: #B9D9EB; /* Azul claro */
-    --color-background: #F5F5F5;
-    --color-text-dark: #2F4F4F; /* Dark slate gray */
+    --color-orange-primary: #8E6A50; /* Marrón chocolate frío */
+    --color-orange-light: #C7A892; /* Crema marrón suave */
+    --color-background: #EBEBEB; /* Gris frío */
+    --color-text-dark: #4B4140; /* Marrón gris oscuro */
     --color-white: #FFFFFF;
-    --color-border: #A9A9A9;
-    filter: grayscale(0.3) hue-rotate(180deg) saturate(1.2);
+    --color-border: #A89B94; /* Marrón grisáceo */
 }
 
 /* Deuteranopia (Green-blind) */
 .deuteranopia-mode {
-    --color-orange-primary: #8B4513; /* Marrón en lugar de naranja */
-    --color-orange-light: #DEB887; /* Burlywood */
-    --color-background: #FAF0E6;
-    --color-text-dark: #117B11; /* Dark olive green */
+    --color-orange-primary: #0C7138; /* Verde */
+    --color-orange-light: #0F8440; /* Verde */
+    --color-background: #F7E9DE; /* Beige */
+    --color-text-dark: #1A1A1A;
+    --color-border: #C8C1BB; /* Gris-beige */
     --color-white: #FFFFFF;
-    --color-border: #BC8F8F;
-    filter: grayscale(0.2) hue-rotate(120deg) saturate(1.1);
 }
 
 /* Tritanopia (Blue-blind) */
 .tritanopia-mode {
-    --color-orange-primary: #8B008B; /* Magenta oscuro */
-    --color-orange-light: #DDA0DD; /* Plum */
+    --color-orange-primary: #C60000;
+    --color-orange-light: #9F0023;
     --color-background: #FFF0F5;
-    --color-text-dark: #4B0082; /* Indigo */
+    --color-text-dark: #1A1A1A;
     --color-white: #FFFFFF;
-    --color-border: #BA55D3;
-    filter: grayscale(0.1) hue-rotate(60deg) saturate(1.3);
+    --color-border: #D4B6BE;
 }
 
     /* Asegurar que los filtros se apliquen correctamente */
     .protanopia-mode *,
     .deuteranopia-mode *,
-    .tritanopia-mode * {
+    .tritanopia-mode *{
         transition: filter 0.3s ease, color 0.3s ease, background-color 0.3s ease;
     }
 
