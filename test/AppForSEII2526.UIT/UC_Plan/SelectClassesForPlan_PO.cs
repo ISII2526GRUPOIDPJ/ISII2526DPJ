@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenQA.Selenium.Support.UI;
 
 namespace AppForSEII2526.UIT.UC_Plan
 {
@@ -17,11 +18,18 @@ namespace AppForSEII2526.UIT.UC_Plan
         {
         }
 
-        public void SearchPlan(String type) 
+        public void SearchPlan(string type) 
         {
             // Wait for the web element to be clickable
             WaitForBeingClickable(inputType);
-            _driver.FindElement(inputType).SendKeys(type);
+            //_driver.FindElement(inputType).SendKeys(type);
+
+            // Select the type from the dropdown
+            if (type == "") type = "All";
+            SelectElement selectType = new SelectElement(_driver.FindElement(inputType));
+            selectType.SelectByValue(type);
+            
+
             _driver.FindElement(buttonSearchPlan).Click();
         }
     }
