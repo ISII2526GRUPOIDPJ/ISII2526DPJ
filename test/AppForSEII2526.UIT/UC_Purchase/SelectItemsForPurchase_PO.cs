@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace AppForSEII2526.UIT.UC_Purchase
 {
-    public class SelectItemsForPurchase_PO : PageObject
-    {
-        protected SelectItemsForPurchase_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
-        {
+    public class SelectItemsForPurchase_PO : PageObject {
+    
+        By inputName = By.Id("inputName");
+        protected SelectItemsForPurchase_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output) {
+        }
+
+        public void SearchItems(string name) {
+            WaitForBeingClickable(inputName);
+            _driver.FindElement(inputName).SendKeys(name);
+            //_driver.FindElement().Click();
         }
     }
 }
