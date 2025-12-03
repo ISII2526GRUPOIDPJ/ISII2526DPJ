@@ -222,4 +222,43 @@
   <data name="FontSizeDescription" xml:space="preserve">
     <value>Adjust the text size for better readability</value>
   </data>
+  <data name="AssistantGreeting" xml:space="preserve">
+    <value>Hello! How can I help you today?</value>
+  </data>
+  <data name="AssistantListClasses" xml:space="preserve">
+    <value>I can show you all the classes you can add to your plan this week.</value>
+  </data>
+  <data name="AssistantFilterType" xml:space="preserve">
+    <value>You can filter by class type, like Yoga or Strength.</value>
+  </data>
+  <data name="AssistantFilterDay" xml:space="preserve">
+    <value>You can filter by day to see only the classes on that date.</value>
+  </data>
+  <data name="AssistantTotalPrice" xml:space="preserve">
+    <value>The total price updates automatically according to the classes you select.</value>
+  </data>
+  <data name="AssistantCreatePlan" xml:space="preserve">
+    <value>Select the classes you want and click the 'Create Plan' button.</value>
+  </data>
+  <data name="AssistantRemoveClass" xml:space="preserve">
+    <value>Uncheck the class in the list and your selection and total price will update.</value>
+  </data>
+  <data name="AssistantApplyFilters" xml:space="preserve">
+    <value>Click 'Apply filters' after selecting type and/or date.</value>
+  </data>
+  <data name="AssistantClearFilters" xml:space="preserve">
+    <value>Click 'Clear filters' to see all available classes again.</value>
+  </data>
+  <data name="AssistantHelp" xml:space="preserve">
+    <value>I can help you select classes, apply filters, and create your plan.</value>
+  </data>
+  <data name="AssistantUnknown" xml:space="preserve">
+    <value>Sorry, I didn’t understand that. Can you rephrase it?</value>
+  </data>
+  <data name="AssistantSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="AssistantPlaceholder" xml:space="preserve">
+    <value>Type your message...</value>
+  </data>
 </root>

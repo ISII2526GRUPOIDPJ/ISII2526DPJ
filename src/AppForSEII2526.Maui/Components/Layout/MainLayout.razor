@@ -17,9 +17,15 @@
     </div>
 
     <div class="header-right">
+
+        <button class="assistant-icon" title="Assistant" @onclick="OpenAssistant">
+            <i class="fas fa-robot"></i>
+        </button>
+
         <a href="settings" class="settings-icon" title="@Localizer["Settings"]">
             <i class="fas fa-cog"></i>
         </a>
+
     </div>
 </div>
 
@@ -39,17 +45,72 @@
     @Body
 </main>
 
+@if (showAssistant)
+{
+    <div class="assistant-panel" id="assistantPanel">
+        <button class="assistant-close-btn" id="assistantCloseBtn" @onclick="CloseAssistant">×</button>
+        <h3>Assistant</h3>
+        <div class="chat-window">
+            @foreach (var msg in messages)
+            {
+                <div class="chat-message">@msg</div>
+            }
+        </div>
+        <input @bind="userInput" placeholder="@Localizer["AssistantPlaceholder"]" />
+        <button @onclick="SendMessage">@Localizer["AssistantSend"]</button>
+    </div>
+}
+
+
 @code {
     private string currentLang = "en";
     private Timer refreshTimer;
 
+    private bool showAssistant = false;
+    private List<string> messages = new();
+    private string userInput;
+
+    // Diccionario de palabras clave y claves de resx para la ayuda
+    // Diccionario de palabras clave y claves de resx para la ayuda (multilenguaje)
+    private Dictionary<string[], string> intentKeywords = new()
+    {
+        // Saludos
+        { new string[]{"hola","hi","hello","bonjour","こんにちは"}, "AssistantGreeting" },
+
+        // Listar clases disponibles
+        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス"}, "AssistantListClasses" },
+
+        // Filtrar por tipo de clase
+        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力"}, "AssistantFilterType" },
+
+        // Filtrar por día
+        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","月曜日","火曜日"}, "AssistantFilterDay" },
+
+        // Mostrar precio total
+        { new string[]{"precio","total price","costo","coste","prix total","合計金額"}, "AssistantTotalPrice" },
+
+        // Crear plan
+        { new string[]{"crear plan","create plan","create my plan","crear mi plan","creo mi plan","créer plan","プラン作成"}, "AssistantCreatePlan" },
+
+        // Eliminar clase
+        { new string[]{"eliminar clase","remove class","quitar clase","supprimer cours","クラス削除"}, "AssistantRemoveClass" },
+
+        // Aplicar filtros
+        { new string[]{"aplicar filtros","apply filters","aplico filtros","aplico un filtro","appliquer filtres","フィルター適用"}, "AssistantApplyFilters" },
+
+        // Limpiar filtros
+        { new string[]{"limpiar filtros","clear filters","limpio filtros","quito un filtro","quito filtros","effacer filtres","フィルタークリア"}, "AssistantClearFilters" },
+
+        // Ayuda
+        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ"}, "AssistantHelp" }
+    };
+
+
     protected override async Task OnInitializedAsync()
     {
-        // Cargar idioma actual
         var saved = await SecureStorage.Default.GetAsync("AppCulture");
         currentLang = saved ?? "en";
 
-        // Configurar timer para verificar cambios cada 2 segundos
         refreshTimer = new Timer(async _ =>
         {
             await CheckForLanguageChange();
@@ -74,4 +135,44 @@
     {
         refreshTimer?.Dispose();
     }
+
+    private void OpenAssistant()
+    {
+        showAssistant = !showAssistant;
+    }
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(userInput))
+        {
+            messages.Add("Tú: " + userInput);
+            string response = GetAssistantResponse(userInput);
+            messages.Add("Assistant: " + response);
+            userInput = "";
+        }
+    }
+
+    private string GetAssistantResponse(string input)
+    {
+        input = input.ToLower();
+
+        foreach (var pair in intentKeywords)
+        {
+            foreach (var keyword in pair.Key)
+            {
+                if (input.Contains(keyword))
+                {
+                    return Localizer[pair.Value];
+                }
+            }
+        }
+
+        return Localizer["AssistantUnknown"];
+    }
+
+    private void CloseAssistant()
+    {
+        showAssistant = false;
+    }
+
 }

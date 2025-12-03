@@ -222,4 +222,43 @@
   <data name="FontSizeDescription" xml:space="preserve">
     <value>Ajusta el tamaño del texto para mejor legibilidad</value>
   </data>
+  <data name="AssistantGreeting" xml:space="preserve">
+    <value>¡Hola! ¿En qué puedo ayudarte hoy?</value>
+  </data>
+  <data name="AssistantListClasses" xml:space="preserve">
+    <value>Te puedo mostrar todas las clases que puedes añadir a tu plan esta semana.</value>
+  </data>
+  <data name="AssistantFilterType" xml:space="preserve">
+    <value>Puedes filtrar por tipo de clase, como Yoga o Strength.</value>
+  </data>
+  <data name="AssistantFilterDay" xml:space="preserve">
+    <value>Puedes filtrar por día para ver solo las clases de la fecha que elijas.</value>
+  </data>
+  <data name="AssistantTotalPrice" xml:space="preserve">
+    <value>El precio total se actualiza automáticamente según las clases que selecciones.</value>
+  </data>
+  <data name="AssistantCreatePlan" xml:space="preserve">
+    <value>Selecciona las clases que quieras y pulsa el botón 'Crear Plan'.</value>
+  </data>
+  <data name="AssistantRemoveClass" xml:space="preserve">
+    <value>Desmarca la clase en la lista y se actualizará tu selección y precio total.</value>
+  </data>
+  <data name="AssistantApplyFilters" xml:space="preserve">
+    <value>Pulsa 'Aplicar filtros' después de seleccionar tipo y/o fecha.</value>
+  </data>
+  <data name="AssistantClearFilters" xml:space="preserve">
+    <value>Pulsa 'Limpiar filtros' para volver a ver todas las clases disponibles.</value>
+  </data>
+  <data name="AssistantHelp" xml:space="preserve">
+    <value>Puedo ayudarte a seleccionar clases, aplicar filtros y crear tu plan.</value>
+  </data>
+  <data name="AssistantUnknown" xml:space="preserve">
+    <value>Lo siento, no entendí eso. ¿Puedes reformularlo?</value>
+  </data>
+  <data name="AssistantSend" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="AssistantPlaceholder" xml:space="preserve">
+    <value>Escribe algo...</value>
+  </data>
 </root>

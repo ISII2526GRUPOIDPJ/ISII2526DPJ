@@ -1,6 +1,9 @@
 ﻿@page "/createplan"
 @using AppForSEII2526.Maui.Resources.Languages
+@using AppForSEII2526.Maui.Models.DTOs
+@using System.Diagnostics
 @inject IStringLocalizer<Shared> Localizer
+@inject ApiService Api
 
 <div class="page-container">
     <h2 class="page-title">@Localizer["CreatePlan"] - @Localizer["SelectClasses"]</h2>
@@ -18,27 +21,173 @@
             <div class="filters-content">
                 <div class="filter-group">
                     <label>@Localizer["FilterByType"]</label>
-                    <select>
-                        <option>@Localizer["AllTypes"]</option>
+                    <select @bind="selectedType">
+                        <option value="">@Localizer["AllTypes"]</option>
+                        @foreach (var t in allTypes)
+                        {
+                            <option value="@t">@t</option>
+                        }
                     </select>
                 </div>
 
                 <div class="filter-group">
                     <label>@Localizer["FilterByDay"]</label>
-                    <select>
-                        <option>@Localizer["AllDays"]</option>
-                    </select>
+                    <input type="date" @bind="selectedDate" @bind:format="yyyy-MM-dd" />
+                </div>
+
+                <div class="filters-buttons">
+                    <button class="apply-filters-btn" @onclick="ApplyFilters">
+                        @Localizer["ApplyFilters"]
+                    </button>
+                    <button class="clear-filters-btn" @onclick="ClearFilters">
+                        @Localizer["ClearFilters"]
+                    </button>
                 </div>
             </div>
         }
     </div>
+
+    @if (isLoading)
+    {
+        <div>Cargando clases...</div>
+    }
+    else
+    {
+        <ul class="classes-list">
+            @if (clases == null || !clases.Any())
+            {
+                <li>@Localizer["NoClassesFound"]</li>
+            }
+            else
+            {
+                @foreach (var c in clases)
+                {
+                    <li class="class-card">
+                        <div class="class-card-row">
+                            <input type="checkbox"
+                                   class="class-checkbox"
+                                   checked="@selectedClasses.Contains(c)"
+                                   @onchange="@(() => ToggleClassSelection(c))" />
+
+                            <div class="class-attributes-grid">
+                                <div class="class-attribute">
+                                    <span class="label">Nombre de la clase</span>
+                                    <span class="value">@c.Name</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Fecha</span>
+                                    <span class="value">@c.DateTime.ToShortDateString()</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Tipo</span>
+                                    <span class="value">@string.Join(", ", c.TypeItemNames)</span>
+                                </div>
+                                <div class="class-attribute">
+                                    <span class="label">Precio</span>
+                                    <span class="value">$@c.Price</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+
+        <div class="selection-summary">
+            <div>
+                <p><strong>@Localizer["SelectedClasses"]:</strong> @selectedClasses.Count</p>
+                <p><strong>@Localizer["TotalPrice"]:</strong> @selectedClasses.Sum(c => c.Price)€</p>
+            </div>
+                <button class="create-plan-btn @(selectedClasses.Count == 0 ? "disabled" : "")" disabled="@(selectedClasses.Count == 0)">
+                @Localizer["CreatePlan"]
+            </button>
+        </div>
+    }
 </div>
 
 @code {
     private bool showFilters = false;
+    private bool isLoading = false;
+    private string? selectedType;
+    private DateTime? selectedDate;
+    private IList<ClassForPlanDTO> clases = new List<ClassForPlanDTO>();
+    private IList<string> allTypes = new List<string> { "Yoga", "Strength" };
 
     private void ToggleFilters()
     {
         showFilters = !showFilters;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+    }
+
+    private async Task ApplyFilters()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        Debug.WriteLine($"=== APLICANDO FILTRO ===");
+        Debug.WriteLine($"Filtro tipo: '{selectedType}'");
+        Debug.WriteLine($"Filtro fecha: {selectedDate}");
+
+        string[]? types = null;
+        if (!string.IsNullOrEmpty(selectedType))
+            types = new[] { selectedType };
+
+        var todasLasClases = await Api.GetClassesForPlanning(selectedDate, types);
+    
+        // FILTRO EN CLIENTE COMO BACKUP
+        if (!string.IsNullOrEmpty(selectedType))
+        {
+            clases = todasLasClases
+                .Where(c => c.TypeItemNames != null && c.TypeItemNames.Contains(selectedType))
+                .ToList();
+            Debug.WriteLine($"🎯 Filtrado en cliente: {clases.Count} clases de '{selectedType}'");
+        }
+        else
+        {
+            clases = todasLasClases;
+        }
+
+        Debug.WriteLine($"=== RESULTADOS ===");
+        Debug.WriteLine($"Total clases: {clases.Count}");
+        foreach (var clase in clases)
+        {
+            Debug.WriteLine($"- {clase.Name}: Tipos = [{string.Join(", ", clase.TypeItemNames)}]");
+        }
+
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task ClearFilters()
+    {
+        selectedType = null;
+        selectedDate = null;
+        await LoadClasses();
+    }
+
+    private async Task LoadClasses()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        clases = await Api.GetClassesForPlanning(null, null);
+
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private List<ClassForPlanDTO> selectedClasses = new();
+
+    private void ToggleClassSelection(ClassForPlanDTO clase)
+    {
+        if (selectedClasses.Contains(clase))
+            selectedClasses.Remove(clase);
+        else
+            selectedClasses.Add(clase);
+    }
+
 }

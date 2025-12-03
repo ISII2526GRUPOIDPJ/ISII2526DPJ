@@ -222,4 +222,43 @@
   <data name="FontSizeDescription" xml:space="preserve">
     <value>Ajustez la taille du texte pour une meilleure lisibilité</value>
   </data>
+  <data name="AssistantGreeting" xml:space="preserve">
+    <value>Bonjour ! Comment puis-je vous aider aujourd'hui ?</value>
+  </data>
+  <data name="AssistantListClasses" xml:space="preserve">
+    <value>Je peux vous montrer tous les cours que vous pouvez ajouter à votre planning cette semaine.</value>
+  </data>
+  <data name="AssistantFilterType" xml:space="preserve">
+    <value>Vous pouvez filtrer par type de cours, comme Yoga ou Strength.</value>
+  </data>
+  <data name="AssistantFilterDay" xml:space="preserve">
+    <value>Vous pouvez filtrer par jour pour ne voir que les cours de la date choisie.</value>
+  </data>
+  <data name="AssistantTotalPrice" xml:space="preserve">
+    <value>Le prix total se met à jour automatiquement en fonction des cours que vous sélectionnez.</value>
+  </data>
+  <data name="AssistantCreatePlan" xml:space="preserve">
+    <value>Sélectionnez les cours que vous souhaitez et cliquez sur 'Créer un plan'.</value>
+  </data>
+  <data name="AssistantRemoveClass" xml:space="preserve">
+    <value>Décochez le cours dans la liste et votre sélection et le prix total seront mis à jour.</value>
+  </data>
+  <data name="AssistantApplyFilters" xml:space="preserve">
+    <value>Cliquez sur 'Appliquer les filtres' après avoir sélectionné le type et/ou la date.</value>
+  </data>
+  <data name="AssistantClearFilters" xml:space="preserve">
+    <value>Cliquez sur 'Effacer les filtres' pour voir à nouveau tous les cours disponibles.</value>
+  </data>
+  <data name="AssistantHelp" xml:space="preserve">
+    <value>Je peux vous aider à sélectionner des cours, appliquer des filtres et créer votre planning.</value>
+  </data>
+  <data name="AssistantUnknown" xml:space="preserve">
+    <value>Désolé, je n'ai pas compris. Pouvez-vous reformuler ?</value>
+  </data>
+  <data name="AssistantSend" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="AssistantPlaceholder" xml:space="preserve">
+    <value>Écris quelque chose...</value>
+  </data>
 </root>
