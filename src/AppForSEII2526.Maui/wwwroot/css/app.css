@@ -1139,11 +1139,11 @@ body {
 }
 
 .dark-mode .chat-message:nth-child(odd) {
-    background-color: #e0e0e0;
+    background-color: #606060;
 }
 
 .dark-mode .chat-message:nth-child(even) {
-    background-color: #FFE0B2;
+    background-color: #E65100;
 }
 
 .dark-mode .assistant-panel input[type="text"] {
@@ -1187,13 +1187,13 @@ body {
     border: none;
     cursor: pointer;
     color: var(--color-orange-primary) !important;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
 }
 
 .header-right {
     display: flex;
     align-items: center; /* Alinea verticalmente en el centro */
-    gap: 10px; /* Separación entre iconos */
+    gap: 15px; /* Separación entre iconos */
 }
 
 .assistant-icon, .settings-icon {
