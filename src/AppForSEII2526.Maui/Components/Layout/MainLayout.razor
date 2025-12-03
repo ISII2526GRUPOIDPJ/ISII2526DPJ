@@ -75,34 +75,37 @@
     private Dictionary<string[], string> intentKeywords = new()
     {
         // Saludos
-        { new string[]{"hola","hi","hello","bonjour","こんにちは"}, "AssistantGreeting" },
+        { new string[]{"hola","hi","hello","bonjour","こんにちは","hey","hey there","salut","buenos días","good morning"}, "AssistantGreeting" },
 
         // Listar clases disponibles
-        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス"}, "AssistantListClasses" },
+        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス","qué clases hay","which classes are available","liste des cours"}, "AssistantListClasses" },
 
         // Filtrar por tipo de clase
-        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力"}, "AssistantFilterType" },
+        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力","pilates","cardio","aeróbico","aerobic","musculación","weight training"}, "AssistantFilterType" },
 
         // Filtrar por día
-        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","月曜日","火曜日"}, "AssistantFilterDay" },
+        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","miércoles","wednesday","jueves","thursday","金曜日","viernes","friday","土曜日","sábado","saturday"}, "AssistantFilterDay" },
 
         // Mostrar precio total
-        { new string[]{"precio","total price","costo","coste","prix total","合計金額"}, "AssistantTotalPrice" },
+        { new string[]{"precio","total price","costo","coste","prix total","合計金額","cuánto cuesta","how much","total cost","total amount"}, "AssistantTotalPrice" },
 
         // Crear plan
-        { new string[]{"crear plan","create plan","create my plan","crear mi plan","creo mi plan","créer plan","プラン作成"}, "AssistantCreatePlan" },
+        { new string[]{"crear plan","create plan","create my plan","crear mi plan","creo mi plan","créer plan","プラン作成","make my plan","build plan","generar plan"}, "AssistantCreatePlan" },
 
         // Eliminar clase
-        { new string[]{"eliminar clase","remove class","quitar clase","supprimer cours","クラス削除"}, "AssistantRemoveClass" },
+        { new string[]{"eliminar clase","remove class","quitar clase", "elimino una clase", "quito una clase","supprimer cours","クラス削除","borra clase","delete class","eliminar curso","supprimer cours individuel"}, "AssistantRemoveClass" },
 
         // Aplicar filtros
-        { new string[]{"aplicar filtros","apply filters","aplico filtros","aplico un filtro","appliquer filtres","フィルター適用"}, "AssistantApplyFilters" },
+        { new string[]{"aplicar filtros","apply filters","aplico filtros","aplico un filtro","appliquer filtres","フィルター適用","filtrar","filter results","set filters"}, "AssistantApplyFilters" },
 
         // Limpiar filtros
-        { new string[]{"limpiar filtros","clear filters","limpio filtros","quito un filtro","quito filtros","effacer filtres","フィルタークリア"}, "AssistantClearFilters" },
+        { new string[]{"limpiar filtros","clear filters","limpio filtros","quito un filtro","quito filtros","effacer filtres","フィルタークリア","reset filters","remove filters","clear all filters"}, "AssistantClearFilters" },
 
         // Ayuda
-        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ"}, "AssistantHelp" }
+        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ","support","assist me","necesito ayuda","assistance"}, "AssistantHelp" },
+
+        // Tienda
+        { new string[]{"tienda","shop","comprar","buy", "compro", "acheter","ショップ","ver tienda","go shopping","browse shop","explorar tienda"}, "AssistantShop" }
     };
 
 

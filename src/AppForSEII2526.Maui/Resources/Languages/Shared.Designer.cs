@@ -196,6 +196,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a In the app&apos;s shop you can buy products or accessories..
+        /// </summary>
+        internal static string AssistantShop {
+            get {
+                return ResourceManager.GetString("AssistantShop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The total price updates automatically according to the classes you select..
         /// </summary>
         internal static string AssistantTotalPrice {

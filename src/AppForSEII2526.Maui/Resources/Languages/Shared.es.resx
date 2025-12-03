@@ -261,4 +261,7 @@
   <data name="AssistantPlaceholder" xml:space="preserve">
     <value>Escribe algo...</value>
   </data>
+  <data name="AssistantShop" xml:space="preserve">
+    <value>En la tienda de la aplicación puedes comprar productos o accesorios.</value>
+  </data>
 </root>
