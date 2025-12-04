@@ -13,6 +13,7 @@ namespace AppForSEII2526.UIT.UC_Plan
         By inputDate = By.Id("selectedDate");
 
         By buttonSearchPlan = By.Id("searchPlan");
+        By tableClasses = By.Id("tableClassesForPlan");
 
         public SelectClassesForPlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
@@ -31,6 +32,11 @@ namespace AppForSEII2526.UIT.UC_Plan
             
 
             _driver.FindElement(buttonSearchPlan).Click();
+        }
+
+        public bool CheckListOfClasses(List<string[]> expectedClasses)
+        {
+            return CheckBodyTable(expectedClasses, tableClasses);
         }
     }
 }
