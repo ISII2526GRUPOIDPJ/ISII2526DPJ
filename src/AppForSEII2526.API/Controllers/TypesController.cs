@@ -26,6 +26,11 @@
                     .Distinct()
                     .ToListAsync();
 
+                if (types == null || types.Count == 0)
+                {
+                    return Ok(new List<string>());
+                }
+
                 return Ok(types);
             }
             catch (Exception ex)
