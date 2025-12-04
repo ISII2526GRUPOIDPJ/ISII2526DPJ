@@ -35,7 +35,6 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting class types");
                 return StatusCode(500, "Internal server error");
             }
         }
