@@ -20,28 +20,48 @@ namespace AppForSEII2526.UIT.UC_Plan
         {
         }
 
-        public void SearchPlan(string type, DateTime? date = null) 
+        public void SearchPlan(string type, string date = "")
         {
-            // Wait for the web element to be clickable
-            WaitForBeingClickable(inputType);
-            //_driver.FindElement(inputType).SendKeys(type);
-
-            // Select the type from the dropdown
-            if (type == "") type = "";
-            SelectElement selectType = new SelectElement(_driver.FindElement(inputType));
-            selectType.SelectByValue(type);
-
-
-            //Date
-            if (date.HasValue)
+            try
             {
-                var dateString = date.Value.ToString("dd/MM/yyyy");
-                var dateInput = _driver.FindElement(inputDate);
-                dateInput.Clear();
-                dateInput.SendKeys(dateString);
-            }
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+                wait.Until(driver =>
+                {
+                    try
+                    {
+                        var select = new SelectElement(driver.FindElement(inputType));
+                        return select.Options.Count > 1; // Espera que tenga más opciones
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                });
 
-            _driver.FindElement(buttonSearchPlan).Click();
+                WaitForBeingClickable(inputType);
+
+                // Seleccionar tipo
+                if (string.IsNullOrEmpty(type))
+                    type = "All"; 
+                
+                SelectElement selectElement = new SelectElement(_driver.FindElement(inputType));
+                selectElement.SelectByText(type);
+
+                // Date - como ella maneja fechas como string
+                if (date != "")
+                {
+                    var dateInput = _driver.FindElement(inputDate);
+                    dateInput.Clear();
+                    dateInput.SendKeys(date); // Formato: "yyyy-MM-dd"
+                }
+
+                _driver.FindElement(buttonSearchPlan).Click();
+            }
+            catch (Exception ex)
+            {
+                _output.WriteLine($"Error en SearchPlan: {ex.Message}");
+                throw;
+            }
         }
 
         public bool CheckListOfClasses(List<string[]> expectedClasses)
