@@ -45,45 +45,17 @@ namespace AppForSEII2526.UIT.UC_Plan
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_FilterByType()
         {
-            // Arrange
             InitialStepsForCreatingPlan();
 
-            // Esperar a que cargue la página
-            Thread.Sleep(2000);
-
-            // DEBUG: Ver qué hay en la tabla inicialmente
-            var table = _driver.FindElement(By.Id("tableClassesForPlan"));
-            var rows = table.FindElements(By.TagName("tr"));
-
-            if (rows.Count > 1)
+            var expectedClasses = new List<string[]>
             {
-                var cells = rows[1].FindElements(By.TagName("td"));
-                string actualClassName = cells[0].Text;
-                string actualClassType = cells[1].Text;
-                string actualClassDate = cells[2].Text;
-                string actualClassPrice = cells[3].Text;
+                new string[] { "Cardio Blast", "Cardio", "06/12/2025 09:37", "10" }
+            };
 
-                _output.WriteLine($"Clase real en tabla: {actualClassName}, {actualClassType}, {actualClassDate}, {actualClassPrice}");
+            selectClassesForPlan_PO.SearchPlan("Cardio");
 
-                // USAR LOS DATOS REALES en el expected
-                var expectedClasses = new List<string[]>
-                {
-                    new string[] { actualClassName, actualClassType, actualClassDate, actualClassPrice }
-                };
-
-                // Act - filtrar por el tipo que realmente tiene la clase
-                selectClassesForPlan_PO.SearchPlan(actualClassType, "");
-
-                // Assert
-                Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
-            }
-            else
-            {
-                _output.WriteLine("No hay clases en la tabla");
-                Assert.Fail("No hay clases para probar");
-            }
+            Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
         }
-
 
     }
 }

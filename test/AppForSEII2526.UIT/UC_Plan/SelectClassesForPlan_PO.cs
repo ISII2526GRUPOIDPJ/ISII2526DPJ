@@ -24,35 +24,26 @@ namespace AppForSEII2526.UIT.UC_Plan
         {
             try
             {
+                WaitForBeingClickable(inputType);
+
                 var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
                 wait.Until(driver =>
                 {
-                    try
-                    {
-                        var select = new SelectElement(driver.FindElement(inputType));
-                        return select.Options.Count > 1; // Espera que tenga más opciones
-                    }
-                    catch
-                    {
-                        return false;
-                    }
+                    var select = new SelectElement(driver.FindElement(inputType));
+                    return select.Options.Count > 1;
                 });
 
-                WaitForBeingClickable(inputType);
-
-                // Seleccionar tipo
                 if (string.IsNullOrEmpty(type))
-                    type = "All"; 
-                
-                SelectElement selectElement = new SelectElement(_driver.FindElement(inputType));
+                    type = "All";
+
+                var selectElement = new SelectElement(_driver.FindElement(inputType));
                 selectElement.SelectByText(type);
 
-                // Date - como ella maneja fechas como string
                 if (date != "")
                 {
                     var dateInput = _driver.FindElement(inputDate);
                     dateInput.Clear();
-                    dateInput.SendKeys(date); // Formato: "yyyy-MM-dd"
+                    dateInput.SendKeys(date); // yyyy-MM-dd
                 }
 
                 _driver.FindElement(buttonSearchPlan).Click();
