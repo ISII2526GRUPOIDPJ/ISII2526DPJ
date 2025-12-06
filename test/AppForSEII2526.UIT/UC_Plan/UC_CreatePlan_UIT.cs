@@ -12,8 +12,18 @@ namespace AppForSEII2526.UIT.UC_Plan
         private SelectClassesForPlan_PO selectClassesForPlan_PO;
         private const string className1 = "Cardio Blast";
         private const string classType1 = "Cardio";
-        private readonly DateTime classDate1 = new DateTime(2025, 12, 05, 07, 34, 00);
-        private const string price1 = "10.00";
+        private readonly DateTime classDate1 = DateTime.Today.AddDays(1).AddHours(7); // Today+1, 7:00
+        private const string price1 = "10";
+
+        private const string className2 = "Strength Training";
+        private const string classType2 = "Strength";
+        private readonly DateTime classDate2 = DateTime.Today.AddDays(2).AddHours(8); // Today+2, 8:00
+        private const string price2 = "20";
+
+        private const string className3 = "Yoga";
+        private const string classType3 = "Yoga";
+        private readonly DateTime classDate3 = DateTime.Today.AddDays(2).AddHours(9); // Today+2, 9:00
+        private const string price3 = "12";
 
         /*
         private const string className2 = "Strength Training";
@@ -43,19 +53,60 @@ namespace AppForSEII2526.UIT.UC_Plan
 
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
-        public void UC31_FilterByType()
+        public void UC31_3_AF1_FilterByType()
         {
+            // Arrange
             InitialStepsForCreatingPlan();
 
             var expectedClasses = new List<string[]>
             {
-                new string[] { "Cardio Blast", "Cardio", "06/12/2025 09:37", "10" }
+                new string[] { className1, classType1, classDate1.ToString("dd/MM/yyyy HH:mm"), price1 }
             };
 
-            selectClassesForPlan_PO.SearchPlan("Cardio");
+            // Act
+            selectClassesForPlan_PO.SearchPlan(classType1);
 
+            // Assert
             Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
         }
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_4_AF1_FilterByDate()
+        {
+            // Arrange
+            InitialStepsForCreatingPlan();
+
+            var expectedClasses = new List<string[]>
+            {
+                new string[] { className1, classType1, classDate1.ToString("dd/MM/yyyy HH:mm"), price1 }
+            };
+
+            // Act
+            string filterDate = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+            selectClassesForPlan_PO.SearchPlan("", filterDate);
+
+            // Assert
+            Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
+        }
+
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_5_AF2_DateBeforeToday()
+        {
+            // Arrange
+            InitialStepsForCreatingPlan();
+
+            // Act
+            string pastDate = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
+            selectClassesForPlan_PO.SearchPlan("", pastDate);
+
+
+            // Assert
+            Assert.True(selectClassesForPlan_PO.CheckMessageError("Selected date must be today or later"), $"Error in the message box for test with date: {pastDate}");
+        }
+
 
     }
 }
