@@ -24,6 +24,10 @@ namespace AppForSEII2526.UIT.UC_Plan
 
         By errorShownBy = By.Id("ErrorsShown");
 
+        By dialogOkButton = By.Id("Button_DialogOK");
+
+        By capacityErrorsBy = By.Id("CapacityErrors");
+
 
         public CreatePlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
@@ -86,5 +90,24 @@ namespace AppForSEII2526.UIT.UC_Plan
             return actualErrorShown.Text.Contains(errorMessage);
         }
 
+        public void ClickDialogOk()
+        {
+            WaitForBeingClickable(dialogOkButton);
+            _driver.FindElement(dialogOkButton).Click();
+        }
+
+        public bool CheckCapacityError(string errorMessage)
+        {
+            try
+            {
+                IWebElement errorElement = _driver.FindElement(capacityErrorsBy);
+                _output.WriteLine($"Capacity error: {errorElement.Text}");
+                return errorElement.Text.Contains(errorMessage);
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }

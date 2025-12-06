@@ -165,5 +165,27 @@ namespace AppForSEII2526.UIT.UC_Plan
             // Assert
             Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
         }
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_11_AF6_NoCapacity()
+        {
+            // Arrange
+            AddClassAndGoToCreatePlan(className3);
+
+            // Act
+            createPlan_PO.FillPlanForm("Plan1", "Description", "2", "Health Issue", "CreditCard");
+            createPlan_PO.ClickConfirmPlan();
+
+            Thread.Sleep(1000);
+
+            createPlan_PO.ClickDialogOk();
+
+            Thread.Sleep(1000);
+
+            // Assert
+            Assert.True(createPlan_PO.CheckCapacityError("The selected class(es) do not have available capacity"));
+        }
+
     }
 }

@@ -16,7 +16,7 @@
 
 @if (errors != null)
 {
-    <div class="alert alert-danger">@errors</div>
+    <div class="alert alert-danger" id="CapacityErrors">@errors</div>
 }
 
 <EditForm Model="plan" OnValidSubmit="OpenDialog">
@@ -166,9 +166,6 @@
 
                     // To show the error message
                     StateHasChanged();
-                    await Task.Delay(5000); // 5 seconds to see the error message
-
-                    navigation.NavigateTo("/plan/selectclassesforplan");
                 }
             }
         }
