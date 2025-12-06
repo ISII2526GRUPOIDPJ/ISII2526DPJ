@@ -69,7 +69,13 @@ namespace AppForSEII2526.UIT.UC_Plan
 
         public void ClickConfirmPlan()
         {
-            _driver.FindElement(buttonConfirmPlan).Click();
+            var element = _driver.FindElement(buttonConfirmPlan);
+
+            // Force scroll
+            Actions actions = new Actions(_driver);
+            actions.MoveToElement(element).Perform();
+
+            element.Click();
         }
 
 
@@ -79,7 +85,6 @@ namespace AppForSEII2526.UIT.UC_Plan
             _output.WriteLine($"actual Message shown:{actualErrorShown.Text}");
             return actualErrorShown.Text.Contains(errorMessage);
         }
-
 
     }
 }
