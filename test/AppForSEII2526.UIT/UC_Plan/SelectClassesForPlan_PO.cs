@@ -105,5 +105,19 @@ namespace AppForSEII2526.UIT.UC_Plan
             WaitForBeingClickable(By.Id("removeClass_" + className));
             _driver.FindElement(By.Id("removeClass_" + className)).Click();
         }
+
+        public bool IsCreatePlanButtonAvailable()
+        {
+            try
+            {
+                // If it is displayed = true, it is available
+                return _driver.FindElement(buttonGoToCreatePlan).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                // If it does not find the element = false, it is not available
+                return false;
+            }
+        }
     }
 }

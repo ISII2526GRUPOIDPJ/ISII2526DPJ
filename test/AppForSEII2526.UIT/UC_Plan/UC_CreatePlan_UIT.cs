@@ -121,6 +121,18 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(selectClassesForPlan_PO.CheckMessageError("Selected date must be today or later"), $"Error in the message box for test with date: {pastDate}");
         }
 
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_7_AF4_ContinueWithoutSelectingClasses()
+        {
+            // Arrange
+            InitialStepsForCreatingPlan();
+
+            // Act & Assert
+            // Check if the button does not exist
+            bool isAvailable = selectClassesForPlan_PO.IsCreatePlanButtonAvailable();
+            Assert.False(isAvailable, "El botón 'Create Plan' no debería estar disponible sin clases seleccionadas");
+        }
 
         [Theory]
         [InlineData("", "Description", "1", "Health Issue", "CreditCard", "The Name field is required.")]
