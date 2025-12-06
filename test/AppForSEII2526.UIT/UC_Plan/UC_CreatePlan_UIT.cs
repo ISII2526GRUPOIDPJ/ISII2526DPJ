@@ -122,21 +122,36 @@ namespace AppForSEII2526.UIT.UC_Plan
         }
 
 
-        [Fact]
+        [Theory]
+        [InlineData("", "Description", "1", "Health Issue", "CreditCard", "The Name field is required.")]
+        [InlineData("E", "Description", "1", "Health Issue", "CreditCard", "The field Name must be a string with a minimum length of 3 and a maximum length of 50")]
         [Trait("Level Testing", "Functional Testing")]
-        public void UC31_8_AF5_ErrorInName()
+        public void UC31_8_9_AF5_ErrorInName(string name, string description, string weeks, string healthIssues, string paymentMethod, string expectedError)
         {
             // Arrange
             AddClassAndGoToCreatePlan(className1);
 
             // Act
-            createPlan_PO.FillPlanForm("E", "Description", "1", "Health Issue", "CreditCard");
+            createPlan_PO.FillPlanForm(name, description, weeks, healthIssues, paymentMethod);
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
-            Assert.True(createPlan_PO.CheckMessageError("The field Name must be a string with a minimum length of 3 and a maximum length of 50"));
-
+            Assert.True(createPlan_PO.CheckMessageError(expectedError));
         }
-        
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_10_AF5_ErrorInWeeks()
+        {
+            // Arrange
+            AddClassAndGoToCreatePlan(className1);
+
+            // Act
+            createPlan_PO.FillPlanForm("Plan1", "Description", "53", "Health Issue", "CreditCard");
+            createPlan_PO.ClickConfirmPlan();
+
+            // Assert
+            Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
+        }
     }
 }
