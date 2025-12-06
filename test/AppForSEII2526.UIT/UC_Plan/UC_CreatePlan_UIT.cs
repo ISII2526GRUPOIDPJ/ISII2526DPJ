@@ -51,6 +51,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             _driver.FindElement(By.Id("CreatePlan")).Click();
         }
 
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_3_AF1_FilterByType()
@@ -70,6 +71,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
         }
 
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_4_AF1_FilterByDate()
@@ -90,7 +92,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(selectClassesForPlan_PO.CheckListOfClasses(expectedClasses));
         }
 
-
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_5_AF2_DateBeforeToday()

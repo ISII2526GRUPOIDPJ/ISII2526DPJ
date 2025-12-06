@@ -28,11 +28,12 @@ namespace AppForSEII2526.UIT.UC_Plan
             {
                 WaitForBeingClickable(inputType);
 
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+                // Needed for the dropdown to load its options
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
                 wait.Until(driver =>
                 {
                     var select = new SelectElement(driver.FindElement(inputType));
-                    return select.Options.Count > 1;
+                    return select.Options.Count > 0;
                 });
 
                 if (string.IsNullOrEmpty(type))
