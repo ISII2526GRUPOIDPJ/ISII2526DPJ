@@ -16,6 +16,8 @@ namespace AppForSEII2526.UIT.UC_Plan
         By buttonSearchPlan = By.Id("searchPlan");
         By tableClasses = By.Id("tableClassesForPlan");
 
+        By errorShownBy = By.Id("ErrorsShown");
+
         public SelectClassesForPlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
@@ -43,8 +45,18 @@ namespace AppForSEII2526.UIT.UC_Plan
                 {
                     var dateInput = _driver.FindElement(inputDate);
                     dateInput.Clear();
-                    dateInput.SendKeys(date); // yyyy-MM-dd
+
+                    // To transform it into DD/MM/YYYY
+                    if (DateTime.TryParse(date, out DateTime dateValue))
+                    {
+                        dateInput.SendKeys(dateValue.ToString("dd/MM/yyyy"));
+                    }
+                    else
+                    {
+                        dateInput.SendKeys(date);
+                    }
                 }
+
 
                 _driver.FindElement(buttonSearchPlan).Click();
             }
@@ -58,6 +70,13 @@ namespace AppForSEII2526.UIT.UC_Plan
         public bool CheckListOfClasses(List<string[]> expectedClasses)
         {
             return CheckBodyTable(expectedClasses, tableClasses);
+        }
+
+        public bool CheckMessageError(string errorMessage)
+        {
+            IWebElement actualErrorShown = _driver.FindElement(errorShownBy);
+            _output.WriteLine($"actual Message shown:{actualErrorShown.Text}");
+            return actualErrorShown.Text.Contains(errorMessage);
         }
     }
 }
