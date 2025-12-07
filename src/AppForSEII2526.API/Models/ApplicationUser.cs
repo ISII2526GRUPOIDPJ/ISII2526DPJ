@@ -9,19 +9,13 @@ public class ApplicationUser : IdentityUser {
         PaymentMethods = new List<PaymentMethod>();
         Incidents = new List<Incident>();
     }
-
     public ApplicationUser(string name, string surname)
     {
         Name = name;
         Surname = surname;
+        PaymentMethods = new List<PaymentMethod>();
+        Incidents = new List<Incident>();
     }
-    public ApplicationUser(int id, string name, string surname)
-    {
-        Id = id;
-        Name = name;
-        Surname = surname;
-    }
-    public int Id { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
     public IList<PaymentMethod> PaymentMethods { get; set; }
