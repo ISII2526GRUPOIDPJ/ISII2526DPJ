@@ -2,16 +2,18 @@
 {
     public class PurchaseItemsDTO
     {
-        public PurchaseItemsDTO(string name, string brand, int quantity, decimal price)
+        public PurchaseItemsDTO(string name, string brand, string description, int quantity, decimal price)
         {
             Name = name;
             Brand = brand;
+            Description = description;
             Quantity = quantity;
             Price = price;
         }
 
         public string Name { get; set; }
         public string Brand { get; set; }
+        public string Description { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
 
@@ -20,6 +22,7 @@
             return obj is PurchaseItemsDTO dTO &&
                    Name == dTO.Name &&
                    Brand == dTO.Brand &&
+                   Description == dTO.Description &&
                    Quantity == dTO.Quantity &&
                    Price == dTO.Price;
         }

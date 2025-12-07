@@ -20,7 +20,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
 
         public GetPurchase_test() {
 
-            ApplicationUser user = new ApplicationUser(1, "John", "Doe");
+            ApplicationUser user = new ApplicationUser("John", "Doe");
 
             var paymentMethod = new CreditCard() {
                 Id = 1,
@@ -102,7 +102,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 150,
                 "Gym equipment",
                 new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31"),
-                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25.0m)}
+                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25.0m)}
             );
 
             //Act

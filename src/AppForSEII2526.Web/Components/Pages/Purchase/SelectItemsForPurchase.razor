@@ -157,23 +157,23 @@
         }
 
         private void AddItemToPurchase(ItemForPurchaseDTO item)
-        {
-            var itemInPurchase = new ItemForPurchaseDTO
             {
-                Name = item.Name,
-                Brand = item.Brand,
-                Description = item.Description,
-                Price = item.Price,
-                Quantity = item.Quantity
-            };
+            var itemInPurchase = new PurchaseItemsDTO
+                {
+                    Name = item.Name,
+                    Brand = item.Brand,
+                    Description = item.Description,
+                    Price = item.Price,
+                    Quantity = item.Quantity
+                };
 
-            purchaseState.AddItemToPurchase(itemInPurchase);
-        }
+                purchaseState.AddItemToPurchase(itemInPurchase);
+            }
 
-        private void RemoveItemFromPurchase(ItemForPurchaseDTO item)
-        {
-            purchaseState.RemoveItemFromPurchase(item);
-        }
+        private void RemoveItemFromPurchase(PurchaseItemsDTO item)
+            {
+                purchaseState.RemoveItemFromPurchase(item);
+            }
 
         private void GoToCreatePurchase()
         {

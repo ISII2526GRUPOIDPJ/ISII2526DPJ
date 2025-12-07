@@ -1,0 +1,222 @@
+﻿@page "/plan/createplan"
+
+@using AppForSEII2526.Web.Components.Shared
+@using AppForSEII2526.Web.API;
+@inject AppForSEII2526APIClient apiClient
+@inject ILogger<CreatePlan> logger
+@inject PlanStateContainer planState
+@inject NavigationManager navigation
+
+@using Microsoft.AspNetCore.Authorization
+
+
+@* @attribute [Authorize] *@
+<h3>CreatePlan</h3>
+
+
+@if (errors != null)
+{
+    <div class="alert alert-danger" id="CapacityErrors">@errors</div>
+}
+
+<EditForm Model="plan" OnValidSubmit="OpenDialog">
+    <div class="row">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="row alert alert-danger" id="ErrorsShown" />
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="plan.Name" class="form-control" id="Name"></InputText>
+                <label for="Name">Name*</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="plan.Description" class="form-control" id="Description"></InputText>
+                <label for="Description">Description (Optional)</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="WeeksString" class="form-control" id="Weeks"></InputText>
+                <label for="Weeks">Weeks*</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="plan.HealthIssues" class="form-control" id="HealthIssues"></InputText>
+                <label for="HealthIssues">HealthIssues (Optional)</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-floating">
+                <InputSelect class="form-select" @bind-Value="plan.SelectedPaymentMethodId" id="PaymentMethod">
+                    <option value="1">CreditCard</option>
+                    <option value="2">PayPal</option>
+                    <option value="3">Bizum</option>
+                </InputSelect>
+                <label for="PaymentMethod">Payment Method</label>
+            </div>
+        </div>
+    </div>
+
+    <h4>Plan detail</h4>
+    <p>
+        <b>Total price:</b> @TotalPrice €
+        <button class="btn btn-outline-primary" type="button" @onclick="ModifyPlanClasses" id="ModifyClasses">
+            Modify classes
+        </button>
+    </p>
+
+    <div class="mh-100 table-responsive">
+        <table class="table table-condensed table-hover" id="TableOfPlanClasses">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Day and time</th>
+                    <th>Goal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var classs in plan.SelectedClasses)
+                {
+                    <tr id="ClassData_@classs.Name">
+                        <td>@classs.Name</td>
+                        <td>@string.Join(", ", classs.TypeItemNames)</td>
+                        <td>@classs.Price</td>
+                        <td>@classs.Date.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row g-2 mt-3">
+        <div class="col-md">
+            <button class="btn btn-primary" type="submit" id="ConfirmPlan">
+                Confirm Plan
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@*a modal popup dialog for checking if user wants to proceed to rent*@
+@if (DialogIsOpen)
+{
+    <Dialog Caption="Rental movies"
+            Message="Do you want to proceed to rent the selected movies?"
+            OnClose="@OnDialogClose"
+            Type=Dialog.Category.SaveNot>
+    </Dialog>
+}
+
+
+@code {
+    private CreatePlanDTO plan => planState.Plan;
+    private object? errors;
+
+    private bool DialogIsOpen;
+
+    private void OpenDialog()
+    {
+        DialogIsOpen = true;
+    }
+
+    private List<PaymentMethodDTO> AvailablePaymentMethods { get; set; } = new List<PaymentMethodDTO>();
+
+    private async Task OnDialogClose(bool isOk)
+    {
+        DialogIsOpen = false;
+
+        if (isOk)
+        {
+            if (plan.SelectedClasses.Count > 0)
+            {
+                try
+                {
+                    var createdPlan = await apiClient.CreatePlanAsync(plan);
+                    planState.PlanProcessed();
+                    navigation.NavigateTo($"/plan/detailplan/?PlanID={createdPlan.Id}");
+                }
+                catch (ApiException<ValidationProblemDetails> exValidation)
+                {
+                    if (exValidation.Result.Errors.Values != null)
+                    {
+                        errors = "";
+                        foreach (var errList in exValidation.Result.Errors.Values)
+                            errors = string.Join(" (*) ", errors, string.Join(" (*) ", errList));
+                    }
+
+                    // Return to class selection if any class has no capacity
+                    navigation.NavigateTo("/plan/selectclassesforplan");
+                }
+                catch (ApiException)
+                {
+                    errors = "The selected class(es) do not have available capacity. Please modify your selection.";
+
+                    // To show the error message
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+
+
+
+    // To convert int to string for the number of weeks
+    private string WeeksString
+    {
+        get => plan.Weeks.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+                plan.Weeks = result;
+        }
+    }
+
+    private decimal TotalPrice => planState.EstimatedTotalPrice;
+
+    private void ModifyPlanClasses()
+    {
+        navigation.NavigateTo("/plan/selectclassesforplan");
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user is not null)
+            {
+                if (user.Identity is not null && user.Identity.IsAuthenticated)
+                {
+                    plan.Name = user.Identity.Name;
+                }
+            }
+
+            plan.Description = plan.Description ?? "";
+            plan.HealthIssues = plan.HealthIssues ?? "";
+            //plan.Weeks = plan.Weeks < 1 ? 1 : plan.Weeks;
+            if (plan.SelectedPaymentMethodId == 0)
+            {
+                plan.SelectedPaymentMethodId = 1; // Default to CreditCard
+            }
+        }
+    }
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+}

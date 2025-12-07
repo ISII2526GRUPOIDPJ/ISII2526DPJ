@@ -5,20 +5,20 @@ namespace AppForSEII2526.Web
     public class PurchaseStateContainer
     {
         public CreatePurchaseDTO Purchase {  get; private set; } = new CreatePurchaseDTO() {
-            PurchaseItems = new List<ItemForPurchaseDTO>()
+            PurchaseItems = new List<PurchaseItemsDTO>()
         };
 
         public event Action? OnChange;
         private void NotifyStateChanged() => OnChange?.Invoke();
 
-        public void AddItemToPurchase(ItemForPurchaseDTO item)
+        public void AddItemToPurchase(PurchaseItemsDTO item)
         {
             Purchase.PurchaseItems.Add(item);
 
             NotifyStateChanged();
         }
 
-        public void RemoveItemFromPurchase(ItemForPurchaseDTO item)
+        public void RemoveItemFromPurchase(PurchaseItemsDTO item)
         {
             Purchase.PurchaseItems.Remove(item);
 
@@ -36,7 +36,7 @@ namespace AppForSEII2526.Web
         {
             Purchase = new CreatePurchaseDTO()
             {
-                PurchaseItems = new List<ItemForPurchaseDTO>()
+                PurchaseItems = new List<PurchaseItemsDTO>()
             };
 
             NotifyStateChanged();
