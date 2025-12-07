@@ -109,6 +109,8 @@ namespace AppForSEII2526.UIT.UC_Plan
                 new string[] { className1, classType1, classDate1.ToString("dd/MM/yyyy HH:mm"), price1 }
             };
 
+            Thread.Sleep(2000);
+
             // Act
             selectClassesForPlan_PO.SearchPlan(classType1);
 
