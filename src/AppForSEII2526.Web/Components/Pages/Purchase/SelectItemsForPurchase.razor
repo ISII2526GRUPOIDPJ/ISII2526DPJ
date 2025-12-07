@@ -141,7 +141,7 @@
         StateHasChanged();
     }
 
-    protected override Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync() {
         try {
             allItemNames = await apiClient.GetAllItemNamesAsync();
         } catch (ApiException ex) {
@@ -164,7 +164,7 @@
 
         SearchItems();
 
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
         private void AddItemToPurchase(ItemForPurchaseDTO item)
