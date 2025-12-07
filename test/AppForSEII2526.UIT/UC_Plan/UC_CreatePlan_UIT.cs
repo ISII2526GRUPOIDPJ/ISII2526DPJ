@@ -66,6 +66,25 @@ namespace AppForSEII2526.UIT.UC_Plan
         // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
+        public void UC31_1_BF_BasicFlow()
+        {
+            // Arrange
+            AddClassAndGoToCreatePlan(className2);
+
+            // Assert
+            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard");
+            createPlan_PO.ClickConfirmPlan();
+
+            // Assert
+            createPlan_PO.ClickDialogOk();
+
+            Thread.Sleep(2000);
+            Assert.Contains("/plan/detailplan", _driver.Url);
+        }
+
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
         public void UC31_3_AF1_FilterByType()
         {
             // Arrange
@@ -121,6 +140,23 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(selectClassesForPlan_PO.CheckMessageError("Selected date must be today or later"), $"Error in the message box for test with date: {pastDate}");
         }
 
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_6_AF3_ModifyPlan()
+        {
+            // Arrange
+            AddClassAndGoToCreatePlan(className1);
+
+            // Act
+            createPlan_PO.ClickModifyClasses();
+
+            // Assert (check that we are back to Select Classes for Plan page by looking at the type selection for example)
+            selectClassesForPlan_PO.WaitForBeingVisible(By.Id("typeSelect"));
+            Assert.Contains("/plan/selectclassesforplan", _driver.Url);
+        }
+
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_7_AF4_ContinueWithoutSelectingClasses()
@@ -134,6 +170,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.False(isAvailable, "El botón 'Create Plan' no debería estar disponible sin clases seleccionadas");
         }
 
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Theory]
         [InlineData("", "Description", "1", "Health Issue", "CreditCard", "The Name field is required.")]
         [InlineData("E", "Description", "1", "Health Issue", "CreditCard", "The field Name must be a string with a minimum length of 3 and a maximum length of 50")]
@@ -151,6 +188,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(createPlan_PO.CheckMessageError(expectedError));
         }
 
+        // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_10_AF5_ErrorInWeeks()
@@ -166,6 +204,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
         }
 
+        // Use dbo.Classes.ForPlanning_NoCapacity.sql & dbo.TypeItems.ForPlanning_NoCapacity.sql to have a class in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
         public void UC31_11_AF6_NoCapacity()
