@@ -82,6 +82,20 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.Contains("/plan/detailplan", _driver.Url);
         }
 
+        [Fact(Skip = "Requires empty database because it has conflicts with other tests that need data.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC31_2_AF0_NoClassesAvailableForPlan()
+        {
+            // Arrange
+            InitialStepsForCreatingPlan();
+
+            Thread.Sleep(1000);
+
+            // Act and Assert
+            Assert.True(selectClassesForPlan_PO.CheckMessageError("Error: No classes found for the selected criteria"));
+        }
+
+
         // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
