@@ -1,0 +1,249 @@
+﻿@page "/plan/selectclassesforplan"
+
+
+@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API;
+@inject AppForSEII2526APIClient apiClient
+@inject ILogger<SelectClassesForPlan> logger
+@inject PlanStateContainer planState
+@inject NavigationManager navigation
+
+
+<h3>Select Classes For Plan</h3>
+<div class="container-fluid">
+    <!-- ERRORS -->
+    <div class="row" hidden="@hideErrors">
+        <p>Errors: @errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+
+                <!-- TYPE -->
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Type</span>
+                            
+                        <select class="form-select" @bind="type">
+                            <option value="">All</option>
+                            @if (filteredTypesNames != null)
+                            {
+                                @foreach (var typeName in filteredTypesNames)
+                                {
+                                    <option value="@typeName">@typeName</option>
+                                }
+                            }
+                        </select>
+
+                    </div>
+                </div>
+
+                <!-- DATE -->
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Date</span>
+                        <InputDate @bind-Value="@selectedDate" id="selectedDate" />
+                    </div>
+                </div>
+
+                <!-- SEARCH BUTTON -->
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick="@SearchPlanning" id="searchPlan">Search plan</button>
+                </div>
+
+            </div>
+
+            <!-- RESULTS -->
+            <div class="row">
+                @if (classes == null)
+                {
+                    <p>Loading classes...</p>
+                }
+                else if (classes.Count == 0)
+                {
+                    <p>No classes found for the selected criteria.</p>
+                }
+                else
+                {
+                   <div class="mh-100 table-responsive">
+                       <table class="table table-condensed table-hover">
+
+                           <thead>
+                               <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Price</th>
+                                    <th>Add to Plan</th>
+                               </tr>
+                           </thead>
+
+                           <tbody>
+                                @foreach (var classItem in classes)
+                                {
+                                    <tr id="ClassData_@classItem.Name">
+                                        <td>@classItem.Name</td>
+                                        <td>@string.Join(", ", classItem.TypeItemNames)</td>
+                                        <td>@classItem.DateTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@classItem.Price</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="classToAdd_@classItem.Name" @onclick="@(() => AddClassToPlan(classItem))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                           </tbody>
+                       </table>
+                   </div>
+                }
+            </div>
+        </div>
+
+        <!-- PLAN LIST -->
+        <div class="col-2" hidden="@hidePlanList">
+            <div class="row">
+                <h3>Planning List</h3>
+            </div>
+
+            @foreach (var item in plan.SelectedClasses)
+            {
+                <div class="row mb-1">
+                    <button type="button" class="btn btn-light" @onclick="@(() => RemoveClassFromPlan(item))">
+                        x @item.Name - @item.Price€
+                    </button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" @onclick="@GoToCreatePlan">Create Plan</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    private ICollection<ClassForPlanDTO> classes;
+
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+
+    private string type { get; set; }
+
+    // Filter by date
+    private DateTime? selectedDate { get; set; }
+
+    // For the dropdown of types
+    private ICollection<string>? allTypesNames = new List<string>(); // Complete list of all types
+    private ICollection<string>? filteredTypesNames = new List<string>(); // Filtered list of types to show
+
+    private CreatePlanDTO plan => planState.Plan;
+    private bool hidePlanList => plan.SelectedClasses.Count == 0;
+
+    
+
+    public async void SearchPlanning()
+    {
+        // Clear previous errors
+        errors = "";
+
+        // Alternative Flow 2: Date validation
+        if (selectedDate.HasValue && selectedDate.Value.Date < DateTime.Today)
+        {
+            errors = "Selected date must be today or later";
+            classes = new List<ClassForPlanDTO>();
+            StateHasChanged();
+            return;
+        }
+
+        try
+        {
+            classes = await apiClient.GetClassesForPlanningAsync(selectedDate, type);
+           
+            // Alternative Flow 0: No classes available
+            if (classes.Count == 0)
+            {
+                errors = "No classes found for the selected criteria.";
+            }
+            else
+            {
+                errors = "";
+            }
+
+            // We only populate allTypesNames the first time or when we need to update
+            if (allTypesNames.Count == 0)
+            {
+                allTypesNames = await GetAvailableTypes();
+            }
+
+            // For filteredTypesNames we show all available types
+            filteredTypesNames = allTypesNames
+                .OrderBy(x => x)
+                .ToList();
+        }
+        catch (ApiException ex) when (ex.StatusCode == 404)
+        {
+            errors = "No classes found for the selected criteria.";
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{DateTime.Now} Error: {ex}");
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+
+
+    private async Task<ICollection<string>> GetAvailableTypes()
+    {
+        try
+        {
+            // Obtain classes without filters to get all types
+            var allClasses = await apiClient.GetClassesForPlanningAsync(null, null);
+            return allClasses
+                .Where(c => c.TypeItemNames != null)
+                .SelectMany(c => c.TypeItemNames)
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{DateTime.Now} Error getting available types: {ex}");
+            return new List<string>();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load all available types on initialization
+        allTypesNames = await GetAvailableTypes();
+        filteredTypesNames = allTypesNames.ToList();
+
+        // Perform the initial search
+        SearchPlanning();
+        await base.OnInitializedAsync();
+    }
+
+    private void AddClassToPlan(ClassForPlanDTO classItem)
+    {
+        var classInPlan = new ClassInPlanDTO
+        {
+            Id = classItem.Id,
+            Name = classItem.Name,
+            Price = classItem.Price,
+            Date = classItem.DateTime,
+            TypeItemNames = classItem.TypeItemNames
+        };
+
+        planState.AddClassToPlan(classInPlan);
+    }
+
+    private void RemoveClassFromPlan(ClassInPlanDTO classItem)
+    {
+        planState.RemoveClassFromPlan(classItem);
+    }
+
+    private void GoToCreatePlan()
+    {
+        navigation.NavigateTo("/plan/createplan");
+    }
+}

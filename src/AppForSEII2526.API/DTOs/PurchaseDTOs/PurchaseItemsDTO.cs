@@ -2,11 +2,12 @@
 {
     public class PurchaseItemsDTO
     {
-        public PurchaseItemsDTO(string name, string brand, int quantity, decimal Price)
+        public PurchaseItemsDTO(string name, string brand, int quantity, decimal price)
         {
             Name = name;
             Brand = brand;
             Quantity = quantity;
+            Price = price;
         }
 
         public string Name { get; set; }

@@ -1,0 +1,116 @@
+﻿@page "/plan/detailplan"
+
+@using AppForSEII2526.Web.API;
+@inject AppForSEII2526APIClient apiClient
+@using Microsoft.AspNetCore.Authorization
+
+<h3>Detail Plan</h3>
+
+@attribute [Authorize]
+
+@if (plan == null)
+{
+    <p>@error</p>
+}
+else
+{
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>Name and Surname</th>
+            <td id="NameSurname">@plan.UserName @plan.UserSurname</td>
+        </tr>
+        <tr>
+            <th>Plan Name</th>
+            <td id="PlanName">@plan.Name</td>
+        </tr>
+        <tr>
+            <th>Weeks</th>
+            <td id="Weeks">@plan.Weeks</td>
+        </tr>
+        <tr>
+            <th>Health Issues</th>
+            <td id="HealthIssues">@plan.HealthIssues</td>
+        </tr>
+        <tr>
+            <th>Created Date</th>
+            <td id="CreatedDate">@plan.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+        </tr>
+    </table>
+
+    <h4>Enrolled Classes</h4>
+
+    <table class="table" id="EnrolledClasses">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Goal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var classItem in plan.Classes)
+            {
+                <tr id="Class_@classItem.Name">
+                    <td>@classItem.Name</td>
+                    <td>@string.Join(", ", classItem.TypeItemNames)</td>
+                    <td>@classItem.Price €</td>
+                    <td>@classItem.Date.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@classItem.Goal</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <th scope="row" colspan="4" class="text-end">Total Price</th>
+            <td id="TotalPrice">@plan.TotalPrice €</td>
+        </tfoot>
+    </table>
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int PlanID { get; set; }
+
+    private GetPlanDTO plan;
+    private string error = "";
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if the user is logged in
+        string userName = "";
+
+        if(authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            //we retrieve the id of the user logged in
+            if (user is not null)
+            {
+                if (user.Identity is not null && user.Identity.IsAuthenticated && user.IsInRole("User"))
+                {
+                    userName = user.Identity.Name;
+                }
+            }
+        }
+
+        try
+        {
+            plan = await apiClient.GetPlanAsync(PlanID); 
+        }
+        catch (ApiException exception)
+        {
+            plan = null;
+        }
+
+        if ((plan == null) || (plan.UserName != userName))
+        {
+            error = $"Error! You are not authorized to see this plan or there is not a plan with id={PlanID}";
+        }
+    }
+}

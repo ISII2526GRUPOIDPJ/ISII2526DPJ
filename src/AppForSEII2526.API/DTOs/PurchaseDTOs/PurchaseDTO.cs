@@ -1,9 +1,11 @@
-﻿
+﻿using AppForSEII2526.API.DTOs.PlanDTOs;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
     public class PurchaseDTO
     {
-        public PurchaseDTO(string city, string country, string street, decimal totalPrice, string? description, PaymentMethod paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
+        public PurchaseDTO(string city, string country, string street, decimal totalPrice, string? description, PaymentMethodDTO paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
         {
             City = city;
             Country = country;
@@ -11,6 +13,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
             TotalPrice = totalPrice;
             Description = description;
             PaymentMethod = paymentMethod;
+            PurchaseItems = purchaseItems;
         }
 
         public string City { get; set; }
@@ -18,7 +21,8 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public string Street { get; set; }
         public decimal TotalPrice { get; set; }
         public string? Description { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public PaymentMethodDTO PaymentMethod { get; set; }
+        public IList<PurchaseItemsDTO> PurchaseItems { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -28,7 +32,8 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
                    Street == dTO.Street &&
                    TotalPrice == dTO.TotalPrice &&
                    Description == dTO.Description &&
-                   EqualityComparer<PaymentMethod>.Default.Equals(PaymentMethod, dTO.PaymentMethod);
+                   PaymentMethod.Equals(dTO.PaymentMethod) &&
+                   PurchaseItems.SequenceEqual(dTO.PurchaseItems);
         }
     }
 }

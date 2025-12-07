@@ -65,6 +65,7 @@ namespace AppForSEII2526.UT.PlanController_test
             var today = DateTime.Today;
 
             var expectedPlan = new GetPlanDTO(
+                1,
                 "Antonio",
                 "Garcia",
                 today,
@@ -75,40 +76,31 @@ namespace AppForSEII2526.UT.PlanController_test
                 "None",
                 new List<ClassInPlanDTO>
                 {
-                    new ClassInPlanDTO(1, "Morning Yoga", new List<string> { "Yoga" }, 10.00m, today.AddDays(1).AddHours(9), "Relaxation"),
-                    new ClassInPlanDTO(2, "Cardio Blast", new List<string> { "Cardio" }, 12.50m, today.AddDays(2).AddHours(18), "Stamina")
+            new ClassInPlanDTO(1, "Morning Yoga", new List<string> { "Yoga" }, 10.00m, today.AddDays(1).AddHours(9), "Relaxation"),
+            new ClassInPlanDTO(2, "Cardio Blast", new List<string> { "Cardio" }, 12.50m, today.AddDays(2).AddHours(18), "Stamina")
                 }
             );
 
-            var allTests = new List<object[]>
+            return new List<object[]>
             {
-                new object[] { null, new List<GetPlanDTO> { expectedPlan } }, // Without date filter
-                new object[] { today, new List<GetPlanDTO> { expectedPlan } }  // With date filter
+                new object[] { 1, expectedPlan }
             };
-
-            return allTests;
         }
 
         // Test cases for no plans found
         public static IEnumerable<object[]> TestCasesFor_GetPlan_NotFound()
         {
-            var today = DateTime.Today;
-
-            var allTests = new List<object[]>
+            return new List<object[]>
             {
-                new object[] { today.AddYears(5)}, // Future date with no plans
-                new object[] { today.AddDays(-10) }, // Past date with no plans
-                new object[] { today.AddMonths(1) } // Another date with no plans
+                new object[] { 999 }, // ID that does not exist
             };
-
-            return allTests;
         }
 
         // Test that covers successful retrieval of plans
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetPlan_OK))]
-        public async Task GetPlan_ReturnsOk_WithCorrectFiltering(DateTime? filterDate, List<GetPlanDTO> expectedPlans)
+        public async Task GetPlan_ReturnsOk_WithCorrectFiltering(int planId, GetPlanDTO expectedPlan)
         {
             // Arrange
             var mock = new Mock<ILogger<PlanController>>();
@@ -116,35 +108,28 @@ namespace AppForSEII2526.UT.PlanController_test
             var controller = new PlanController(_context, logger);
 
             // Act
-            var result = await controller.GetPlan(filterDate);
+            var result = await controller.GetPlan(planId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnPlans = Assert.IsType<List<GetPlanDTO>>(okResult.Value);
-            
-            Assert.Equal(expectedPlans, returnPlans);
+            var returnPlan = Assert.IsType<GetPlanDTO>(okResult.Value);
 
-            // Validate that all returned plans match the filter date
-            if (filterDate.HasValue)
-            {
-                Assert.All(returnPlans, p => Assert.Equal(filterDate.Value.Date, p.CreatedDate.Date));
-            }
+            Assert.Equal(expectedPlan, returnPlan);
         }
 
         // Test that covers scenario when no plans are found
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetPlan_NotFound))]
-        public async Task GetPlan_ReturnsNotFound_WhenNoPlansExist(DateTime? date)
+        public async Task GetPlan_ReturnsNotFound_WhenNoPlansExist(int planId)
         {
             // Arrange
             var mock = new Mock<ILogger<PlanController>>();
             ILogger<PlanController> logger = mock.Object;
-
             var controller = new PlanController(_context, logger);
 
             // Act
-            var result = await controller.GetPlan(date);
+            var result = await controller.GetPlan(planId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);

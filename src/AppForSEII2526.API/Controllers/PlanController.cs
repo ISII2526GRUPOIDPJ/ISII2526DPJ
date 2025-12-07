@@ -22,30 +22,28 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(IList<GetPlanDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetPlanDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult> GetPlan(DateTime? date)
+        public async Task<ActionResult> GetPlan(int id)
         {
-            if(_context.Plans == null)
-            {
+            if (_context.Plans == null)
                 return NotFound();
-            }   
 
-            IList<GetPlanDTO> planDTOs = await _context.Plans
+            var plan = await _context.Plans
                 .Include(p => p.PaymentMethod)
                     .ThenInclude(pm => pm.User)
                 .Include(p => p.PlanItems)
                     .ThenInclude(pi => pi.Class)
                         .ThenInclude(c => c.TypeItems)
-                .Where(p => !date.HasValue || p.CreatedDate.Date == date.Value.Date)
-                .OrderBy(p => p.CreatedDate)
+                .Where(p => p.Id == id)
                 .Select(p => new GetPlanDTO(
+                    p.Id,
                     p.PaymentMethod.User.Name,
                     p.PaymentMethod.User.Surname,
                     p.CreatedDate,
                     p.TotalPrice,
                     p.Name,
-                    p.Description != null ? p.Description : string.Empty,
+                    p.Description ?? string.Empty,
                     p.Weeks,
                     p.HealthIssues,
                     p.PlanItems.Select(pi => new ClassInPlanDTO(
@@ -57,15 +55,14 @@ namespace AppForSEII2526.API.Controllers
                         pi.Goal
                     )).ToList()
                 ))
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
-            if(planDTOs == null || !planDTOs.Any())
-            {
+            if (plan == null)
                 return NotFound();
-            }
 
-            return Ok(planDTOs);
+            return Ok(plan);
         }
+
 
         [HttpPost]
         [Route("[action]")]
@@ -119,7 +116,7 @@ namespace AppForSEII2526.API.Controllers
                     Name = planDto.Name,
                     Description = planDto.Description,
                     Weeks = planDto.Weeks,
-                    HealthIssues = planDto.HealthIssues != null ? planDto.HealthIssues : string.Empty,
+                    HealthIssues = planDto.HealthIssues ?? string.Empty,
                     TotalPrice = totalPrice,
                     CreatedDate = DateTime.Now,
                     PaymentMethod = paymentMethod
@@ -149,6 +146,7 @@ namespace AppForSEII2526.API.Controllers
                             .ThenInclude(c => c.TypeItems)
                     .Where(p => p.Id == plan.Id)
                     .Select(p => new GetPlanDTO(
+                        p.Id,
                         p.PaymentMethod.User.Name,
                         p.PaymentMethod.User.Surname,
                         p.CreatedDate,

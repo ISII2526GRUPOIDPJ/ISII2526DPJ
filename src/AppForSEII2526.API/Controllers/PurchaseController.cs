@@ -1,5 +1,7 @@
 ﻿using AppForSEII2526.API.DTOs.ItemDTOs;
+using AppForSEII2526.API.DTOs.PlanDTOs;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
+using AppForSEII2526.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppForSEII2526.API.Controllers
@@ -25,7 +27,6 @@ namespace AppForSEII2526.API.Controllers
             PurchaseDTO? purchase = await _context.Purchases
                 .Include(p => p.PurchaseItems)
                     .ThenInclude(pi => pi.Item)
-                        .ThenInclude(i => i.Brand)
                 .Where(p => p.Id == id)
                 .Select(p => new PurchaseDTO(
                     p.City,
@@ -33,7 +34,7 @@ namespace AppForSEII2526.API.Controllers
                     p.Street,
                     p.Total_price,
                     p.Description,
-                    p.PaymentMethod,
+                    new PaymentMethodDTO(p.PaymentMethod.Id, p.PaymentMethod.GetType().Name, p.PaymentMethod.Description),
                     p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
                 ))
                 .FirstOrDefaultAsync();
@@ -52,12 +53,12 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.Created)]
         public async Task<ActionResult> CreatePurchase(CreatePurchaseDTO createPurchase) {
-            //Mandatory information not introduced
-            if (string.IsNullOrWhiteSpace(createPurchase.Street)) ModelState.AddModelError("PurchaseStreet", "Street is required");
-            if (string.IsNullOrWhiteSpace(createPurchase.City)) ModelState.AddModelError("PurchaseCity", "City is required");
-            if (string.IsNullOrWhiteSpace(createPurchase.Country)) ModelState.AddModelError("PurchaseCountry", "Country is required");
-            if (createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
-            if (createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
+            if(createPurchase.PaymentMethod == null) ModelState.AddModelError("PaymentMethod", "Payment method is required");
+            if(createPurchase.PurchaseItems == null || !createPurchase.PurchaseItems.Any()) ModelState.AddModelError("PurchaseItems", "At least one item must be selected");
+
+            if (ModelState.ErrorCount > 0) {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+            }
 
             var itemNames = createPurchase.PurchaseItems.Select(pi => pi.Name).ToList<string>();
 
@@ -72,21 +73,19 @@ namespace AppForSEII2526.API.Controllers
                 })
                 .ToList();
 
-            Purchase purchase = new Purchase(createPurchase.City, createPurchase.Country, createPurchase.Street, createPurchase.Date, createPurchase.Description, createPurchase.Total_price, new List<PurchaseItem>(), createPurchase.PaymentMethod);
+            var paymentMethod = await _context.PaymentMethods.FindAsync(createPurchase.PaymentMethod.Id);
+
+            Purchase purchase = new Purchase(createPurchase.City, createPurchase.Country, createPurchase.Street, createPurchase.Date, createPurchase.Description, createPurchase.Total_price, new List<PurchaseItem>(), paymentMethod);
 
             foreach(var i in createPurchase.PurchaseItems) {
                 var item = items.FirstOrDefault(m => m.Name == i.Name);
                 if ((item == null) || (i.Quantity > item.QuantityAvailableForPurchase)) {
                     ModelState.AddModelError("PurchaseItems", $"Error! There's no stock for '{i.Name}'.");
+                    return BadRequest(new ValidationProblemDetails(ModelState));
                 } else {
                     purchase.PurchaseItems.Add(new PurchaseItem(item.Id, i.Quantity, item.PurchasePrice, purchase));
                     i.Price = item.PurchasePrice;
                 }
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                return BadRequest(new ValidationProblemDetails(ModelState));
             }
 
             purchase.Total_price = purchase.PurchaseItems
@@ -99,7 +98,7 @@ namespace AppForSEII2526.API.Controllers
                 return Conflict("Error" +  ex.Message);
             }
 
-            var purchaseDetail = new PurchaseDTO(purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, purchase.PaymentMethod, createPurchase.PurchaseItems);
+            var purchaseDetail = new PurchaseDTO(purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, createPurchase.PaymentMethod, createPurchase.PurchaseItems);
 
             return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
         }
