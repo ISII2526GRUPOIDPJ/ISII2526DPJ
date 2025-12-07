@@ -18,6 +18,8 @@ namespace AppForSEII2526.UIT.UC_Plan
 
         By errorShownBy = By.Id("ErrorsShown");
 
+        By buttonGoToCreatePlan = By.Id("GoToCreatePlanButton");
+
         public SelectClassesForPlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
@@ -78,6 +80,44 @@ namespace AppForSEII2526.UIT.UC_Plan
             IWebElement actualErrorShown = _driver.FindElement(errorShownBy);
             _output.WriteLine($"actual Message shown:{actualErrorShown.Text}");
             return actualErrorShown.Text.Contains(errorMessage);
+        }
+
+        public void ClickGoToCreatePlan()
+        {
+            // Wait until the button is clickable
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+
+            var btn = wait.Until(
+                ExpectedConditions.ElementToBeClickable(buttonGoToCreatePlan)
+            );
+
+            btn.Click();
+        }
+
+        public void AddClassToPlan(string className)
+        {
+            WaitForBeingClickable(By.Id("classToAdd_" + className));
+            _driver.FindElement(By.Id("classToAdd_" + className)).Click();
+        }
+
+        public void RemoveClassFromPlan(string className)
+        {
+            WaitForBeingClickable(By.Id("removeClass_" + className));
+            _driver.FindElement(By.Id("removeClass_" + className)).Click();
+        }
+
+        public bool IsCreatePlanButtonAvailable()
+        {
+            try
+            {
+                // If it is displayed = true, it is available
+                return _driver.FindElement(buttonGoToCreatePlan).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                // If it does not find the element = false, it is not available
+                return false;
+            }
         }
     }
 }

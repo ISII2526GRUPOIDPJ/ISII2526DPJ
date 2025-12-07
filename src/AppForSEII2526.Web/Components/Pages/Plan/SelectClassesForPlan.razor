@@ -107,13 +107,13 @@
             @foreach (var item in plan.SelectedClasses)
             {
                 <div class="row mb-1">
-                    <button type="button" class="btn btn-light" @onclick="@(() => RemoveClassFromPlan(item))">
+                    <button type="button" id="removeClass_@item.Name" class="btn btn-light" @onclick="@(() => RemoveClassFromPlan(item))">
                         x @item.Name - @item.Price€
                     </button>
                 </div>
             }
             <div class="row">
-                <button type="button" class="btn btn-primary" @onclick="@GoToCreatePlan">Create Plan</button>
+                <button type="button" class="btn btn-primary" @onclick="@GoToCreatePlan" id="GoToCreatePlanButton">Create Plan</button>
             </div>
 
         </div>
@@ -181,28 +181,6 @@
         }
         StateHasChanged();
     }
-
-    /*
-    private async Task<ICollection<string>> GetAvailableTypes()
-    {
-        try
-        {
-            // Obtain classes without filters to get all types
-            var allClasses = await apiClient.GetClassesForPlanningAsync(null, null);
-            return allClasses
-                .Where(c => c.TypeItemNames != null)
-                .SelectMany(c => c.TypeItemNames)
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError($"{DateTime.Now} Error getting available types: {ex}");
-            return new List<string>();
-        }
-    }
-    */
 
     protected override async Task OnInitializedAsync()
     {
