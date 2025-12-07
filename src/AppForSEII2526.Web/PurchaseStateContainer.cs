@@ -13,8 +13,7 @@ namespace AppForSEII2526.Web
 
         public void AddItemToPurchase(ItemForPurchaseDTO item)
         {
-            if (!Purchase.PurchaseItems.Any(pi=> pi.Name == item.Name))
-                Purchase.PurchaseItems.Add(item);
+            Purchase.PurchaseItems.Add(item);
 
             NotifyStateChanged();
         }
