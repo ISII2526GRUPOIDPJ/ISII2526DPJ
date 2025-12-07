@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using AppForSEII2526.Web.API
-@inject AppForSEII2526APIClient apiclient
+@inject AppForSEII2526APIClient apiClient
 @inject ILogger<SelectItemsForPurchase> logger
 @inject PurchaseStateContainer purchaseState
 @inject NavigationManager navigation
@@ -28,24 +28,23 @@
                                 }
                             }
                         </select>
-                        @*<input type="text" id="inputName" @bind=itemName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1"></input>*@
                     </div>
                 </div>
+
 
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Brand</span>
                         <select id="itemBrand" class="form-select" @bind="itemBrand">
                             <option value="" selected>All</option>
-                            @if (allBrandNames != null)
+                            @if (allItemBrands != null)
                             {
-                                @foreach (var itemBrand in allBrandNames)
+                                @foreach (var itemBrand in allItemBrands)
                                 {
-                                    <option value="@itemBrand" id="typeNameSelected_@itemBrand">@itemBrand</option>
+                                    <option value="@itemBrand" id="itemBrandSelected_@itemBrand">@itemBrand</option>
                                 }
                             }
                         </select>
-                        @*input type="text" id="inputBrand" @bind=itemBrand class="form-control" placeholder="Brand" aria-label="Brand" aria-describedby="basic-addon1"></input>*@
                     </div>
                 </div>
 
@@ -98,14 +97,6 @@
                     }
                 </div>
             </div>
-
-            <div class="row">
-                @if(items == null) {
-                    <p>Loading Items...</p>
-                } else {
-                    <p>Number of Items: @items.Count</p>
-                }
-            </div>
         </div>
         <div class="col-2" hidden="@hidePurchaseList">
             <div class="row">
@@ -128,33 +119,53 @@
     </div>
 </div>
 
-    @code {
-        private ICollection<ItemForPurchaseDTO> items;
-        private bool hideErrors {get { return errors.Length == 0; }}
-        private string errors = "";
-        private string itemName { get; set; }
-        private string itemBrand { get; set; }
-        private ICollection<string> allItemNames = new List<string>();
-        private ICollection<string> allBrandNames = new List<string>();
+@code {
+    private ICollection<ItemForPurchaseDTO> items;
+    private bool hideErrors {get { return errors.Length == 0; }}
+    private string errors = "";
+    private string itemName { get; set; }
+    private string itemBrand { get; set; }
+    private ICollection<string> allItemNames = new List<string>();
+    private ICollection<string> allItemBrands = new List<string>();
 
-        private CreatePurchaseDTO purchase => purchaseState.Purchase;
-        private bool hidePurchaseList => purchase.PurchaseItems.Count == 0;
+    private CreatePurchaseDTO purchase => purchaseState.Purchase;
+    private bool hidePurchaseList => purchase.PurchaseItems.Count == 0;
 
-        public async void SearchItems() {
-            try {
-                items = await apiclient.GetItemsForPurchaseAsync(itemName, itemBrand);
-            } catch (ApiException ex) {
-                logger.LogError("${DateTime.Now} Error: {ex}");
-                errors = "Error while trying to connect to the system.";
+    public async void SearchItems() {
+        try {
+            items = await apiClient.GetItemsForPurchaseAsync(itemName, itemBrand);
+        } catch (ApiException ex) {
+            logger.LogError("${DateTime.Now} Error: {ex}");
+            errors = "Error while trying to connect to the system.";
+        }
+        StateHasChanged();
+    }
+
+    protected override Task OnInitializedAsync() {
+        try {
+            allItemNames = await apiClient.GetAllItemNamesAsync();
+        } catch (ApiException ex) {
+            if (allItemNames == null)
+            {
+                allItemNames = new List<string>();
             }
-            StateHasChanged();
+            logger.LogError("Error! There was an error while connecting to the GetAllItemNamesAsync service");
         }
 
-        protected override Task OnInitializedAsync() {
-            SearchItems();
-
-            return base.OnInitializedAsync();
+        try {
+            allItemBrands = await apiClient.GetAllItemBrandsAsync();
+        } catch (ApiException ex) {
+            if (allItemBrands == null)
+            {
+                allItemBrands = new List<string>();
+            }
+            logger.LogError("Error! There was an error while connecting to the GetAllItemBrandsAsync service");
         }
+
+        SearchItems();
+
+        return base.OnInitializedAsync();
+    }
 
         private void AddItemToPurchase(ItemForPurchaseDTO item)
             {
