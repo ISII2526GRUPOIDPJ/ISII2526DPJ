@@ -211,7 +211,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             AddClassAndGoToCreatePlan(className1);
 
             // Act
-            createPlan_PO.FillPlanForm("Plan1", "Description", "53", "Health Issue", "CreditCard");
+            createPlan_PO.FillPlanForm("Plan1", "Description", "99", "Health Issue", "CreditCard");
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
