@@ -66,8 +66,16 @@ namespace AppForMovies.UIT.Shared {
             _driver.FindElement(By.Name("Input.Password"))
                 .SendKeys(password);
 
-            _driver.FindElement(By.XPath("/html/body/div[1]/main/article/div/div[1]/section/form/div[4]/button"))
-                .Click();
+            // Locate log in button
+            var loginButton = _driver.FindElement(
+               By.XPath("/html/body/div[1]/main/article/div/div[1]/section/form/div[4]/button")
+           );
+
+            // Scroll before clicking log in
+            Actions actions = new Actions(_driver);
+            actions.MoveToElement(loginButton).Perform();
+
+            loginButton.Click();
         }
 
 
