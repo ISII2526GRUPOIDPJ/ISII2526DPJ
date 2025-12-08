@@ -8,6 +8,12 @@ namespace AppForSEII2526.Web
             PurchaseItems = new List<PurchaseItemsDTO>()
         };
 
+        public decimal EstimatedTotalPrice {
+            get {
+                return Purchase.PurchaseItems.Sum(pi => Convert.ToDecimal(pi.Price));
+            }
+        }
+
         public event Action? OnChange;
         private void NotifyStateChanged() => OnChange?.Invoke();
 

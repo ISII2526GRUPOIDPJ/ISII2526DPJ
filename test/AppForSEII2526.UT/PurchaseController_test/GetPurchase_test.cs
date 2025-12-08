@@ -96,6 +96,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 .First();
 
             var expectedPurchase = new PurchaseDTO(
+                1,
                 "Madrid",
                 "Spain",
                 "Main Street 123",
