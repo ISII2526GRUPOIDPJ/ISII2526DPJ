@@ -71,13 +71,8 @@
     private string error = "";
 
     protected override async Task OnInitializedAsync() {
-        // Check if the user is logged in
-        string userName = "";
-
         try {
             var purchases = await apiClient.GetPurchaseAsync(PurchaseID);
-            // Si GetPurchaseAsync devuelve una colección, selecciona el primero o busca el que coincida con el ID
-            purchase = purchases?.FirstOrDefault(p => p.Id == PurchaseID);
         } catch (ApiException exception) {
             purchase = null;
         }

@@ -21,7 +21,7 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(IList<PurchaseDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetPurchase(int id)
         {
             PurchaseDTO? purchase = await _context.Purchases
