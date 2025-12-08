@@ -99,7 +99,28 @@ namespace AppForSEII2526.API.Controllers
                 return Conflict("Error" +  ex.Message);
             }
 
-            var purchaseDetail = new PurchaseDTO(purchase.Id, purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, createPurchase.PaymentMethod, createPurchase.PurchaseItems);
+            var purchaseDetail = await _context.Purchases
+                .Include(p => p.PurchaseItems)
+                    .ThenInclude(pi => pi.Item)
+                .Include(p => p.PaymentMethod)
+                .Where(p => p.Id == purchase.Id)
+                .Select(p => new PurchaseDTO(
+                    p.Id,
+                    p.City,
+                    p.Country,
+                    p.Street,
+                    p.Total_price,
+                    p.Description,
+                    new PaymentMethodDTO(p.PaymentMethod.Id, p.PaymentMethod.GetType().Name, p.PaymentMethod.Description),
+                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(
+                        pi.Item.Name,
+                        pi.Item.Brand.Name,
+                        pi.Item.Description,
+                        pi.Amount_bought,
+                        pi.Price
+                    )).ToList()
+                ))
+                .FirstOrDefaultAsync();
 
             return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
         }
