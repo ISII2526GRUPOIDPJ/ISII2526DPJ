@@ -9,6 +9,59 @@
 
 <h3>Detail Purchase</h3>
 
+@if (purchase == null) {
+    <p>@error</p>
+} else {
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>City</th>
+            <td id="City">@purchase.City</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td id="Weeks">@purchase.Country</td>
+        </tr>
+        <tr>
+            <th>Street</th>
+            <td id="Street">@purchase.Street</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td id="Description">@purchase.Description</td>
+        </tr>
+    </table>
+
+    <h4>Items Purchased</h4>
+
+    <table class="table" id="EnrolledClasses">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in purchase.PurchaseItems)
+            {
+                <tr id="Class_@item.Name">
+                    <td>@item.Name</td>
+                    <td>@item.Brand</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        <th scope="row" colspan="4" class="text-end">Total Price</th>
+        <td id="TotalPrice">@purchase.TotalPrice €</td>
+        </tfoot>
+    </table>
+}
+
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
@@ -16,4 +69,21 @@
 
     private PurchaseDTO purchase;
     private string error = "";
+
+    protected override async Task OnInitializedAsync() {
+        // Check if the user is logged in
+        string userName = "";
+
+        try {
+            var purchases = await apiClient.GetPurchaseAsync(PurchaseID);
+            // Si GetPurchaseAsync devuelve una colección, selecciona el primero o busca el que coincida con el ID
+            purchase = purchases?.FirstOrDefault(p => p.Id == PurchaseID);
+        } catch (ApiException exception) {
+            purchase = null;
+        }
+
+        if (purchase == null) {
+                error = $"Error! You are not authorized to see this purchase or there is not a purchase with ID {PurchaseID}";
+        }
+    }
 }
