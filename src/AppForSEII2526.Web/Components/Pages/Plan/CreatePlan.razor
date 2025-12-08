@@ -10,7 +10,7 @@
 @using Microsoft.AspNetCore.Authorization
 
 
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 <h3>CreatePlan</h3>
 
 
@@ -203,7 +203,7 @@
             {
                 if (user.Identity is not null && user.Identity.IsAuthenticated)
                 {
-                    plan.Name = user.Identity.Name;
+                    //plan.Name = user.Identity.Name;
                 }
             }
 

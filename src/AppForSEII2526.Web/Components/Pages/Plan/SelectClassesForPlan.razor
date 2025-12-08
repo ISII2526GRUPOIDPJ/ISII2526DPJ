@@ -8,7 +8,7 @@
 @inject PlanStateContainer planState
 @inject NavigationManager navigation
 
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 <h3>Select Classes For Plan</h3>
 <div class="container-fluid">
     <!-- ERRORS -->
@@ -23,7 +23,7 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Type</span>
-                            
+
                         <select id="typeSelect" class="form-select" @bind="typeSelected">
                             <option value="" selected>All</option>
                             @if (allTypesNames != null)
@@ -65,20 +65,20 @@
                 }
                 else
                 {
-                   <div class="mh-100 table-responsive">
+                    <div class="mh-100 table-responsive">
                         <table id="tableClassesForPlan" class="table table-condensed table-hover">
 
-                           <thead>
-                               <tr>
+                            <thead>
+                                <tr>
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>Date</th>
                                     <th>Price</th>
                                     <th>Add to Plan</th>
-                               </tr>
-                           </thead>
+                                </tr>
+                            </thead>
 
-                           <tbody>
+                            <tbody>
                                 @foreach (var classItem in classes)
                                 {
                                     <tr id="ClassData_@classItem.Name">
@@ -91,9 +91,9 @@
                                         </td>
                                     </tr>
                                 }
-                           </tbody>
-                       </table>
-                   </div>
+                            </tbody>
+                        </table>
+                    </div>
                 }
             </div>
         </div>
@@ -137,7 +137,7 @@
     private CreatePlanDTO plan => planState.Plan;
     private bool hidePlanList => plan.SelectedClasses.Count == 0;
 
-    
+
 
     public async void SearchPlanning()
     {
@@ -159,7 +159,7 @@
             string typeToSearch = string.IsNullOrEmpty(typeSelected) ? null : typeSelected;
 
             classes = await apiClient.GetClassesForPlanningAsync(selectedDate, typeToSearch);
-           
+
             // Alternative Flow 0: No classes available
             if (classes == null || classes.Count == 0)
             {

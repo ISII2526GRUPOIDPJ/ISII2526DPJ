@@ -77,7 +77,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25m)},
                         null
                     ),
                     "Payment method is required"
@@ -109,7 +109,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         11,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 11, 25m)},
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 11, 25m)},
                         new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31")
                     ),
                     $"Error! There's no stock for 'Yoga Mat'."
@@ -131,7 +131,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 "Description",
                 150m,
                 4,
-                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25m)},
                 new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31")
             );
 

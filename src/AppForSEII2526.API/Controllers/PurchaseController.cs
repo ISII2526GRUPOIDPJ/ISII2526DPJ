@@ -35,7 +35,7 @@ namespace AppForSEII2526.API.Controllers
                     p.Total_price,
                     p.Description,
                     new PaymentMethodDTO(p.PaymentMethod.Id, p.PaymentMethod.GetType().Name, p.PaymentMethod.Description),
-                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
+                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.Description, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
                 ))
                 .FirstOrDefaultAsync();
 
