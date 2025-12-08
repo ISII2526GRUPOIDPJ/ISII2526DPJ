@@ -843,7 +843,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "int"
+            "type": "integer",
+            "format": "int32"
           },
           "city": {
             "type": "string",
