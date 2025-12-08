@@ -14,6 +14,14 @@ namespace AppForSEII2526.API.Models
             Purchase = purchase;
         }
 
+        public PurchaseItem(int itemId, int amount_bought, decimal price, Item item)
+        {
+            ItemId = itemId;
+            Amount_bought = amount_bought;
+            Price = price;
+            Item = item;
+        }
+
         public int ItemId { get; set; }
         public int Amount_bought { get; set; }
         [Precision(10,2)]

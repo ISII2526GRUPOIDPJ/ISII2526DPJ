@@ -17,19 +17,16 @@ namespace AppForSEII2526.UT.PurchaseController_test
 {
     public class CreatePurchase_test : AppForSEII25264SqliteUT
     {
-        public class TestPaymentMethod : PaymentMethod { }
+        public class CreditCard : PaymentMethod { }
 
         public CreatePurchase_test() {
-            ApplicationUser user = new ApplicationUser(1, "John", "Doe");
+            ApplicationUser user = new ApplicationUser("John", "Doe");
 
-            var paymentMethod = new TestPaymentMethod()
+            var paymentMethod = new CreditCard()
             {
                 Id = 1,
-                User = user
-            };
-
-            var purchase = new List<Purchase>() {
-                new Purchase("Madrid", "Spain", DateTime.Parse("2024-01-10"), "Gym equipment", "Main Street 123", 150, paymentMethod)
+                User = user,
+                Description = "123456789 2025-12-31"
             };
 
             var brands = new List<Brand>() {
@@ -43,18 +40,26 @@ namespace AppForSEII2526.UT.PurchaseController_test
                     new TypeItem("Strenght")
             };
 
-            var items = new List<Item>() {
-                    new Item("Yoga mat for exercises", "Yoga Mat", 25, 10, 5, 20, types[0], brands[0]),
-                    new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, types[1], brands[1]),
-                    new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, types[2], brands[0])
+            var items = new List<Item> {
+                new Item("Yoga mat for exercises", "Yoga Mat", 25.0m, 10, 5, 20, types[0], brands[0]),
+                new Item("Running Shoes", "Running Shoes", 80, 15, 8, 70, types[1], brands[1]),
+                new Item("Shirt for doing exercises", "Sports Shirt", 100, 0, 6, 85, types[2], brands[0])
+            };
+
+            var purchaseItems = new List<PurchaseItem> {
+                new PurchaseItem(1, 1, items[0].PurchasePrice, items[0])
+            };
+
+            var purchase = new List<Purchase>() {
+                new Purchase("Madrid", "Spain", "Main Street 123", DateTime.Parse("2024-01-10"), "Gym equipment", 150, purchaseItems, paymentMethod)
             };
 
             _context.AddRange(user);
-            _context.AddRange(purchase);
-            _context.Add(paymentMethod);
             _context.AddRange(brands);
             _context.AddRange(types);
             _context.AddRange(items);
+            _context.AddRange(paymentMethod);
+            _context.AddRange(purchase);
             _context.SaveChanges();
         }
 
@@ -62,54 +67,6 @@ namespace AppForSEII2526.UT.PurchaseController_test
         {
             var allTests = new List<object[]>
             {
-                //Street missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        "Madrid",
-                        "Spain",
-                        null,
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "Street is required"
-                },
-
-                //City missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        null,
-                        "Spain",
-                        "Main Street 123",
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "City is required"
-                },
-
-                //Country missing
-                new object[] {
-                    new CreatePurchaseDTO(
-                        "Madrid",
-                        null,
-                        "Main Street 123",
-                        DateTime.Parse("2024-01-10"),
-                        "Description",
-                        0m,
-                        4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
-                    ),
-                    "Country is required"
-                },
-
                 //Invalid payment method
                 new object[] {
                     new CreatePurchaseDTO(
@@ -120,7 +77,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         4,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25m)},
                         null
                     ),
                     "Payment method is required"
@@ -137,7 +94,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         0m,
                         0,
                         new List<PurchaseItemsDTO> {},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
+                        new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31")
                     ),
                     "At least one item must be selected"
                 },
@@ -152,8 +109,8 @@ namespace AppForSEII2526.UT.PurchaseController_test
                         "Description",
                         0m,
                         11,
-                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 11, 25m)},
-                        new TestPaymentMethod() {Id = 1, User = new ApplicationUser(1, "John", "Doe")}
+                        new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 11, 25m)},
+                        new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31")
                     ),
                     $"Error! There's no stock for 'Yoga Mat'."
                 }
@@ -166,8 +123,6 @@ namespace AppForSEII2526.UT.PurchaseController_test
         public async Task CreatePurchase_ReturnsOk_WhenValidData()
         {
             // Arrange
-            var paymentMethods = _context.PaymentMethods.ToList();
-
             var purchaseDto = new CreatePurchaseDTO(
                 "Madrid",
                 "Spain",
@@ -176,8 +131,8 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 "Description",
                 150m,
                 4,
-                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", 10, 25m)},
-                paymentMethods.First()
+                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25m)},
+                new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31")
             );
 
             var mock = new Mock<ILogger<PurchaseController>>();

@@ -4,9 +4,10 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
 {
     public class GetPlanDTO
     {
-        public GetPlanDTO(string userName, string userSurname, DateTime createdDate, decimal totalPrice,
+        public GetPlanDTO(int id, string userName, string userSurname, DateTime createdDate, decimal totalPrice,
             string name, string description, int weeks, string healthIssues, IList<ClassInPlanDTO> classes)
         {
+            Id = id;
             UserName = userName;
             UserSurname = userSurname;
             CreatedDate = createdDate;
@@ -17,6 +18,8 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
             HealthIssues = healthIssues;
             Classes = classes;
         }
+
+        public int Id { get; set; }
 
         [StringLength(50, ErrorMessage = "User name cannot be longer than 50 characters.")]
         [MinLength(3, ErrorMessage = "User name must be at least 3 characters.")]
@@ -45,6 +48,7 @@ namespace AppForSEII2526.API.DTOs.PlanDTOs
         public override bool Equals(object? obj)
         {
             return obj is GetPlanDTO dTO &&
+                   Id == dTO.Id &&
                    UserName == dTO.UserName &&
                    UserSurname == dTO.UserSurname &&
                    CreatedDate == dTO.CreatedDate &&

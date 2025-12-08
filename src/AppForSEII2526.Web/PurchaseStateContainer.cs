@@ -13,17 +13,23 @@ namespace AppForSEII2526.Web
 
         public void AddItemToPurchase(PurchaseItemsDTO item)
         {
-            
+            Purchase.PurchaseItems.Add(item);
+
+            NotifyStateChanged();
         }
 
         public void RemoveItemFromPurchase(PurchaseItemsDTO item)
         {
             Purchase.PurchaseItems.Remove(item);
+
+            NotifyStateChanged();
         }
 
         public void ClearCart()
         {
             Purchase.PurchaseItems.Clear();
+
+            NotifyStateChanged();
         }
 
         public void PurchaseProcessed()
@@ -32,6 +38,8 @@ namespace AppForSEII2526.Web
             {
                 PurchaseItems = new List<PurchaseItemsDTO>()
             };
+
+            NotifyStateChanged();
         }
     }
 }

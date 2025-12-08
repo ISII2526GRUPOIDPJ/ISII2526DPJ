@@ -55,7 +55,6 @@ namespace AppForSEII2526.UT.PlanController_test
                 new object[] {
                     new CreatePlanDTO(
                         null, // <- No classes selected
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "Valid Plan",
                         "Description",
                         4,
@@ -71,7 +70,6 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "Invalid Payment Plan",
                         "Description",
                         4,
@@ -87,7 +85,6 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "",
                         "Description",
                         4,
@@ -103,7 +100,6 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "Invalid Weeks Plan",
                         "Description",
                         0, // <- Invalid weeks
@@ -118,7 +114,6 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(1, "Morning Yoga", new List<string>{"Yoga"}, 10.00m, DateTime.Today.AddDays(1).AddHours(9), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "Invalid Weeks Plan High",
                         "Description",
                         999, // <- Invalid weeks (too high)
@@ -134,7 +129,6 @@ namespace AppForSEII2526.UT.PlanController_test
                         new List<ClassInPlanDTO> {
                             new ClassInPlanDTO(3, "Strength Training", new List<string>{"Strength"}, 15.00m, DateTime.Today.AddDays(3).AddHours(17), "Goal")
                         },
-                        new List<PaymentMethodDTO> { new PaymentMethodDTO(1, "CreditCard", "Info") },
                         "Plan No Capacity",
                         "Description",
                         4,
@@ -173,7 +167,6 @@ namespace AppForSEII2526.UT.PlanController_test
 
             var planDto = new CreatePlanDTO(
                 selectedClasses,
-                paymentMethods.Select(pm => new PaymentMethodDTO(pm.Id, "Type", "Info")).ToList(),
                 "Plan Fitness",
                 "General wellness plan",
                 4,

@@ -28,36 +28,15 @@
               "type": "string",
               "format": "date-time"
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -194,11 +173,11 @@
         "operationId": "GetPlan",
         "parameters": [
           {
-            "name": "date",
+            "name": "id",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -208,26 +187,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetPlanDTO"
-                  }
+                  "$ref": "#/components/schemas/GetPlanDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetPlanDTO"
-                  }
+                  "$ref": "#/components/schemas/GetPlanDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetPlanDTO"
-                  }
+                  "$ref": "#/components/schemas/GetPlanDTO"
                 }
               }
             }
@@ -461,156 +431,127 @@
           }
         }
       }
+    },
+    "/api/Types/GetAllClassTypes": {
+      "get": {
+        "tags": [
+          "Types"
+        ],
+        "operationId": "GetAllClassTypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Types/GetAllItemNames": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "operationId": "GetAllItemNames",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Types/GetAllItemBrands": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "operationId": "GetAllItemBrands",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ApplicationUser": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "normalizedUserName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "normalizedEmail": {
-            "type": "string",
-            "nullable": true
-          },
-          "emailConfirmed": {
-            "type": "boolean"
-          },
-          "passwordHash": {
-            "type": "string",
-            "nullable": true
-          },
-          "securityStamp": {
-            "type": "string",
-            "nullable": true
-          },
-          "concurrencyStamp": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumberConfirmed": {
-            "type": "boolean"
-          },
-          "twoFactorEnabled": {
-            "type": "boolean"
-          },
-          "lockoutEnd": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "lockoutEnabled": {
-            "type": "boolean"
-          },
-          "accessFailedCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "surname": {
-            "type": "string",
-            "nullable": true
-          },
-          "paymentMethods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaymentMethod"
-            },
-            "nullable": true
-          },
-          "incidents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Incident"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Brand": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Item"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Class": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "capacity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "planItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlanItem"
-            },
-            "nullable": true
-          },
-          "typeItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TypeItem"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ClassForPlanDTO": {
         "type": "object",
         "properties": {
@@ -717,20 +658,9 @@
             "type": "string",
             "nullable": true
           },
-          "availablePaymentMethods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaymentMethodDTO"
-            },
-            "nullable": true
-          },
           "selectedPaymentMethodId": {
             "type": "integer",
             "format": "int32"
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
           }
         },
         "additionalProperties": false
@@ -774,7 +704,7 @@
             "nullable": true
           },
           "paymentMethod": {
-            "$ref": "#/components/schemas/PaymentMethod"
+            "$ref": "#/components/schemas/PaymentMethodDTO"
           }
         },
         "additionalProperties": false
@@ -782,6 +712,10 @@
       "GetPlanDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "userName": {
             "maxLength": 50,
             "minLength": 3,
@@ -834,156 +768,6 @@
         },
         "additionalProperties": false
       },
-      "Incident": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateOfldentification": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "exercise": {
-            "type": "string",
-            "nullable": true
-          },
-          "incidentItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IncidentItem"
-            },
-            "nullable": true
-          },
-          "user": {
-            "$ref": "#/components/schemas/ApplicationUser"
-          },
-          "incidentState": {
-            "$ref": "#/components/schemas/IncidentState"
-          }
-        },
-        "additionalProperties": false
-      },
-      "IncidentItem": {
-        "type": "object",
-        "properties": {
-          "incidentId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemForExerciseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "incident": {
-            "$ref": "#/components/schemas/Incident"
-          },
-          "itemForExercise": {
-            "$ref": "#/components/schemas/ItemForExercise"
-          },
-          "incidentPriority": {
-            "$ref": "#/components/schemas/IncidentPriority"
-          }
-        },
-        "additionalProperties": false
-      },
-      "IncidentPriority": {
-        "enum": [
-          "High",
-          "Medium",
-          "Low"
-        ],
-        "type": "string"
-      },
-      "IncidentState": {
-        "enum": [
-          "Submitted",
-          "InProgress",
-          "Done"
-        ],
-        "type": "string"
-      },
-      "Item": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "purchasePrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "quantityAvailableForPurchase": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "quantityForRestock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "restockPrice": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "purchaseItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseItem"
-            },
-            "nullable": true
-          },
-          "typeItem": {
-            "$ref": "#/components/schemas/TypeItem"
-          },
-          "brand": {
-            "$ref": "#/components/schemas/Brand"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ItemForExercise": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "location": {
-            "type": "string",
-            "nullable": true
-          },
-          "item": {
-            "$ref": "#/components/schemas/Item"
-          },
-          "incidentItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IncidentItem"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ItemForPurchaseDTO": {
         "type": "object",
         "properties": {
@@ -1010,33 +794,6 @@
         },
         "additionalProperties": false
       },
-      "PaymentMethod": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "plans": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Plan"
-            },
-            "nullable": true
-          },
-          "purchases": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Purchase"
-            },
-            "nullable": true
-          },
-          "user": {
-            "$ref": "#/components/schemas/ApplicationUser"
-          }
-        },
-        "additionalProperties": false
-      },
       "PaymentMethodDTO": {
         "type": "object",
         "properties": {
@@ -1048,81 +805,9 @@
             "type": "string",
             "nullable": true
           },
-          "displayInfo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Plan": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "healthIssues": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "weeks": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "planItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlanItem"
-            },
-            "nullable": true
-          },
-          "paymentMethod": {
-            "$ref": "#/components/schemas/PaymentMethod"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PlanItem": {
-        "type": "object",
-        "properties": {
-          "classId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "goal": {
-            "type": "string",
-            "nullable": true
-          },
-          "planId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "plan": {
-            "$ref": "#/components/schemas/Plan"
-          },
-          "class": {
-            "$ref": "#/components/schemas/Class"
           }
         },
         "additionalProperties": false
@@ -1154,50 +839,6 @@
         },
         "additionalProperties": { }
       },
-      "Purchase": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          },
-          "country": {
-            "type": "string",
-            "nullable": true
-          },
-          "street": {
-            "type": "string",
-            "nullable": true
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "total_price": {
-            "type": "number",
-            "format": "double"
-          },
-          "purchaseItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseItem"
-            },
-            "nullable": true
-          },
-          "paymentMethod": {
-            "$ref": "#/components/schemas/PaymentMethod"
-          }
-        },
-        "additionalProperties": false
-      },
       "PurchaseDTO": {
         "type": "object",
         "properties": {
@@ -1222,35 +863,14 @@
             "nullable": true
           },
           "paymentMethod": {
-            "$ref": "#/components/schemas/PaymentMethod"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PurchaseItem": {
-        "type": "object",
-        "properties": {
-          "itemId": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/PaymentMethodDTO"
           },
-          "amount_bought": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "purchaseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "purchase": {
-            "$ref": "#/components/schemas/Purchase"
-          },
-          "item": {
-            "$ref": "#/components/schemas/Item"
+          "purchaseItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PurchaseItemsDTO"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1266,6 +886,10 @@
             "type": "string",
             "nullable": true
           },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"
@@ -1273,27 +897,6 @@
           "price": {
             "type": "number",
             "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TypeItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Item"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
