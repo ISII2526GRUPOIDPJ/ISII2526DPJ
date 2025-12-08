@@ -18,16 +18,7 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <select id="itemName" class="form-select" @bind="itemName">
-                            <option value="" selected>All</option>
-                            @if (allItemNames != null)
-                            {
-                                @foreach (var itemName in allItemNames)
-                                {
-                                    <option value="@itemName" id="typeNameSelected_@itemName">@itemName</option>
-                                }
-                            }
-                        </select>
+                        <input type="text" id="inputName" @bind=itemName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
                     </div>
                 </div>
 
@@ -142,7 +133,7 @@
     }
 
     protected override async Task OnInitializedAsync() {
-        @*try {
+        try {
             allItemNames = await apiClient.GetAllItemNamesAsync();
         } catch (ApiException ex) {
             if (allItemNames == null)
@@ -150,9 +141,9 @@
                 allItemNames = new List<string>();
             }
             logger.LogError("Error! There was an error while connecting to the GetAllItemNamesAsync service");
-        }*@
+        }
 
-        @*try {
+        try {
             allItemBrands = await apiClient.GetAllItemBrandsAsync();
         } catch (ApiException ex) {
             if (allItemBrands == null)
@@ -160,7 +151,7 @@
                 allItemBrands = new List<string>();
             }
             logger.LogError("Error! There was an error while connecting to the GetAllItemBrandsAsync service");
-        }*@
+        }
 
         SearchItems();
 
