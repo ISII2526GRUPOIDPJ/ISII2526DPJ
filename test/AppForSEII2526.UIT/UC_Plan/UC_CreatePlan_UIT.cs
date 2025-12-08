@@ -34,16 +34,19 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO = new CreatePlan_PO(_driver, _output);
         }
 
-        /*
+        
         private void Precondition_perform_login() {
-            Perform_login("email","passwrod");
+            Perform_login("test@uclm.es", "Test123!");
         }
-        */
+        
 
         private void InitialStepsForCreatingPlan()
         {
-            //Precondition_perform_login();
-            Initial_step_opening_the_web_page();
+            Precondition_perform_login();
+
+            // Use if the log in does not work
+            //Initial_step_opening_the_web_page();
+            
             selectClassesForPlan_PO.WaitForBeingVisible(By.Id("CreatePlan"));
             _driver.FindElement(By.Id("CreatePlan")).Click();
         }
@@ -109,7 +112,7 @@ namespace AppForSEII2526.UIT.UC_Plan
                 new string[] { className1, classType1, classDate1.ToString("dd/MM/yyyy HH:mm"), price1 }
             };
 
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
 
             // Act
             selectClassesForPlan_PO.SearchPlan(classType1);
