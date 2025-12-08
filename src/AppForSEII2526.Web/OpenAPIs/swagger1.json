@@ -14,6 +14,45 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Brands/GetAllItemBrands": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "operationId": "GetAllItemBrands",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Class/GetClassesForPlanning": {
       "get": {
         "tags": [
@@ -157,6 +196,45 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ItemForPurchaseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Names/GetAllItemNames": {
+      "get": {
+        "tags": [
+          "Names"
+        ],
+        "operationId": "GetAllItemNames",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -438,84 +516,6 @@
           "Types"
         ],
         "operationId": "GetAllClassTypes",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Types/GetAllItemNames": {
-      "get": {
-        "tags": [
-          "Items"
-        ],
-        "operationId": "GetAllItemNames",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Types/GetAllItemBrands": {
-      "get": {
-        "tags": [
-          "Brands"
-        ],
-        "operationId": "GetAllItemBrands",
         "responses": {
           "200": {
             "description": "OK",
