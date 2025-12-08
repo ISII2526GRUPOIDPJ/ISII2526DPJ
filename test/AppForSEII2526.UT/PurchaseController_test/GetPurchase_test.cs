@@ -20,7 +20,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
 
         public GetPurchase_test() {
 
-            ApplicationUser user = new ApplicationUser(1, "John", "Doe");
+            ApplicationUser user = new ApplicationUser("John", "Doe");
 
             var paymentMethod = new CreditCard() {
                 Id = 1,

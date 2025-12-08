@@ -20,7 +20,7 @@ namespace AppForSEII2526.UT.PurchaseController_test
         public class CreditCard : PaymentMethod { }
 
         public CreatePurchase_test() {
-            ApplicationUser user = new ApplicationUser(1, "John", "Doe");
+            ApplicationUser user = new ApplicationUser("John", "Doe");
 
             var paymentMethod = new CreditCard()
             {
