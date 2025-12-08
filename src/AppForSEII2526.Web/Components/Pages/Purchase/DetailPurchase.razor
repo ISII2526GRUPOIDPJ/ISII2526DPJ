@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiClient
+@inject ILogger<SelectItemsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+@page "/purchase/detailpurchase"
+
+<h3>Detail Purchase</h3>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int PurchaseID { get; set; }
+
+    private PurchaseDTO purchase;
+    private string error = "";
+}
