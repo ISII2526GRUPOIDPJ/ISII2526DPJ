@@ -842,6 +842,9 @@
       "PurchaseDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "int"
+          },
           "city": {
             "type": "string",
             "nullable": true

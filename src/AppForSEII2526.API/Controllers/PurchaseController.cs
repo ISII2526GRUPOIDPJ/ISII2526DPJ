@@ -29,6 +29,7 @@ namespace AppForSEII2526.API.Controllers
                     .ThenInclude(pi => pi.Item)
                 .Where(p => p.Id == id)
                 .Select(p => new PurchaseDTO(
+                    p.Id,
                     p.City,
                     p.Country,
                     p.Street,
@@ -98,7 +99,7 @@ namespace AppForSEII2526.API.Controllers
                 return Conflict("Error" +  ex.Message);
             }
 
-            var purchaseDetail = new PurchaseDTO(purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, createPurchase.PaymentMethod, createPurchase.PurchaseItems);
+            var purchaseDetail = new PurchaseDTO(purchase.Id, purchase.City, purchase.Country, purchase.Street, purchase.Total_price, purchase.Description, createPurchase.PaymentMethod, createPurchase.PurchaseItems);
 
             return CreatedAtAction("GetPurchase", new {id = purchase.Id}, purchaseDetail);
         }
