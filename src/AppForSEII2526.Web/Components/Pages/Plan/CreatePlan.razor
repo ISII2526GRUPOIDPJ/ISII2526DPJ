@@ -93,7 +93,7 @@
                         <td>@classs.Price</td>
                         <td>@classs.Date.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>
-                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" />
+                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" id="@($"GoalInput_{classs.Name}")" />
                         </td>
                     </tr>
                 }

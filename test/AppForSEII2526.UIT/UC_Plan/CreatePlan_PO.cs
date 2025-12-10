@@ -33,7 +33,8 @@ namespace AppForSEII2526.UIT.UC_Plan
         {
         }
 
-        public void FillPlanForm(string name, string description, string weeks, string healthIssues, string paymentMethod = "CreditCard")
+        public void FillPlanForm(string name, string description, string weeks, string healthIssues, string paymentMethod = "CreditCard",
+            List<(string className, string goal)>? classGoals = null)
         {
 
             // Name
@@ -63,6 +64,17 @@ namespace AppForSEII2526.UIT.UC_Plan
             {
                 var selectElement = new SelectElement(_driver.FindElement(selectPaymentMethod));
                 selectElement.SelectByText(paymentMethod);
+            }
+
+            // Class Goals
+            if (classGoals != null)
+            {
+                foreach (var (className, goal) in classGoals)
+                {
+                    var goalInput = _driver.FindElement(By.Id("GoalInput_" + className));
+                    goalInput.Clear();
+                    goalInput.SendKeys(goal);
+                }
             }
         }
 

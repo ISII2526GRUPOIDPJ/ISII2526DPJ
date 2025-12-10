@@ -74,8 +74,13 @@ namespace AppForSEII2526.UIT.UC_Plan
             // Arrange
             AddClassAndGoToCreatePlan(className2);
 
+            var classGoals = new List<(string className, string goal)>
+            {
+                (className2, "The goal is to improve strength")
+            };
+
             // Assert
-            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard");
+            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard", classGoals);
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
