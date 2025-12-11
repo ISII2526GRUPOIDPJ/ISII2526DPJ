@@ -224,6 +224,8 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO.FillPlanForm("Plan1", "Description", "99", "Health Issue", "CreditCard");
             createPlan_PO.ClickConfirmPlan();
 
+            Thread.Sleep(1000);
+
             // Assert
             Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
         }
@@ -247,7 +249,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Thread.Sleep(1000);
 
             // Assert
-            Assert.True(createPlan_PO.CheckCapacityError("The selected class(es) do not have available capacity"));
+            Assert.True(createPlan_PO.CheckPlanMessage("The selected class(es) do not have available capacity"));
         }
 
     }
