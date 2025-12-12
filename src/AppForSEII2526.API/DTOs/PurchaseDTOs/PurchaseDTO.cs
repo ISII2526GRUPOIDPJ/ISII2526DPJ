@@ -29,6 +29,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public override bool Equals(object? obj)
         {
             return obj is PurchaseDTO dTO &&
+                   Id == dTO.Id &&
                    City == dTO.City &&
                    Country == dTO.Country &&
                    Street == dTO.Street &&

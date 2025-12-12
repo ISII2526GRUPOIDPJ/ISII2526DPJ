@@ -24,8 +24,7 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetPurchase(int id)
         {
-            if (_context.Purchases == null)
-            {
+            if(_context.Purchases == null) {
                 return NotFound();
             }
 
@@ -47,8 +46,7 @@ namespace AppForSEII2526.API.Controllers
                 ))
                 .FirstOrDefaultAsync();
 
-            if (purchase == null)
-            {
+            if (purchase == null) {
                 return NotFound();
             }
 

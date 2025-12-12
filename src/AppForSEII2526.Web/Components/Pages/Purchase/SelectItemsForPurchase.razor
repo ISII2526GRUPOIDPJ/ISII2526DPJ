@@ -98,7 +98,7 @@
             {
                 <div class="row mb-1">
                     <button type="button" id="removeItem_@item.Name" class="btn btn-light" @onclick="@(() => RemoveItemFromPurchase(item))">
-                        x @item.Name - @item.Price€
+                        x @item.Name [@item.Quantity] - @(item.Price* item.Quantity)€
                     </button>
                 </div>
             }
@@ -166,7 +166,7 @@
                     Brand = item.Brand,
                     Description = item.Description,
                     Price = item.Price,
-                    Quantity = item.Quantity
+                    Quantity = 1
                 };
 
                 purchaseState.AddItemToPurchase(itemInPurchase);

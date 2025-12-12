@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiClient
+@inject ILogger<SelectItemsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+@page "/purchase/detailpurchase"
+
+<h3>Detail Purchase</h3>
+
+@if (purchase == null) {
+    <p>@error</p>
+} else {
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>City</th>
+            <td id="City">@purchase.City</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td id="Weeks">@purchase.Country</td>
+        </tr>
+        <tr>
+            <th>Street</th>
+            <td id="Street">@purchase.Street</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td id="Description">@purchase.Description</td>
+        </tr>
+    </table>
+
+    <h4>Items Purchased</h4>
+
+    <table class="table" id="EnrolledClasses">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in purchase.PurchaseItems)
+            {
+                <tr id="Class_@item.Name">
+                    <td>@item.Name</td>
+                    <td>@item.Brand</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        <th scope="row" colspan="4" class="text-end">Total Price</th>
+        <td id="TotalPrice">@purchase.TotalPrice €</td>
+        </tfoot>
+    </table>
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int PurchaseID { get; set; }
+
+    private PurchaseDTO purchase;
+    private string error = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (PurchaseID <= 0)
+        {
+            error = $"Error! Invalid ID {PurchaseID}.";
+            return;
+        }
+
+        try
+        {
+            purchase = await apiClient.GetPurchaseAsync(PurchaseID);
+
+            if (purchase == null)
+            {
+                error = $"There are no purchases with the ID {PurchaseID}.";
+            }
+        }
+        catch (ApiException ex)
+        {
+            purchase = null;
+            logger.LogError("Error getting purchase with ID {PurchaseID}: {ExceptionMessage}", PurchaseID, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            purchase = null;
+            logger.LogError("Unexpected error getting purchase with ID {PurchaseID}: {ExceptionMessage}", PurchaseID, ex.Message);
+        }
+    }
+}
