@@ -80,14 +80,7 @@
 
         try
         {
-            var purchases = await apiClient.GetPurchaseAsync(PurchaseID);
-
-            if (purchases == null)
-            {
-                error = "There are no purchases.";
-            }
-
-            purchase = purchases.FirstOrDefault(p => p.Id == PurchaseID);
+            purchase = await apiClient.GetPurchaseAsync(PurchaseID);
 
             if (purchase == null)
             {
