@@ -1207,6 +1207,83 @@ body {
 }
 
 
+/* Daltonismos ajustes asistente */
+.deuteranopia-mode .assistant-panel .chat-message:nth-child(even) {
+    color: #FFFFFF !important;
+}
+
+.tritanopia-mode .assistant-panel .chat-message:nth-child(even) {
+    color: #FFFFFF !important;
+}
+
+.protanopia-mode .selection-summary {
+    background-color: var(--color-orange-light); 
+    border-color: var(--color-border);
+    color: #FFFFFF;
+}
+
+.deuteranopia-mode .selection-summary {
+    background-color: var(--color-orange-light); 
+    border-color: var(--color-border);
+    color: #FFFFFF;
+}
+
+.tritanopia-mode .selection-summary {
+    background-color: var(--color-orange-light);
+    border-color: var(--color-border);
+    color: #FFFFFF;
+}
+
+/* Protanopia */
+.protanopia-mode .create-plan-btn {
+    background-color: #4A372B; /* marrón más apagado y oscuro */
+    color: #FFFFFF;
+}
+
+/* Deuteranopia */
+.deuteranopia-mode .create-plan-btn {
+    background-color: #064422; /* verde más apagado y profundo */
+    color: #FFFFFF;
+}
+
+/* Tritanopia */
+.tritanopia-mode .create-plan-btn {
+    background-color: #4D0000; /* rojo vino apagado */
+    color: #FFFFFF;
+}
+
+/* Protanopia */
+.protanopia-mode .create-plan-btn.disabled {
+    background-color: #3A2B21; /* marrón muy apagado */
+    color: rgba(255, 255, 255, 0.5); /* blanco difuminado */
+    font-weight: 400;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Deuteranopia */
+.deuteranopia-mode .create-plan-btn.disabled {
+    background-color: #05351C; /* verde muy apagado */
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Tritanopia */
+.tritanopia-mode .create-plan-btn.disabled {
+    background-color: #330000; /* rojo vino oscuro */
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+
+
 /* ===== Responsive breakpoints ===== */
 
 /* Tablet y abajo */
@@ -1298,7 +1375,7 @@ body {
     }
 
     .class-attributes-grid {
-        grid-template-columns: 1fr; /* columna única en móvil */
+        grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
     }
 

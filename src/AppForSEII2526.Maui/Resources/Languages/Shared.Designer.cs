@@ -196,6 +196,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a In the app&apos;s shop you can buy products or accessories..
+        /// </summary>
+        internal static string AssistantShop {
+            get {
+                return ResourceManager.GetString("AssistantShop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a The total price updates automatically according to the classes you select..
         /// </summary>
         internal static string AssistantTotalPrice {
@@ -232,6 +241,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Name.
+        /// </summary>
+        internal static string ClassName {
+            get {
+                return ResourceManager.GetString("ClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Create Plan.
         /// </summary>
         internal static string CreatePlan {
@@ -246,6 +264,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string DarkTheme {
             get {
                 return ResourceManager.GetString("DarkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -376,6 +403,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Price.
+        /// </summary>
+        internal static string Price {
+            get {
+                return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Protanopia (Red-blind).
         /// </summary>
         internal static string ProtanopiaTheme {
@@ -480,6 +516,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string TritanopiaTheme {
             get {
                 return ResourceManager.GetString("TritanopiaTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Type.
+        /// </summary>
+        internal static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         
