@@ -74,8 +74,13 @@ namespace AppForSEII2526.UIT.UC_Plan
             // Arrange
             AddClassAndGoToCreatePlan(className2);
 
+            var classGoals = new List<(string className, string goal)>
+            {
+                (className2, "The goal is to improve strength")
+            };
+
             // Assert
-            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard");
+            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard", classGoals);
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
@@ -219,6 +224,8 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO.FillPlanForm("Plan1", "Description", "99", "Health Issue", "CreditCard");
             createPlan_PO.ClickConfirmPlan();
 
+            Thread.Sleep(1000);
+
             // Assert
             Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
         }
@@ -242,7 +249,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Thread.Sleep(1000);
 
             // Assert
-            Assert.True(createPlan_PO.CheckCapacityError("The selected class(es) do not have available capacity"));
+            Assert.True(createPlan_PO.CheckPlanMessage("The selected class(es) do not have available capacity"));
         }
 
     }

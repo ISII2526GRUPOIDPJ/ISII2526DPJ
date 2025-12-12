@@ -26,14 +26,15 @@ namespace AppForSEII2526.UIT.UC_Plan
 
         By dialogOkButton = By.Id("Button_DialogOK");
 
-        By capacityErrorsBy = By.Id("CapacityErrors");
+        By createPlanErrorsBy = By.Id("CreatePlanErrors");
 
 
         public CreatePlan_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
 
-        public void FillPlanForm(string name, string description, string weeks, string healthIssues, string paymentMethod = "CreditCard")
+        public void FillPlanForm(string name, string description, string weeks, string healthIssues, string paymentMethod = "CreditCard",
+            List<(string className, string goal)>? classGoals = null)
         {
 
             // Name
@@ -63,6 +64,17 @@ namespace AppForSEII2526.UIT.UC_Plan
             {
                 var selectElement = new SelectElement(_driver.FindElement(selectPaymentMethod));
                 selectElement.SelectByText(paymentMethod);
+            }
+
+            // Class Goals
+            if (classGoals != null)
+            {
+                foreach (var (className, goal) in classGoals)
+                {
+                    var goalInput = _driver.FindElement(By.Id("GoalInput_" + className));
+                    goalInput.Clear();
+                    goalInput.SendKeys(goal);
+                }
             }
         }
 
@@ -96,11 +108,13 @@ namespace AppForSEII2526.UIT.UC_Plan
             _driver.FindElement(dialogOkButton).Click();
         }
 
-        public bool CheckCapacityError(string errorMessage)
+
+        // Used for the plan's errors not related with the API response
+        public bool CheckPlanMessage(string errorMessage)
         {
             try
             {
-                IWebElement errorElement = _driver.FindElement(capacityErrorsBy);
+                IWebElement errorElement = _driver.FindElement(createPlanErrorsBy);
                 _output.WriteLine($"Capacity error: {errorElement.Text}");
                 return errorElement.Text.Contains(errorMessage);
             }

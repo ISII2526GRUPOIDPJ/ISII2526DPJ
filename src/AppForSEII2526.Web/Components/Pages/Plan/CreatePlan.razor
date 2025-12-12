@@ -16,7 +16,7 @@
 
 @if (errors != null)
 {
-    <div class="alert alert-danger" id="CapacityErrors">@errors</div>
+    <div class="alert alert-danger" id="CreatePlanErrors">@errors</div>
 }
 
 <EditForm Model="plan" OnValidSubmit="OpenDialog">
@@ -93,7 +93,7 @@
                         <td>@classs.Price</td>
                         <td>@classs.Date.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>
-                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" />
+                            <InputText @bind-Value="classs.Goal" class="form-control" placeholder="Enter goal (Optional)" id="@($"GoalInput_{classs.Name}")" />
                         </td>
                     </tr>
                 }
@@ -110,11 +110,10 @@
     </div>
 </EditForm>
 
-@*a modal popup dialog for checking if user wants to proceed to rent*@
 @if (DialogIsOpen)
 {
-    <Dialog Caption="Rental movies"
-            Message="Do you want to proceed to rent the selected movies?"
+    <Dialog Caption="Create a plan"
+            Message="Do you want to proceed to create a plan?"
             OnClose="@OnDialogClose"
             Type=Dialog.Category.SaveNot>
     </Dialog>
@@ -129,6 +128,17 @@
 
     private void OpenDialog()
     {
+        /*
+        var validationError = ValidatePlan();
+
+        if (validationError != null)
+        {
+            errors = validationError;
+            StateHasChanged();
+            return;
+        }
+        */
+
         DialogIsOpen = true;
     }
 
@@ -216,6 +226,20 @@
             }
         }
     }
+
+    /*
+    private string? ValidatePlan()
+    {
+        var errorMessages = new List<string>();
+
+        foreach (var c in plan.SelectedClasses)
+        {
+            
+        }
+
+        return errorMessages.Count == 0 ? null : string.Join("; ", errorMessages);
+    }
+    */
 
     [CascadingParameter]
     private Task<AuthenticationState>? authenticationState { get; set; }
