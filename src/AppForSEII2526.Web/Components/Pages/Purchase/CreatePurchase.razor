@@ -133,10 +133,8 @@
         if (isOk)
         {
             if (purchase.PurchaseItems.Count > 0) {
-                try
-                {
+                try {
                     var createdPurchase = await apiClient.CreatePurchaseAsync(purchase);
-                    Console.WriteLine($"CreatedPurchase.Id = {createdPurchase.Id}");
                     purchaseState.PurchaseProcessed();
                     navigation.NavigateTo($"/purchase/detailpurchase/?PurchaseID={createdPurchase.Id}");
                 }

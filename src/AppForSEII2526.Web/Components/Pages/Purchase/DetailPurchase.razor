@@ -70,15 +70,39 @@
     private PurchaseDTO purchase;
     private string error = "";
 
-    protected override async Task OnInitializedAsync() {
-        try {
-            var purchases = await apiClient.GetPurchaseAsync(PurchaseID);
-        } catch (ApiException exception) {
-            purchase = null;
+    protected override async Task OnInitializedAsync()
+    {
+        if (PurchaseID <= 0)
+        {
+            error = $"Error! Invalid ID {PurchaseID}.";
+            return;
         }
 
-        if (purchase == null) {
-                error = $"Error! You are not authorized to see this purchase or there is not a purchase with ID {PurchaseID}";
+        try
+        {
+            var purchases = await apiClient.GetPurchaseAsync(PurchaseID);
+
+            if (purchases == null)
+            {
+                error = "There are no purchases.";
+            }
+
+            purchase = purchases.FirstOrDefault(p => p.Id == PurchaseID);
+
+            if (purchase == null)
+            {
+                error = $"There are no purchases with the ID {PurchaseID}.";
+            }
+        }
+        catch (ApiException ex)
+        {
+            purchase = null;
+            logger.LogError("Error getting purchase with ID {PurchaseID}: {ExceptionMessage}", PurchaseID, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            purchase = null;
+            logger.LogError("Unexpected error getting purchase with ID {PurchaseID}: {ExceptionMessage}", PurchaseID, ex.Message);
         }
     }
 }

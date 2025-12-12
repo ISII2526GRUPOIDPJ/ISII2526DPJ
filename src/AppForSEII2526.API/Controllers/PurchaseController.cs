@@ -24,9 +24,15 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(PurchaseDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetPurchase(int id)
         {
-            PurchaseDTO? purchase = await _context.Purchases
+            if(_context.Purchases == null) {
+                return NotFound();
+            }
+
+            var purchase = await _context.Purchases
                 .Include(p => p.PurchaseItems)
                     .ThenInclude(pi => pi.Item)
+                        .ThenInclude(b => b.Brand)
+                .Include(p => p.PaymentMethod)
                 .Where(p => p.Id == id)
                 .Select(p => new PurchaseDTO(
                     p.Id,
@@ -36,12 +42,11 @@ namespace AppForSEII2526.API.Controllers
                     p.Total_price,
                     p.Description,
                     new PaymentMethodDTO(p.PaymentMethod.Id, p.PaymentMethod.GetType().Name, p.PaymentMethod.Description),
-                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.Description, pi.Item.QuantityAvailableForPurchase, pi.Item.PurchasePrice)).ToList()
+                    p.PurchaseItems.Select(pi => new PurchaseItemsDTO(pi.Item.Name, pi.Item.Brand.Name, pi.Item.Description, pi.Amount_bought, pi.Price)).ToList()
                 ))
                 .FirstOrDefaultAsync();
 
-            if (purchase == null)
-            {
+            if (purchase == null) {
                 return NotFound();
             }
 
@@ -102,6 +107,7 @@ namespace AppForSEII2526.API.Controllers
             var purchaseDetail = await _context.Purchases
                 .Include(p => p.PurchaseItems)
                     .ThenInclude(pi => pi.Item)
+                        .ThenInclude(b => b.Brand)
                 .Include(p => p.PaymentMethod)
                 .Where(p => p.Id == purchase.Id)
                 .Select(p => new PurchaseDTO(
