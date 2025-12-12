@@ -7,7 +7,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
     {
         public PurchaseDTO(int id, string city, string country, string street, decimal totalPrice, string? description, PaymentMethodDTO paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
         {
-            id = id;
+            Id = id;
             City = city;
             Country = country;
             Street = street;
