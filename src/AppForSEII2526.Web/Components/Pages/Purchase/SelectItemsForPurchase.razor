@@ -97,9 +97,24 @@
             @foreach (var item in purchase.PurchaseItems)
             {
                 <div class="row mb-1">
-                    <button type="button" id="removeItem_@item.Name" class="btn btn-light" @onclick="@(() => RemoveItemFromPurchase(item))">
-                        x @item.Name [@item.Quantity] - @(item.Price* item.Quantity)€
-                    </button>
+                    <div class="d-grid gap-1" style="grid-template-columns: auto 1fr auto; align-items: start;">
+                        <button type="button" id="addItem_@item.Name" class="btn btn-sm btn-outline-success fw-bold" @onclick="@(() => item.Quantity += 1)">
+                            [+]
+                        </button>
+
+                        <div class="fw-bold lh-sm text-center">
+                            <div>
+                                @($"{item.Name} (x{item.Quantity})")
+                            </div>
+                            <div>
+                                @($"{(item.Price * item.Quantity):0.00}€")
+                            </div>
+                        </div>
+
+                        <button type="button" id="removeItem_@item.Name" class="btn btn-sm btn-outline-danger fw-bold" @onclick="@(() => RemoveItemFromPurchase(item))">
+                            [−]
+                        </button>
+                    </div>
                 </div>
             }
             <div class="row">
