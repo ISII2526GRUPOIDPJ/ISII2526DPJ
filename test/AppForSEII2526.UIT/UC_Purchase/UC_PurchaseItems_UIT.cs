@@ -118,6 +118,98 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Assert.Contains("/purchase/selectitemsforpurchase", _driver.Url);
         }
 
+        [Theory]
+        [InlineData("", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31", "(*) The City field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_6_AF4_ErrorInCity(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
 
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31", "(*) The Country field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_7_AF4_ErrorInCountry(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "", "Gym equipment", 1, "123456789 2025-12-31", "(*) The Street field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_8_AF4_ErrorInStreet(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 0, "123456789 2025-12-31", "The selected payment method is not valid. Please select a valid payment method.")]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "", "The selected payment method is not valid. Please select a valid payment method.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_9_AF4_ErrorInPaymentMethod(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError)
+        {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
     }
 }

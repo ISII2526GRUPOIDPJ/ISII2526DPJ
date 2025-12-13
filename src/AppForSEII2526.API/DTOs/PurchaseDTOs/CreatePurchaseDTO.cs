@@ -21,8 +21,11 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
             PaymentMethod = paymentMethod;
         }
 
+        [Required]
         public string City { get; set; }
+        [Required]
         public string Country { get; set; }
+        [Required]
         public string Street { get; set; }
         public DateTime Date { get; set; }
         public string? Description { get; set; }
@@ -30,6 +33,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public decimal Total_price { get; set; }
         public int Quantity { get; set; }
         public IList<PurchaseItemsDTO> PurchaseItems { get; set; }
+        [Required]
         public PaymentMethodDTO PaymentMethod { get; set; }
 
         public override bool Equals(object? obj)

@@ -19,7 +19,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
         By tablePurchaseItems = By.Id("TableOfPurchaseItems");
 
-        By errorShownBy = By.Id("ErrorsShown");
+        By errorShownBy = By.Id("CreatePurchaseErrors");
 
         By dialogOkButton = By.Id("Button_DialogOK");
 
