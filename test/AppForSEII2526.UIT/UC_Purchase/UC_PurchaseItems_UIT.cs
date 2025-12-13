@@ -1,4 +1,5 @@
 ﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.UIT.UC_Plan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,92 @@ namespace AppForSEII2526.UIT.UC_Purchase
         private const string itemName1 = "Yoga Mat";
         private const string itemBrand1 = "Nike";
         private const string itemDescription1 = "Yoga mat for exercises";
-        private const decimal itemPrice1 = 25m;
-        private const int itemQuantity1 = 10;
+        private const string itemPrice1 = "25";
+        private const string itemQuantity1 = "10";
 
         private const string itemName2 = "Running Shoes";
         private const string itemBrand2 = "Adidas";
         private const string itemDescription2 = "Running shoes";
-        private const decimal itemPrice2 = 80m;
-        private const int itemQuantity2 = 15;
+        private const string itemPrice2 = "80";
+        private const string itemQuantity2 = "15";
 
         public UC_PurchaseItems_UIT(ITestOutputHelper output) : base(output) {
+            SelectItemsForPurchase_PO = new SelectItemsForPurchase_PO(_driver, _output);
+        }
 
+        private void Precondition_perform_login() {
+            Perform_login("test@uclm.es", "Test123!");
+        }
+
+        private void InitialStepsForCreatingPurchase() {
+            //Precondition_perform_login();
+            Initial_step_opening_the_web_page();
+
+            SelectItemsForPurchase_PO.WaitForBeingVisible(By.Id("CreatePurchase"));
+            _driver.FindElement(By.Id("CreatePurchase")).Click();
+        }
+
+        public void AddItemAndGoToCreatePurchase(string itemName) {
+            InitialStepsForCreatingPurchase();
+
+            SelectItemsForPurchase_PO.AddItemToPurchase(itemName);
+
+            Thread.Sleep(1500);
+
+            SelectItemsForPurchase_PO.ClickGoToCreatePurchase();
+
+            //TODO
+        }
+
+        //[Fact]
+        [Fact(Skip = "Requires empty database because it has conflicts with other tests that need data.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_2_AF1_NoItemsAvailableForPurchase() {
+            // Arrange
+            InitialStepsForCreatingPurchase();
+
+            Thread.Sleep(1000);
+
+            // Assert
+            Assert.True(SelectItemsForPurchase_PO.CheckMessageError("Error: No items found for the selected criteria."));
+        }
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_3_AF2_FilterByName() {
+            // Arrange
+            InitialStepsForCreatingPurchase();
+
+            var expectedItems = new List<string[]> {
+                new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
+            };
+
+            Thread.Sleep(3000);
+
+            // Act
+            SelectItemsForPurchase_PO.SearchItems(itemName1, "");
+
+            // Assert
+            Assert.True(SelectItemsForPurchase_PO.CheckListOfItems(expectedItems));
+        }
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_4_AF2_FilterByBrand() {
+            // Arrange
+            InitialStepsForCreatingPurchase();
+
+            var expectedItems = new List<string[]> {
+                new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
+            };
+
+            Thread.Sleep(3000);
+
+            // Act
+            SelectItemsForPurchase_PO.SearchItems("", itemBrand1);
+
+            // Assert
+            Assert.True(SelectItemsForPurchase_PO.CheckListOfItems(expectedItems));
         }
     }
 }

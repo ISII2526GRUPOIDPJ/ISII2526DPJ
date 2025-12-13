@@ -10,9 +10,9 @@ namespace AppForSEII2526.UIT.UC_Purchase
     public class SelectItemsForPurchase_PO : PageObject {
     
         By inputName = By.Id("inputName");
-        By inputBrand = By.Id("inputBrand");
+        By itemBrand = By.Id("itemBrand");
 
-        By buttonSearchItem = By.Id("searchItem");
+        By buttonSearchItem = By.Id("SearchItem");
         By tableItems = By.Id("tableItemsForPurchase");
 
         By errorShownBy = By.Id("ErrorsShown");
@@ -26,21 +26,25 @@ namespace AppForSEII2526.UIT.UC_Purchase
             WaitForBeingClickable(inputName);
             _driver.FindElement(inputName).SendKeys(name);
 
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-            wait.Until(driver => {
-                var select = new SelectElement(driver.FindElement(inputBrand));
-                return select.Options.Count > 0;
-            });
+            if (string.IsNullOrEmpty(brand)) brand = "All";
 
-            if (brand == "") brand = "All";
-            SelectElement selectElement = new SelectElement(_driver.FindElement(inputBrand));
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => new SelectElement(driver.FindElement(itemBrand)).Options.Count > 0);
+
+            SelectElement selectElement = new SelectElement(_driver.FindElement(itemBrand));
             selectElement.SelectByText(brand);
 
             _driver.FindElement(buttonSearchItem).Click();
         }
 
-        public bool CheckListOfClasses(List<string[]> expectedItems) {
+        public bool CheckListOfItems(List<string[]> expectedItems) {
             return CheckBodyTable(expectedItems, tableItems);
+        }
+
+        public bool CheckMessageError(string errorMessage) {
+            IWebElement actualErrorShown = _driver.FindElement(errorShownBy);
+            _output.WriteLine($"Actual message shown: {actualErrorShown.Text}");
+            return actualErrorShown.Text.Contains(errorMessage);
         }
 
         public void ClickGoToCreatePurchase() {
@@ -61,6 +65,14 @@ namespace AppForSEII2526.UIT.UC_Purchase
         public void RemoveItemFromPurchase(string itemName) {
             WaitForBeingClickable(By.Id("removeItem_" + itemName));
             _driver.FindElement(By.Id("removeItem_" + itemName)).Click();
+        }
+
+        public bool IsCreatePurchaseButtonAvailable() {
+            try {
+                return _driver.FindElement(buttonGoToCreatePurchase).Displayed;
+            } catch (NoSuchElementException) {
+                return false;
+            }
         }
     }
 }
