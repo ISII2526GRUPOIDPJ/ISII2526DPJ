@@ -81,7 +81,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Thread.Sleep(1000);
 
             // Assert
-            Assert.True(selectItemsForPurchase_PO.CheckMessageError("Error: No items found for the selected criteria."));
+            Assert.True(selectItemsForPurchase_PO.CheckMessageError("No items found for the selected criteria."));
         }
 
         [Fact]

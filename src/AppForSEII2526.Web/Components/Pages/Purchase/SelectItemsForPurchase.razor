@@ -44,16 +44,11 @@
                 </div>
 
                 <div class="row">
-                    @if (items == null)
-                    {
+                    @if (items == null) {
                         <p>Loading items...</p>
-                    }
-                    else if (items.Count == 0)
-                    {
+                    } else if (items.Count == 0) {
                         <p>No items found for the selected criteria.</p>
-                    }
-                    else
-                    {
+                    } else {
                         <div class="mh-100 table-responsive">
                             <table id="tableItemsForPurchase" class="table table-condensed table-hover">
 
@@ -140,6 +135,12 @@
     public async void SearchItems() {
         try {
             items = await apiClient.GetItemsForPurchaseAsync(itemName, itemBrand);
+
+            @if (items == null || items.Count == 0) {
+                errors = "No items found for the selected criteria.";
+            } else {
+                 errors = "";
+            }
         } catch (ApiException ex) {
             logger.LogError("${DateTime.Now} Error: {ex}");
             errors = "Error while trying to connect to the system.";
