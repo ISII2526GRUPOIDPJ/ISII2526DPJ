@@ -1,7 +1,9 @@
 ﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.API.Models;
 using AppForSEII2526.UIT.UC_Plan;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +49,23 @@ namespace AppForSEII2526.UIT.UC_Purchase
             selectItemsForPurchase_PO.AddItemToPurchase(itemName);
 
             Thread.Sleep(1500);
+            selectItemsForPurchase_PO.ClickGoToCreatePurchase();
 
+            createPurchase_PO.WaitForBeingVisible(By.Id("City"));
+        }
+
+        public void AddItemAboveStockAndGoToCreatePurchase(string itemName, string quantityString) {
+            InitialStepsForCreatingPurchase();
+
+            selectItemsForPurchase_PO.AddItemToPurchase(itemName);
+
+            selectItemsForPurchase_PO.WaitForBeingVisible(By.Id($"addItem_{itemName}"));
+            int.TryParse(quantityString, out int quantity);
+            for (int i = 0; i < quantity; i++) {
+                _driver.FindElement(By.Id($"addItem_{itemName}")).Click();
+            }
+
+            Thread.Sleep(1500);
             selectItemsForPurchase_PO.ClickGoToCreatePurchase();
 
             createPurchase_PO.WaitForBeingVisible(By.Id("City"));
@@ -197,8 +215,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             string description,
             int paymentMethod,
             string paymentMethodDescription,
-            string expectedError)
-        {
+            string expectedError) {
             // Arrange
             AddItemAndGoToCreatePurchase(itemName1);
 
@@ -208,8 +225,32 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.ClickDialogOk();
 
             // Assert
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_10_AF5_NoStock(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription) {
+            // Arrange
+            AddItemAboveStockAndGoToCreatePurchase(itemName1, itemQuantity1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+
+            Thread.Sleep(1000);
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckPurchaseMessage($"(*) Error! There's no stock for '{itemName1}'."));
         }
     }
 }
