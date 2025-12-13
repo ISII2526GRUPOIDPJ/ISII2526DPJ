@@ -29,7 +29,9 @@ namespace AppForSEII2526.Web
         }
 
         public void RemoveItemFromPurchase(PurchaseItemsDTO item) {
-            Purchase.PurchaseItems.Remove(item);
+            if(item.Quantity > 1) {
+                item.Quantity -= 1;
+            } else Purchase.PurchaseItems.Remove(item);
 
             NotifyStateChanged();
         }
