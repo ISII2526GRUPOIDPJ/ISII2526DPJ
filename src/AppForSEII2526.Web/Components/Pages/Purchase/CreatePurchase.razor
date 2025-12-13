@@ -51,12 +51,22 @@
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <InputSelect class="form-select" @bind-Value="purchase.PaymentMethod.Id" id="PaymentMethod">
+                    <InputSelect class="form-select" @bind-Value="purchase.PaymentMethod.Id" @bind-Value:after="OnPaymentMethodChanged" id="PaymentMethod">
+                        <option value="0" selected>All</option>
                         <option value="1">CreditCard</option>
                         <option value="2">PayPal</option>
                         <option value="3">Bizum</option>
                     </InputSelect>
                     <label for="PaymentMethod">Payment Method</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <InputText @bind-Value="purchase.PaymentMethod.Description" class="form-control" id="PMdescription"></InputText>
+                    <label for="PMdescription">@(descriptionForPM)*</label>
                 </div>
             </div>
         </div>
@@ -125,15 +135,31 @@
         DialogIsOpen = true;
     }
 
+    public string descriptionForPM { get; set; }
+
+    private void OnPaymentMethodChanged() {
+        descriptionForPM = purchase.PaymentMethod.Id switch {
+            1 => "Credit Card Number & Expiration Date",
+            2 => "Email",
+            3 => "Telephone Number",
+            _ => "Description"
+        };
+    }
+
     private List<PaymentMethodDTO> AvailablePaymentMethods { get; set; } = new List<PaymentMethodDTO>();
 
     private async Task OnDialogClose(bool isOk) {
         DialogIsOpen = false;
 
-        if (isOk)
-        {
+        if (isOk) {
             if (purchase.PurchaseItems.Count > 0) {
                 try {
+                    if(purchase.PaymentMethod.Description == null || purchase.PaymentMethod.Description.Trim().Length == 0) {
+                        errors = "The selected payment method is not valid. Please select a valid payment method.";
+                        StateHasChanged();
+                        return;
+                    }
+
                     var createdPurchase = await apiClient.CreatePurchaseAsync(purchase);
                     purchaseState.PurchaseProcessed();
                     navigation.NavigateTo($"/purchase/detailpurchase/?PurchaseID={createdPurchase.Id}");
@@ -150,7 +176,9 @@
                 }
                 catch (ApiException)
                 {
-                    errors = "One of the selected items is not available. Please modify your selection.";
+                    if (purchase.PaymentMethod.Id < 1) {
+                        errors = "The selected payment method is not valid. Please select a valid payment method.";
+                    } else errors = "One of the selected items is not available. Please modify your selection.";
 
                     StateHasChanged();
                 }
@@ -172,12 +200,12 @@
     protected override async Task OnInitializedAsync() {
         purchase.Description = purchase.Description ?? "";
 
-        purchaseState.Purchase.PaymentMethod ??= new PaymentMethodDTO
-        {
-            Id = 1,
-            Type = "Credit Card",
+        purchaseState.Purchase.PaymentMethod ??= new PaymentMethodDTO {
+            Id = 0,
+            Type = "None",
             Description = ""
         };
 
+        descriptionForPM = "Description";
     }
 }

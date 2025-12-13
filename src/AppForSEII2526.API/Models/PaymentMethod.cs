@@ -8,6 +8,6 @@
         public ApplicationUser User { get; set; }
 
         [NotMapped]
-        public string? Description { get; set; }
+        public string Description { get; set; }
     }
 }

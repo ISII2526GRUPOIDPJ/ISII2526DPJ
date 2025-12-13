@@ -29,6 +29,10 @@
             <th>Description</th>
             <td id="Description">@purchase.Description</td>
         </tr>
+        <tr>
+            <th>Payment Method</th>
+            <td id="PaymentMethod">@purchase.PaymentMethod.Type</td>
+        </tr
     </table>
 
     <h4>Items Purchased</h4>
@@ -70,22 +74,22 @@
     private PurchaseDTO purchase;
     private string error = "";
 
+    public string descriptionForPM { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        if (PurchaseID <= 0)
-        {
+        if (PurchaseID <= 0) {
             error = $"Error! Invalid ID {PurchaseID}.";
             return;
         }
 
-        try
-        {
+        try {
             purchase = await apiClient.GetPurchaseAsync(PurchaseID);
 
-            if (purchase == null)
-            {
+            if (purchase == null) {
                 error = $"There are no purchases with the ID {PurchaseID}.";
             }
+
         }
         catch (ApiException ex)
         {
