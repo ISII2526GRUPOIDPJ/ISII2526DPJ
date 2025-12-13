@@ -1,7 +1,9 @@
 ﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.API.Models;
 using AppForSEII2526.UIT.UC_Plan;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,8 @@ using System.Threading.Tasks;
 namespace AppForSEII2526.UIT.UC_Purchase
 {
     public class UC_PurchaseItems_UIT : UC_UIT {
-        private SelectItemsForPurchase_PO SelectItemsForPurchase_PO;
+        private SelectItemsForPurchase_PO selectItemsForPurchase_PO;
+        private CreatePurchase_PO createPurchase_PO;
 
         private const string itemName1 = "Yoga Mat";
         private const string itemBrand1 = "Nike";
@@ -24,7 +27,8 @@ namespace AppForSEII2526.UIT.UC_Purchase
         private const string itemQuantity2 = "15";
 
         public UC_PurchaseItems_UIT(ITestOutputHelper output) : base(output) {
-            SelectItemsForPurchase_PO = new SelectItemsForPurchase_PO(_driver, _output);
+            selectItemsForPurchase_PO = new SelectItemsForPurchase_PO(_driver, _output);
+            createPurchase_PO = new CreatePurchase_PO(_driver, _output);
         }
 
         private void Precondition_perform_login() {
@@ -35,20 +39,36 @@ namespace AppForSEII2526.UIT.UC_Purchase
             //Precondition_perform_login();
             Initial_step_opening_the_web_page();
 
-            SelectItemsForPurchase_PO.WaitForBeingVisible(By.Id("CreatePurchase"));
+            selectItemsForPurchase_PO.WaitForBeingVisible(By.Id("CreatePurchase"));
             _driver.FindElement(By.Id("CreatePurchase")).Click();
         }
 
         public void AddItemAndGoToCreatePurchase(string itemName) {
             InitialStepsForCreatingPurchase();
 
-            SelectItemsForPurchase_PO.AddItemToPurchase(itemName);
+            selectItemsForPurchase_PO.AddItemToPurchase(itemName);
 
             Thread.Sleep(1500);
+            selectItemsForPurchase_PO.ClickGoToCreatePurchase();
 
-            SelectItemsForPurchase_PO.ClickGoToCreatePurchase();
+            createPurchase_PO.WaitForBeingVisible(By.Id("City"));
+        }
 
-            //TODO
+        public void AddItemAboveStockAndGoToCreatePurchase(string itemName, string quantityString) {
+            InitialStepsForCreatingPurchase();
+
+            selectItemsForPurchase_PO.AddItemToPurchase(itemName);
+
+            selectItemsForPurchase_PO.WaitForBeingVisible(By.Id($"addItem_{itemName}"));
+            int.TryParse(quantityString, out int quantity);
+            for (int i = 0; i < quantity; i++) {
+                _driver.FindElement(By.Id($"addItem_{itemName}")).Click();
+            }
+
+            Thread.Sleep(1500);
+            selectItemsForPurchase_PO.ClickGoToCreatePurchase();
+
+            createPurchase_PO.WaitForBeingVisible(By.Id("City"));
         }
 
         //[Fact]
@@ -61,7 +81,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Thread.Sleep(1000);
 
             // Assert
-            Assert.True(SelectItemsForPurchase_PO.CheckMessageError("Error: No items found for the selected criteria."));
+            Assert.True(selectItemsForPurchase_PO.CheckMessageError("No items found for the selected criteria."));
         }
 
         [Fact]
@@ -77,10 +97,10 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Thread.Sleep(3000);
 
             // Act
-            SelectItemsForPurchase_PO.SearchItems(itemName1, "");
+            selectItemsForPurchase_PO.SearchItems(itemName1, "");
 
             // Assert
-            Assert.True(SelectItemsForPurchase_PO.CheckListOfItems(expectedItems));
+            Assert.True(selectItemsForPurchase_PO.CheckListOfItems(expectedItems));
         }
 
         [Fact]
@@ -96,10 +116,141 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Thread.Sleep(3000);
 
             // Act
-            SelectItemsForPurchase_PO.SearchItems("", itemBrand1);
+            selectItemsForPurchase_PO.SearchItems("", itemBrand1);
 
             // Assert
-            Assert.True(SelectItemsForPurchase_PO.CheckListOfItems(expectedItems));
+            Assert.True(selectItemsForPurchase_PO.CheckListOfItems(expectedItems));
+        }
+
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_5_AF3_ModifyPurchase() {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.ClickModifyItems();
+
+            // Assert
+            selectItemsForPurchase_PO.WaitForBeingVisible(By.Id("inputName"));
+            Assert.Contains("/purchase/selectitemsforpurchase", _driver.Url);
+        }
+
+        [Theory]
+        [InlineData("", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31", "(*) The City field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_6_AF4_ErrorInCity(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31", "(*) The Country field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_7_AF4_ErrorInCountry(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "", "Gym equipment", 1, "123456789 2025-12-31", "(*) The Street field is required.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_8_AF4_ErrorInStreet(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 0, "123456789 2025-12-31", "The selected payment method is not valid. Please select a valid payment method.")]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "", "The selected payment method is not valid. Please select a valid payment method.")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_9_AF4_ErrorInPaymentMethod(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription,
+            string expectedError) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(2000);
+            Assert.True(createPurchase_PO.CheckMessageError(expectedError));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_10_AF5_NoStock(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription) {
+            // Arrange
+            AddItemAboveStockAndGoToCreatePurchase(itemName1, itemQuantity1);
+
+            // Act
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+
+            Thread.Sleep(1000);
+            createPurchase_PO.ClickDialogOk();
+
+            // Assert
+            Thread.Sleep(1000);
+            Assert.True(createPurchase_PO.CheckPurchaseMessage($"(*) Error! There's no stock for '{itemName1}'."));
         }
     }
 }

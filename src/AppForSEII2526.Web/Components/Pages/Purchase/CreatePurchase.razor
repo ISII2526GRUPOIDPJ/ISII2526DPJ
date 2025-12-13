@@ -11,7 +11,7 @@
 <h3>Create Purchase</h3>
 
 @if (errors != null) {
-    <div class="alert alert-danger" id="CapacityErrors">@errors</div>
+    <div class="alert alert-danger" id="CreatePurchaseErrors">@errors</div>
 }
 
 <EditForm Model="purchase" OnValidSubmit="OpenDialog">
