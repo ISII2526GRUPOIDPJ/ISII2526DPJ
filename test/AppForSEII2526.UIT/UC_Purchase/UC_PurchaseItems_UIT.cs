@@ -71,6 +71,29 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.WaitForBeingVisible(By.Id("City"));
         }
 
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_1_BF_BasicFlow(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription) {
+            // Arrange
+            AddItemAndGoToCreatePurchase(itemName1);
+
+            // Assert
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+
+            // Assert
+            createPurchase_PO.ClickDialogOk();
+
+            Thread.Sleep(2000);
+            Assert.Contains("/purchase/detailpurchase", _driver.Url);
+        }
+
         //[Fact]
         [Fact(Skip = "Requires empty database because it has conflicts with other tests that need data.")]
         [Trait("Level Testing", "Functional Testing")]
@@ -94,12 +117,12 @@ namespace AppForSEII2526.UIT.UC_Purchase
                 new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
             };
 
-            Thread.Sleep(3000);
-
             // Act
+            Thread.Sleep(1000);
             selectItemsForPurchase_PO.SearchItems(itemName1, "");
 
             // Assert
+            Thread.Sleep(1000);
             Assert.True(selectItemsForPurchase_PO.CheckListOfItems(expectedItems));
         }
 
@@ -113,12 +136,12 @@ namespace AppForSEII2526.UIT.UC_Purchase
                 new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
             };
 
-            Thread.Sleep(3000);
-
             // Act
+            Thread.Sleep(1000);
             selectItemsForPurchase_PO.SearchItems("", itemBrand1);
 
             // Assert
+            Thread.Sleep(1000);
             Assert.True(selectItemsForPurchase_PO.CheckListOfItems(expectedItems));
         }
 
