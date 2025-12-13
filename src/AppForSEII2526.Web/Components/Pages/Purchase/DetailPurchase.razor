@@ -9,6 +9,7 @@
 
 <h3>Detail Purchase</h3>
 
+@attribute [Authorize]
 @if (purchase == null) {
     <p>@error</p>
 } else {
@@ -32,7 +33,7 @@
         <tr>
             <th>Payment Method</th>
             <td id="PaymentMethod">@purchase.PaymentMethod.Type</td>
-        </tr
+        </tr>
     </table>
 
     <h4>Items Purchased</h4>
