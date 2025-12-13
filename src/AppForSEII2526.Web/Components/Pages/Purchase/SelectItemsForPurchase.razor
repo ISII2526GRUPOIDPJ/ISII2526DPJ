@@ -18,16 +18,7 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <select id="itemName" class="form-select" @bind="itemName">
-                            <option value="" selected>All</option>
-                            @if (allItemNames != null)
-                            {
-                                @foreach (var itemName in allItemNames)
-                                {
-                                    <option value="@itemName" id="typeNameSelected_@itemName">@itemName</option>
-                                }
-                            }
-                        </select>
+                        <input type="text" id="inputName" @bind=itemName class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
                     </div>
                 </div>
 
@@ -106,9 +97,24 @@
             @foreach (var item in purchase.PurchaseItems)
             {
                 <div class="row mb-1">
-                    <button type="button" id="removeItem_@item.Name" class="btn btn-light" @onclick="@(() => RemoveItemFromPurchase(item))">
-                        x @item.Name - @item.Price€
-                    </button>
+                    <div class="d-grid gap-1" style="grid-template-columns: auto 1fr auto; align-items: start;">
+                        <button type="button" id="addItem_@item.Name" class="btn btn-sm btn-outline-success fw-bold" @onclick="@(() => item.Quantity += 1)">
+                            [+]
+                        </button>
+
+                        <div class="fw-bold lh-sm text-center">
+                            <div>
+                                @($"{item.Name} (x{item.Quantity})")
+                            </div>
+                            <div>
+                                @($"{(item.Price * item.Quantity):0.00}€")
+                            </div>
+                        </div>
+
+                        <button type="button" id="removeItem_@item.Name" class="btn btn-sm btn-outline-danger fw-bold" @onclick="@(() => RemoveItemFromPurchase(item))">
+                            [−]
+                        </button>
+                    </div>
                 </div>
             }
             <div class="row">
@@ -142,7 +148,7 @@
     }
 
     protected override async Task OnInitializedAsync() {
-        @*try {
+        try {
             allItemNames = await apiClient.GetAllItemNamesAsync();
         } catch (ApiException ex) {
             if (allItemNames == null)
@@ -150,9 +156,9 @@
                 allItemNames = new List<string>();
             }
             logger.LogError("Error! There was an error while connecting to the GetAllItemNamesAsync service");
-        }*@
+        }
 
-        @*try {
+        try {
             allItemBrands = await apiClient.GetAllItemBrandsAsync();
         } catch (ApiException ex) {
             if (allItemBrands == null)
@@ -160,7 +166,7 @@
                 allItemBrands = new List<string>();
             }
             logger.LogError("Error! There was an error while connecting to the GetAllItemBrandsAsync service");
-        }*@
+        }
 
         SearchItems();
 
@@ -175,7 +181,7 @@
                     Brand = item.Brand,
                     Description = item.Description,
                     Price = item.Price,
-                    Quantity = item.Quantity
+                    Quantity = 1
                 };
 
                 purchaseState.AddItemToPurchase(itemInPurchase);
@@ -188,6 +194,6 @@
 
         private void GoToCreatePurchase()
         {
-            navigation.NavigateTo("/plan/createpurchase");
+            navigation.NavigateTo("/purchase/createpurchase");
         }
 }

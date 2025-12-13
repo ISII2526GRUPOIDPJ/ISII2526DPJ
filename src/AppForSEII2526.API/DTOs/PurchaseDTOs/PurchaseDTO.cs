@@ -5,8 +5,9 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
     public class PurchaseDTO
     {
-        public PurchaseDTO(string city, string country, string street, decimal totalPrice, string? description, PaymentMethodDTO paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
+        public PurchaseDTO(int id, string city, string country, string street, decimal totalPrice, string? description, PaymentMethodDTO paymentMethod, IList<PurchaseItemsDTO> purchaseItems)
         {
+            Id = id;
             City = city;
             Country = country;
             Street = street;
@@ -16,6 +17,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
             PurchaseItems = purchaseItems;
         }
 
+        public int Id { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string Street { get; set; }
@@ -27,6 +29,7 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public override bool Equals(object? obj)
         {
             return obj is PurchaseDTO dTO &&
+                   Id == dTO.Id &&
                    City == dTO.City &&
                    Country == dTO.Country &&
                    Street == dTO.Street &&

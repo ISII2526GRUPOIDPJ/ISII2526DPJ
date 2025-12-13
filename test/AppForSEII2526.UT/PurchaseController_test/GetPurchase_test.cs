@@ -49,9 +49,9 @@ namespace AppForSEII2526.UT.PurchaseController_test
                 new PurchaseItem(1, 1, items[0].PurchasePrice, items[0])
             };
 
-            var purchase = new List<Purchase>() {
-                new Purchase("Madrid", "Spain", "Main Street 123", DateTime.Parse("2024-01-10"), "Gym equipment", 150, purchaseItems, paymentMethod)
-            };
+            var purchase = new Purchase(
+                "Madrid", "Spain", "Main Street 123", DateTime.Parse("2024-01-10"), "Gym equipment", 150, purchaseItems, paymentMethod
+            );
 
             _context.AddRange(user);
             _context.AddRange(brands);
@@ -59,7 +59,26 @@ namespace AppForSEII2526.UT.PurchaseController_test
             _context.AddRange(items);
             _context.AddRange(paymentMethod);
             _context.AddRange(purchase);
+            _context.AddRange(purchaseItems);
             _context.SaveChanges();
+        }
+
+        public static IEnumerable<object[]> TestCasesFor_GetPurchase_OK()
+        {
+            var expectedPurchase = new PurchaseDTO(
+                1,
+                "Madrid",
+                "Spain",
+                "Main Street 123",
+                150,
+                "Gym equipment",
+                new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31"),
+                new List<PurchaseItemsDTO> { new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 1, 25.0m) }
+            );
+
+            return new List<object[]> {
+                new object[] { 1, expectedPurchase }
+            };
         }
 
         [Fact]
@@ -79,10 +98,10 @@ namespace AppForSEII2526.UT.PurchaseController_test
             Assert.IsType<NotFoundResult> (result);
         }
 
-        [Fact]
-        [Trait("Database", "WithoutFixture")]
+        [Theory]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetPurchase_Found_test()
+        [MemberData(nameof(TestCasesFor_GetPurchase_OK))]
+        public async Task GetPurchase_Found_test(int purchaseId, PurchaseDTO expectedPurchase)
         {
             //Arrange
             var mock = new Mock<ILogger<PurchaseController>>();
@@ -90,23 +109,8 @@ namespace AppForSEII2526.UT.PurchaseController_test
 
             var controller = new PurchaseController(_context, logger);
 
-            var purchase = _context.Purchases
-                .Include(p => p.PaymentMethod)
-                .ThenInclude(pm => pm.User)
-                .First();
-
-            var expectedPurchase = new PurchaseDTO(
-                "Madrid",
-                "Spain",
-                "Main Street 123",
-                150,
-                "Gym equipment",
-                new PaymentMethodDTO(1, "CreditCard", "123456789 2025-12-31"),
-                new List<PurchaseItemsDTO> {new PurchaseItemsDTO("Yoga Mat", "Nike", "Yoga mat for exercises", 10, 25.0m)}
-            );
-
             //Act
-            var result = await controller.GetPurchase(1);
+            var result = await controller.GetPurchase(purchaseId);
 
             //Assert
             var okResult = Assert.IsType<OkObjectResult>(result);

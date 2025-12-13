@@ -1,0 +1,183 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.Components.Shared
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiClient
+@inject ILogger<SelectItemsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+@page "/purchase/createpurchase"
+
+<h3>Create Purchase</h3>
+
+@if (errors != null) {
+    <div class="alert alert-danger" id="CapacityErrors">@errors</div>
+}
+
+<EditForm Model="purchase" OnValidSubmit="OpenDialog">
+    <div class="row">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="row alert alert-danger" id="ErrorsShown" />
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.City" class="form-control" id="City"></InputText>
+                <label for="City">City*</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.Country" class="form-control" id="Country"></InputText>
+                <label for="Country">Country*</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.Street" class="form-control" id="Street"></InputText>
+                <label for="Street">Street*</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.Description" class="form-control" id="Description"></InputText>
+                <label for="Description">Description (Optional)</label>
+            </div>
+        </div>
+    </div>
+
+    @if (purchase.PaymentMethod != null && purchase.PurchaseItems != null) {
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <InputSelect class="form-select" @bind-Value="purchase.PaymentMethod.Id" id="PaymentMethod">
+                        <option value="1">CreditCard</option>
+                        <option value="2">PayPal</option>
+                        <option value="3">Bizum</option>
+                    </InputSelect>
+                    <label for="PaymentMethod">Payment Method</label>
+                </div>
+            </div>
+        </div>
+    } else {
+        <p>Loading...</p>
+    }
+
+    <h4>Purchase Details</h4>
+    <p>
+        <b>Total Price:</b> @TotalPrice €
+        <button class="btn btn-outline-primary" type="button" @onclick="ModifyPurchaseItems" id="ModifyItems">
+            Modify Items
+        </button>
+    </p>
+
+    <div class="mh-100 table-responsive">
+        <table class="table table-condensed table-hover" id="TableOfPurchaseItems">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in purchase.PurchaseItems)
+                {
+                    <tr id="ItemData_@item.Name">
+                        <td>@item.Name</td>
+                        <td>@item.Brand</td>
+                        <td>@item.Description</td>
+                        <td>@item.Price</td>
+                        <td>@item.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row g-2 mt-3">
+        <div class="col-md">
+            <button class="btn btn-primary" type="submit" id="ConfirmPurchase">
+                Confirm Purchase
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@if (DialogIsOpen) {
+    <Dialog Caption="Purchase Items"
+            Message="Do you want to proceed to buy the selected items?"
+            OnClose="@OnDialogClose"
+            Type=Dialog.Category.SaveNot>
+    </Dialog>
+}
+
+@code {
+    private CreatePurchaseDTO purchase => purchaseState.Purchase;
+    private object? errors;
+
+    private bool DialogIsOpen;
+
+    private void OpenDialog() {
+        DialogIsOpen = true;
+    }
+
+    private List<PaymentMethodDTO> AvailablePaymentMethods { get; set; } = new List<PaymentMethodDTO>();
+
+    private async Task OnDialogClose(bool isOk) {
+        DialogIsOpen = false;
+
+        if (isOk)
+        {
+            if (purchase.PurchaseItems.Count > 0) {
+                try {
+                    var createdPurchase = await apiClient.CreatePurchaseAsync(purchase);
+                    purchaseState.PurchaseProcessed();
+                    navigation.NavigateTo($"/purchase/detailpurchase/?PurchaseID={createdPurchase.Id}");
+                }
+                catch (ApiException<ValidationProblemDetails> exValidation)
+                {
+                    if (exValidation.Result.Errors.Values != null) {
+                        errors = "";
+                        foreach (var errList in exValidation.Result.Errors.Values)
+                            errors = string.Join(" (*) ", errors, string.Join(" (*) ", errList));
+                    }
+
+                    StateHasChanged();
+                }
+                catch (ApiException)
+                {
+                    errors = "One of the selected items is not available. Please modify your selection.";
+
+                    StateHasChanged();
+                }
+                catch (Exception ex) {
+                    logger.LogError("Error creating purchase: {Message}", ex.Message);
+                    errors = "An unexpected error occurred while creating the purchase. Please try again later.";
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+
+    private decimal TotalPrice => purchaseState.EstimatedTotalPrice;
+
+    private void ModifyPurchaseItems() {
+        navigation.NavigateTo("/purchase/selectitemsforpurchase");
+    }
+
+    protected override async Task OnInitializedAsync() {
+        purchase.Description = purchase.Description ?? "";
+
+        purchaseState.Purchase.PaymentMethod ??= new PaymentMethodDTO
+        {
+            Id = 1,
+            Type = "Credit Card",
+            Description = ""
+        };
+
+    }
+}

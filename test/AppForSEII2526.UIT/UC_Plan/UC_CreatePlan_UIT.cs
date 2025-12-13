@@ -34,16 +34,19 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO = new CreatePlan_PO(_driver, _output);
         }
 
-        /*
+        
         private void Precondition_perform_login() {
-            Perform_login("email","passwrod");
+            Perform_login("test@uclm.es", "Test123!");
         }
-        */
+        
 
         private void InitialStepsForCreatingPlan()
         {
-            //Precondition_perform_login();
-            Initial_step_opening_the_web_page();
+            Precondition_perform_login();
+
+            // Use if the log in does not work
+            //Initial_step_opening_the_web_page();
+            
             selectClassesForPlan_PO.WaitForBeingVisible(By.Id("CreatePlan"));
             _driver.FindElement(By.Id("CreatePlan")).Click();
         }
@@ -71,8 +74,13 @@ namespace AppForSEII2526.UIT.UC_Plan
             // Arrange
             AddClassAndGoToCreatePlan(className2);
 
+            var classGoals = new List<(string className, string goal)>
+            {
+                (className2, "The goal is to improve strength")
+            };
+
             // Assert
-            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard");
+            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard", classGoals);
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
@@ -109,7 +117,7 @@ namespace AppForSEII2526.UIT.UC_Plan
                 new string[] { className1, classType1, classDate1.ToString("dd/MM/yyyy HH:mm"), price1 }
             };
 
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
 
             // Act
             selectClassesForPlan_PO.SearchPlan(classType1);
@@ -216,6 +224,8 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO.FillPlanForm("Plan1", "Description", "99", "Health Issue", "CreditCard");
             createPlan_PO.ClickConfirmPlan();
 
+            Thread.Sleep(1000);
+
             // Assert
             Assert.True(createPlan_PO.CheckMessageError("The field Weeks must be between 1 and 52."));
         }
@@ -239,7 +249,7 @@ namespace AppForSEII2526.UIT.UC_Plan
             Thread.Sleep(1000);
 
             // Assert
-            Assert.True(createPlan_PO.CheckCapacityError("The selected class(es) do not have available capacity"));
+            Assert.True(createPlan_PO.CheckPlanMessage("The selected class(es) do not have available capacity"));
         }
 
     }
