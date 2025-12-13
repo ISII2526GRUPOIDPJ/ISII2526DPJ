@@ -19,7 +19,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
         By buttonGoToCreatePurchase = By.Id("GoToCreatePurchaseButton");
 
-        protected SelectItemsForPurchase_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output) {
+        public SelectItemsForPurchase_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output) {
         }
 
         public void SearchItems(string name, string brand) {
