@@ -36,8 +36,8 @@ namespace AppForSEII2526.UIT.UC_Purchase
         }
 
         private void InitialStepsForCreatingPurchase() {
-            //Precondition_perform_login();
-            Initial_step_opening_the_web_page();
+            Precondition_perform_login();
+            //Initial_step_opening_the_web_page();
 
             selectItemsForPurchase_PO.WaitForBeingVisible(By.Id("CreatePurchase"));
             _driver.FindElement(By.Id("CreatePurchase")).Click();
