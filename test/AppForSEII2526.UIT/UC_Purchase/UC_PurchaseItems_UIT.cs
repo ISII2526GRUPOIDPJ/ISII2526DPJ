@@ -83,7 +83,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             // Arrange
             AddItemAndGoToCreatePurchase(itemName1);
 
-            // Assert
+            // Act
             createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
             createPurchase_PO.ClickConfirmPurchase();
 
@@ -274,6 +274,46 @@ namespace AppForSEII2526.UIT.UC_Purchase
             // Assert
             Thread.Sleep(1000);
             Assert.True(createPurchase_PO.CheckPurchaseMessage($"(*) Error! There's no stock for '{itemName1}'."));
+        }
+
+        [Theory]
+        [InlineData("Albacete", "Spain", "Main Street 123", "Gym equipment", 1, "123456789 2025-12-31")]
+        [Trait("Level Testing", "Functional Testing")]
+        public void UC45_11_BF_AF2_AF3(string city,
+            string country,
+            string street,
+            string description,
+            int paymentMethod,
+            string paymentMethodDescription) {
+            // Arrange
+            InitialStepsForCreatingPurchase();
+
+            var expectedItemsForFilter = new List<string[]> {
+                new string[] { itemName2, itemBrand2, itemDescription2, itemPrice2, itemQuantity2 }
+            };
+
+            // Act
+            //1. Add an item
+            selectItemsForPurchase_PO.AddItemToPurchase(itemName1);
+
+            //2. Filter by name
+            Thread.Sleep(1000);
+            selectItemsForPurchase_PO.SearchItems(itemName2, "");
+
+            //3. Add a new item
+            selectItemsForPurchase_PO.AddItemToPurchase(itemName2);
+
+            //4. Remove the first item
+            selectItemsForPurchase_PO.RemoveItemFromPurchase(itemName1);
+
+            createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
+            createPurchase_PO.ClickConfirmPurchase();
+
+            // Assert
+            createPurchase_PO.ClickDialogOk();
+
+            Thread.Sleep(2000);
+            Assert.Contains("/purchase/detailpurchase", _driver.Url);
         }
     }
 }
