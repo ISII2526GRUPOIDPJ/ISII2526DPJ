@@ -1,4 +1,5 @@
 ﻿using AppForMovies.UIT.Shared;
+using NuGet.ContentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,13 @@ namespace AppForSEII2526.UIT.UC_Plan
 
 
         private CreatePlan_PO createPlan_PO;
+        private DetailPlan_PO detailPlan_PO;
 
         public UC_CreatePlan_UIT(ITestOutputHelper output) : base(output)
         {
             selectClassesForPlan_PO = new SelectClassesForPlan_PO(_driver, _output);
             createPlan_PO = new CreatePlan_PO(_driver, _output);
+            detailPlan_PO = new DetailPlan_PO(_driver, _output);
         }
 
         
@@ -66,6 +69,15 @@ namespace AppForSEII2526.UIT.UC_Plan
             createPlan_PO.WaitForBeingVisible(By.Id("Name"));
         }
 
+        public void GoToCreatePlan()
+        {
+            // Go to the plan (click button at the right)
+            selectClassesForPlan_PO.ClickGoToCreatePlan();
+
+            // Wait until Create Plan UI is visible (by looking that the field Name appears)
+            createPlan_PO.WaitForBeingVisible(By.Id("Name"));
+        }
+
         // Use dbo.Classes.ForPlanning_AllAvailable.sql & dbo.TypeItems.ForPlanning_AllAvailable.sql to have the classes in the BD
         [Fact]
         [Trait("Level Testing", "Functional Testing")]
@@ -80,14 +92,25 @@ namespace AppForSEII2526.UIT.UC_Plan
             };
 
             // Assert
-            createPlan_PO.FillPlanForm("Plan1", "Description", "4", "No issues", "CreditCard", classGoals);
+            string nameUser = "Test User";
+            string namePlan = "Plan12";
+            string description = "Description";
+            string weeks = "4";
+            string issues = "No issues";
+            string paymentMethod = "CreditCard";
+
+            createPlan_PO.FillPlanForm(namePlan, description, weeks, issues, paymentMethod, classGoals);
             createPlan_PO.ClickConfirmPlan();
 
             // Assert
             createPlan_PO.ClickDialogOk();
 
             Thread.Sleep(2000);
-            Assert.Contains("/plan/detailplan", _driver.Url);
+
+            Assert.Equal(nameUser, detailPlan_PO.GetUser());
+            Assert.Equal(namePlan, detailPlan_PO.GetPlanName());
+            Assert.Equal(weeks, detailPlan_PO.GetWeeks());
+            Assert.Equal(issues, detailPlan_PO.GetHealthIssues());
         }
 
         [Fact(Skip = "Requires empty database because it has conflicts with other tests that need data.")]
@@ -252,5 +275,55 @@ namespace AppForSEII2526.UIT.UC_Plan
             Assert.True(createPlan_PO.CheckPlanMessage("The selected class(es) do not have available capacity"));
         }
 
+        [Fact]
+        [Trait("Level Testing", "Functional Testing")]
+        public void BFAF1AF3()
+        {
+            InitialStepsForCreatingPlan();
+
+            // Adding class 1
+            selectClassesForPlan_PO.AddClassToPlan(className1);
+
+            // Searching by type
+            selectClassesForPlan_PO.SearchPlan(classType2);
+
+            // Adding class 2
+            selectClassesForPlan_PO.AddClassToPlan(className2);
+
+            // Removing class 1
+            selectClassesForPlan_PO.RemoveClassFromPlan(className1);
+
+            GoToCreatePlan();
+
+            // Fill data
+            var classGoals = new List<(string className, string goal)>
+            {
+                (className2, "The goal is to improve strength")
+            };
+
+            string nameUser = "Test User";
+            string namePlan = "Pw18989i45s";
+            string description = "description";
+            string weeks = "4";
+            string issues = "No issues";
+            string paymentMethod = "CreditCard";
+            string price = "20 €";
+
+            createPlan_PO.FillPlanForm(namePlan, description, weeks, issues, paymentMethod, classGoals);
+            createPlan_PO.ClickConfirmPlan();
+
+            Thread.Sleep(2000);
+
+            createPlan_PO.ClickDialogOk();
+            Thread.Sleep(2000);
+
+            Assert.Equal(nameUser, detailPlan_PO.GetUser());
+            Assert.Equal(namePlan, detailPlan_PO.GetPlanName());
+            Assert.Equal(weeks, detailPlan_PO.GetWeeks());
+            Assert.Equal(issues, detailPlan_PO.GetHealthIssues());
+            //Assert.Equal(DateTime.Now.ToString(), detailPlan_PO.GetCreatedDate());
+            //Assert.Equal(className2, detailPlan_PO.GetClassJoined());
+            Assert.Equal("20 €", detailPlan_PO.GetPrice());
+        }
     }
 }
