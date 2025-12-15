@@ -305,6 +305,15 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Thread.Sleep(1000);
             selectItemsForPurchase_PO.AddItemToPurchase(itemName2);
 
+            //To include AF3
+            Thread.Sleep(1000);
+            selectItemsForPurchase_PO.ClickGoToCreatePurchase();
+            createPurchase_PO.WaitForBeingVisible(By.Id("City"));
+
+            Thread.Sleep(1000);
+            createPurchase_PO.ClickModifyItems();
+            selectItemsForPurchase_PO.WaitForBeingVisible(By.Id("inputName"));
+
             //4. Remove the first item
             Thread.Sleep(1000);
             selectItemsForPurchase_PO.RemoveItemFromPurchase(itemName1);
