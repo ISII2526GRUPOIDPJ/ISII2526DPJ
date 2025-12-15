@@ -89,13 +89,8 @@ namespace AppForSEII2526.UIT.UC_Purchase
             }
         }
 
-        public bool CheckSuccessfulPurchase() {
-            try {
-                WaitForBeingVisible(purchasedItems);
-                return true;
-            } catch (Exception ex) {
-                return false;
-            }
+        public bool CheckSuccessfulPurchase(List<string[]> expectedItems) {
+            return CheckBodyTable(expectedItems, purchasedItems);
         }
     }
 }

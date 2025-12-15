@@ -82,6 +82,10 @@ namespace AppForSEII2526.UIT.UC_Purchase
             int paymentMethod,
             string paymentMethodDescription) {
             // Arrange
+            var expectedItems = new List<string[]> {
+                new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
+            };
+
             AddItemAndGoToCreatePurchase(itemName1);
 
             // Act
@@ -92,7 +96,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.ClickDialogOk();
 
             Thread.Sleep(2000);
-            Assert.True(createPurchase_PO.CheckSuccessfulPurchase());
+            Assert.True(createPurchase_PO.CheckSuccessfulPurchase(expectedItems));
         }
 
         //[Fact]
@@ -115,7 +119,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             InitialStepsForCreatingPurchase();
 
             var expectedItems = new List<string[]> {
-                new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, itemQuantity1 }
+                new string[] { itemName1, itemBrand1, itemDescription1, itemPrice1, "1" }
             };
 
             // Act
@@ -289,6 +293,10 @@ namespace AppForSEII2526.UIT.UC_Purchase
             // Arrange
             InitialStepsForCreatingPurchase();
 
+            var expectedItemsForPurchase = new List<string[]> {
+                new string[] { itemName2, itemBrand2, itemDescription2, itemPrice2, "1" }
+            };
+
             var expectedItemsForFilter = new List<string[]> {
                 new string[] { itemName2, itemBrand2, itemDescription2, itemPrice2, itemQuantity2 }
             };
@@ -324,7 +332,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.ClickDialogOk();
 
             Thread.Sleep(2000);
-            Assert.True(createPurchase_PO.CheckSuccessfulPurchase());
+            Assert.True(createPurchase_PO.CheckSuccessfulPurchase(expectedItemsForPurchase));
         }
     }
 }
