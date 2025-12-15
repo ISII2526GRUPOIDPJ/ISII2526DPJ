@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppForSEII2526.API.DTOs.PurchaseDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
         By buttonModifyItems = By.Id("ModifyItems");
         By buttonConfirmPurchase = By.Id("ConfirmPurchase");
 
-        By tablePurchaseItems = By.Id("TableOfPurchaseItems");
+        By purchasedItems = By.Id("PurchasedItems");
 
         By errorShownBy = By.Id("CreatePurchaseErrors");
 
@@ -84,6 +85,15 @@ namespace AppForSEII2526.UIT.UC_Purchase
                 _output.WriteLine($"Stock error: {errorElement.Text}");
                 return errorElement.Text.Contains(errorMessage);
             } catch (NoSuchElementException) {
+                return false;
+            }
+        }
+
+        public bool CheckSuccessfulPurchase() {
+            try {
+                WaitForBeingVisible(purchasedItems);
+                return true;
+            } catch (Exception ex) {
                 return false;
             }
         }

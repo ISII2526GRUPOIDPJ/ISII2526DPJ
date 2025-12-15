@@ -1,6 +1,7 @@
 ﻿using AppForMovies.UIT.Shared;
 using AppForSEII2526.API.Models;
 using AppForSEII2526.UIT.UC_Plan;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -91,7 +92,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.ClickDialogOk();
 
             Thread.Sleep(2000);
-            Assert.Contains("/purchase/detailpurchase", _driver.Url);
+            Assert.True(createPurchase_PO.CheckSuccessfulPurchase());
         }
 
         //[Fact]
@@ -323,7 +324,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
             createPurchase_PO.ClickDialogOk();
 
             Thread.Sleep(2000);
-            Assert.Contains("/purchase/detailpurchase", _driver.Url);
+            Assert.True(createPurchase_PO.CheckSuccessfulPurchase());
         }
     }
 }
