@@ -294,36 +294,28 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
             // Act
             //1. Add an item
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.AddItemToPurchase(itemName1);
 
             //2. Filter by name
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.SearchItems(itemName2, "");
 
             //3. Add a new item
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.AddItemToPurchase(itemName2);
 
             //To include AF3
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.ClickGoToCreatePurchase();
             createPurchase_PO.WaitForBeingVisible(By.Id("City"));
 
-            Thread.Sleep(1000);
             createPurchase_PO.ClickModifyItems();
             selectItemsForPurchase_PO.WaitForBeingVisible(By.Id("inputName"));
 
             //4. Remove the first item
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.RemoveItemFromPurchase(itemName1);
 
             //5. Create purchase
-            Thread.Sleep(1000);
             selectItemsForPurchase_PO.ClickGoToCreatePurchase();
             createPurchase_PO.WaitForBeingVisible(By.Id("City"));
 
-            Thread.Sleep(1000);
             createPurchase_PO.FillPurchaseForm(city, country, street, description, paymentMethod, paymentMethodDescription);
             createPurchase_PO.ClickConfirmPurchase();
 
