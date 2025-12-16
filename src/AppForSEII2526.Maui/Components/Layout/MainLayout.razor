@@ -18,7 +18,7 @@
 
     <div class="header-right">
 
-        <button class="assistant-icon" title="Assistant" @onclick="OpenAssistant">
+        <button class="assistant-icon" title="@Localizer["Assistant"]" @onclick="OpenAssistant">
             <i class="fas fa-robot"></i>
         </button>
 
@@ -148,12 +148,13 @@
     {
         if (!string.IsNullOrWhiteSpace(userInput))
         {
-            messages.Add("Tú: " + userInput);
+            messages.Add($"{Localizer["You"]}: {userInput}");
             string response = GetAssistantResponse(userInput);
-            messages.Add("Assistant: " + response);
+            messages.Add($"{Localizer["Assistant"]}: {response}");
             userInput = "";
         }
     }
+
 
     private string GetAssistantResponse(string input)
     {

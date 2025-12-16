@@ -282,4 +282,10 @@
   <data name="ClearFilters" xml:space="preserve">
     <value>Limpiar filtros</value>
   </data>
+  <data name="You" xml:space="preserve">
+    <value>Tú</value>
+  </data>
+  <data name="Assistant" xml:space="preserve">
+    <value>Asistente</value>
+  </data>
 </root>

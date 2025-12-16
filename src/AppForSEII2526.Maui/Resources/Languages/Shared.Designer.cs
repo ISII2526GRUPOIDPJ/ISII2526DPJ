@@ -106,6 +106,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Assistant.
+        /// </summary>
+        internal static string Assistant {
+            get {
+                return ResourceManager.GetString("Assistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Click &apos;Apply filters&apos; after selecting type and/or date..
         /// </summary>
         internal static string AssistantApplyFilters {
@@ -543,6 +552,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You.
+        /// </summary>
+        internal static string You {
+            get {
+                return ResourceManager.GetString("You", resourceCulture);
             }
         }
         

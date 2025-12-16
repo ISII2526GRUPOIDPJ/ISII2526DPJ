@@ -282,4 +282,10 @@
   <data name="ClearFilters" xml:space="preserve">
     <value>フィルターをクリア</value>
   </data>
+  <data name="You" xml:space="preserve">
+    <value>あなた</value>
+  </data>
+  <data name="Assistant" xml:space="preserve">
+    <value>アシスタント</value>
+  </data>
 </root>
