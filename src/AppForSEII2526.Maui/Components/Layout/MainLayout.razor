@@ -75,38 +75,40 @@
     private Dictionary<string[], string> intentKeywords = new()
     {
         // Saludos
-        { new string[]{"hola","hi","hello","bonjour","こんにちは","hey","hey there","salut","buenos días","good morning"}, "AssistantGreeting" },
+        { new string[]{"hola","hi","hello","bonjour","こんにちは","hey","hey there","salut","buenos días","good morning","buenas tardes","good afternoon","buenas noches","good evening","qué tal","how's it going","cómo estás","how are you"}, "AssistantGreeting" },
 
         // Listar clases disponibles
-        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス","qué clases hay","which classes are available","liste des cours"}, "AssistantListClasses" },
+        { new string[]{"clases","classes","available","disponibles","cours","cours disponibles","クラス","qué clases hay","which classes are available","liste des cours","me puedes mostrar las clases","can you show me the classes","qué actividades hay","what activities are available","cómo puedo ver las clases","cómo veo las clases","how can I see the classes"}, "AssistantListClasses" },
 
         // Filtrar por tipo de clase
-        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力","pilates","cardio","aeróbico","aerobic","musculación","weight training"}, "AssistantFilterType" },
+        { new string[]{"yoga","strength","fuerza","force","ヨガ","筋力","pilates","cardio","aeróbico","aerobic","musculación","weight training","quiero yoga","I want yoga","me interesa pilates","I'm interested in pilates","solo cardio","just cardio","solo fuerza","only strength","quiero spinning","quiero zumba","I want HIIT","cómo filtro por tipo","cómo puedo filtrar clases","how do I filter by type"}, "AssistantFilterType" },
 
         // Filtrar por día
-        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","miércoles","wednesday","jueves","thursday","金曜日","viernes","friday","土曜日","sábado","saturday"}, "AssistantFilterDay" },
+        { new string[]{"lunes","monday","martes","tuesday","lundi","mardi","miércoles","wednesday","jueves","thursday","金曜日","viernes","friday","土曜日","sábado","saturday","domingo","sunday","qué hay el lunes","what's on Monday","qué clases hay el viernes","which classes are on Friday","cómo filtro por día","cómo puedo ver clases de un día","how do I filter by day"}, "AssistantFilterDay" },
 
         // Mostrar precio total
-        { new string[]{"precio","total price","costo","coste","prix total","合計金額","cuánto cuesta","how much","total cost","total amount"}, "AssistantTotalPrice" },
+        { new string[]{"precio","total price","costo","coste","prix total","合計金額","cuánto cuesta","how much","total cost","total amount","quiero ver el precio","I want to see the price","dime el total","tell me the total","cuánto tengo que pagar","how much do I have to pay","cómo veo el precio total","cómo puedo saber cuánto cuesta","how can I see the total price"}, "AssistantTotalPrice" },
 
         // Crear plan
-        { new string[]{"crear plan","create plan","create my plan","crear mi plan","creo mi plan","créer plan","プラン作成","make my plan","build plan","generar plan"}, "AssistantCreatePlan" },
+        { new string[]{"crear plan","create plan", "create a plan","create my plan","crear mi plan","creo mi plan","créer plan","プラン作成","make my plan","build my plan","generar plan","ayúdame a crear un plan","help me create a plan","quiero armar mi plan","I want to build my plan","dame un plan","give me a plan","cómo creo un plan","como creo un plan","cómo hago mi plan","como hago mi plan","cómo puedo armar mi plan","how do I create a plan"}, "AssistantCreatePlan" },
 
         // Eliminar clase
-        { new string[]{"eliminar clase","remove class","quitar clase", "elimino una clase", "quito una clase","supprimer cours","クラス削除","borra clase","delete class","eliminar curso","supprimer cours individuel"}, "AssistantRemoveClass" },
+        { new string[]{"eliminar clase","remove class","quitar clase","elimino una clase","quito una clase","supprimer cours","クラス削除","borra clase","delete class","eliminar curso","supprimer cours individuel","quiero quitar una clase","I want to remove a class","borra la clase de yoga","remove the yoga class","elimina pilates","delete pilates","cómo elimino una clase","como elimino una clase","cómo quito una clase","como quito una clase","how do I remove a class"}, "AssistantRemoveClass" },
 
         // Aplicar filtros
-        { new string[]{"aplicar filtros","apply filters","aplico filtros","aplico un filtro","appliquer filtres","フィルター適用","filtrar","filter results","set filters"}, "AssistantApplyFilters" },
+        { new string[]{"aplicar filtros","apply filters","aplico filtros","aplico un filtro","appliquer filtres","フィルター適用","filtrar","filter results","set filters","quiero filtrar por tipo","I want to filter by type","aplicar filtro de día","apply day filter","filtra por precio","filter by price","cómo aplico filtros","como aplico filtros","cómo puedo filtrar","how do I apply filters"}, "AssistantApplyFilters" },
 
         // Limpiar filtros
-        { new string[]{"limpiar filtros","clear filters","limpio filtros","quito un filtro","quito filtros","effacer filtres","フィルタークリア","reset filters","remove filters","clear all filters"}, "AssistantClearFilters" },
+        { new string[]{"limpiar filtros","clear filters","limpio filtros","quito un filtro","quito filtros","effacer filtres","フィルタークリア","reset filters","remove filters","clear all filters","quitar todos los filtros","remove all filters","restablecer filtros","reset my filters","cómo limpio filtros","como limpio filtros","cómo quito todos los filtros","how do I clear filters"}, "AssistantClearFilters" },
 
         // Ayuda
-        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ","support","assist me","necesito ayuda","assistance"}, "AssistantHelp" },
+        { new string[]{"ayuda","help","ayúdame","aide","ヘルプ","support","assist me","necesito ayuda","assistance","puedes ayudarme","can you help me","no sé qué hacer","I don't know what to do","explícame cómo funciona","explain to me how it works","cómo puedo usar esto","como puedo usar esto","cómo funciona esto","how do I use this"}, "AssistantHelp" },
 
         // Tienda
-        { new string[]{"tienda","shop","comprar","buy", "compro", "acheter","ショップ","ver tienda","go shopping","browse shop","explorar tienda"}, "AssistantShop" }
+        { new string[]{"tienda","shop","comprar","buy","compro","acheter","ショップ","ver tienda","go shopping","browse shop","explorar tienda","quiero comprar algo","I want to buy something","muéstrame la tienda","show me the shop","qué hay en la tienda","what's in the shop","cómo puedo comprar","como puedo comprar","cómo veo la tienda","how do I shop"}, "AssistantShop" }
     };
+
+
 
 
     protected override async Task OnInitializedAsync()
