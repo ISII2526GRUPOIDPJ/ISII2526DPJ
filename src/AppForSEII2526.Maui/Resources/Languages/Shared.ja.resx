@@ -276,4 +276,10 @@
   <data name="Price" xml:space="preserve">
     <value>価格</value>
   </data>
+  <data name="ApplyFilters" xml:space="preserve">
+    <value>フィルターを適用</value>
+  </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>フィルターをクリア</value>
+  </data>
 </root>

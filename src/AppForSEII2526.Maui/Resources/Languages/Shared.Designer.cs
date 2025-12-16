@@ -97,6 +97,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Apply Filters.
+        /// </summary>
+        internal static string ApplyFilters {
+            get {
+                return ResourceManager.GetString("ApplyFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Click &apos;Apply filters&apos; after selecting type and/or date..
         /// </summary>
         internal static string AssistantApplyFilters {
@@ -246,6 +255,15 @@ namespace AppForSEII2526.Maui.Resources.Languages {
         internal static string ClassName {
             get {
                 return ResourceManager.GetString("ClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clear Filters.
+        /// </summary>
+        internal static string ClearFilters {
+            get {
+                return ResourceManager.GetString("ClearFilters", resourceCulture);
             }
         }
         

@@ -276,4 +276,10 @@
   <data name="Price" xml:space="preserve">
     <value>Prix</value>
   </data>
+  <data name="ApplyFilters" xml:space="preserve">
+    <value>Appliquer les filtres</value>
+  </data>
+  <data name="ClearFilters" xml:space="preserve">
+    <value>Effacer les filtres</value>
+  </data>
 </root>
