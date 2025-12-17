@@ -22,7 +22,7 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(IList<ClassForPlanDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> GetClassesForPlanning(DateTime? date, string? type)
+        public async Task<ActionResult> GetClassesForPlanning(DateTime? date, string? type, decimal maximumprice)
         {
             // Alternative flow 2: Date Validation (not before today)
             if (date.HasValue && date.Value.Date < DateTime.Today)
@@ -35,10 +35,15 @@ namespace AppForSEII2526.API.Controllers
             var startDate = date.HasValue ? date.Value.Date : DateTime.Today;
             var endDate = date.HasValue ? date.Value.Date.AddDays(1) : DateTime.Today.AddDays(7);
 
+            if(maximumprice <= 0)
+            {
+                return BadRequest("Maximum price cannot be nullable.");
+            }
+
             IList<ClassForPlanDTO> classesDTOS = await _context.Classes
                 .Include(c => c.TypeItems)
-                .Where(c => c.Date >= startDate && c.Date < endDate)
-                .Where(c => string.IsNullOrEmpty(type) || c.TypeItems.Any(ti => ti.Name == type))
+                .Where(c => (c.Date >= startDate && c.Date < endDate) && maximumprice >= c.Price)
+                .Where(c => (string.IsNullOrEmpty(type) || c.TypeItems.Any(ti => ti.Name == type)) && maximumprice >= c.Price)
                 .OrderBy(c => c.Date)
                     .ThenBy(c => c.Name)
                 .Select(c => new ClassForPlanDTO(

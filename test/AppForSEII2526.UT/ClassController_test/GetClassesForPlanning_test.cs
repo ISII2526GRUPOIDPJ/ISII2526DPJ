@@ -60,12 +60,12 @@ namespace AppForSEII2526.UT.ClassController_test
 
             var allTests = new List<object[]>
             {
-                new object[] { null, null, allClasses },                
-                new object[] { today.AddDays(2), null, day2Classes },   
-                new object[] { today.AddDays(2), "", day2Classes },     
-                new object[] { null, "Dance", new List<ClassForPlanDTO>{ classesDTOS[2] } },         
-                new object[] { null, "Martial Arts", new List<ClassForPlanDTO>{ classesDTOS[3] } }, 
-                new object[] { today.AddDays(1), "Strength", day1Strength }                       
+                new object[] { null, null, 99, allClasses },                
+                new object[] { today.AddDays(2), null, 99 ,day2Classes },   
+                new object[] { today.AddDays(2), "", 99 ,day2Classes },     
+                new object[] { null, "Dance", 99, new List<ClassForPlanDTO>{ classesDTOS[2] } },         
+                new object[] { null, "Martial Arts", 99, new List<ClassForPlanDTO>{ classesDTOS[3] } }, 
+                new object[] { today.AddDays(1), "Strength", 99, day1Strength }                       
             };
 
             return allTests;
@@ -78,10 +78,19 @@ namespace AppForSEII2526.UT.ClassController_test
 
             var allTests = new List<object[]>
             {
-                new object[] { today.AddDays(-1), null},   // BadRequest
-                new object[] { today.AddDays(10), null},   // NotFound  
-                new object[] { null, "NonExistentType" },  // NotFound  
-                new object[] { today.AddDays(5), "Yoga" }  // NotFound  
+                new object[] { today.AddDays(-1), null, 99},   // BadRequest
+                new object[] { today.AddDays(10), null, 99 },   // NotFound  
+                new object[] { null, "NonExistentType", 99 },  // NotFound  
+                new object[] { today.AddDays(5), "Yoga", 99 },  // NotFound  
+
+                new object[] {today.AddDays(1), null, null },
+                new object[] {null, "Cardio", null },
+                new object[] {today, "Cardio", null },
+
+                new object[] {null, null, -10},
+                new object[] {today.AddDays(1), null, -10 },
+                new object[] {null, "Cardio", -10 },
+                new object[] {today, "Cardio", -10 },
             };
 
             return allTests;
@@ -91,7 +100,7 @@ namespace AppForSEII2526.UT.ClassController_test
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetClassesForPlanning_OK))]
-        public async Task GetClassesForPlanning_filter_test(DateTime? date, string? type, List<ClassForPlanDTO> expectedClasses)
+        public async Task GetClassesForPlanning_filter_test(DateTime? date, string? type, decimal maximumprice,List<ClassForPlanDTO> expectedClasses)
         {
             var today = DateTime.Today;
 
@@ -102,7 +111,7 @@ namespace AppForSEII2526.UT.ClassController_test
             var controller = new ClassController(_context, logger);
 
             // Act
-            var result = await controller.GetClassesForPlanning(date, type);
+            var result = await controller.GetClassesForPlanning(date, type, maximumprice);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -116,7 +125,7 @@ namespace AppForSEII2526.UT.ClassController_test
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetClassesForPlanning_Error))]
-        public async Task GetClassesForPlanning_ReturnsError_WithInvalidParameters( DateTime? date, string? type)
+        public async Task GetClassesForPlanning_ReturnsError_WithInvalidParameters( DateTime? date, string? type, decimal maximumprice)
         {
             // Arrange
             var mock = new Mock<ILogger<ClassController>>();
@@ -124,13 +133,17 @@ namespace AppForSEII2526.UT.ClassController_test
             var controller = new ClassController(_context, logger);
 
             // Act
-            var result = await controller.GetClassesForPlanning(date, type);
+            var result = await controller.GetClassesForPlanning(date, type, maximumprice);
 
             // Assert
             if (date.HasValue && date.Value.Date < DateTime.Today)
             {
                 var badRequest = Assert.IsType<BadRequestObjectResult>(result);
                 Assert.Equal("Cannot select classes from past dates.", badRequest.Value);
+            } else if (maximumprice <= 0)
+            {
+                var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.Equal("Maximum price cannot be nullable.", badRequest.Value);
             }
             else
             {
