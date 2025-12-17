@@ -49,9 +49,10 @@ namespace AppForSEII2526.UT.ItemsController_test
             var itemDTOsTC3 = new List<ItemForPurchaseDTO>() { itemDTOs[0], itemDTOs[2] };
 
             var allTests = new List<Object[]> {
-                new object[] { null, null, itemDTOsTC1,  },
-                new object[] { "Shoes", null, itemDTOsTC2, },
-                new object[] { null, "Nike", itemDTOsTC3, },
+                new object[] { null, null, 0, itemDTOsTC1 },
+                new object[] { "Shoes", null, 0, itemDTOsTC2 },
+                new object[] { null, "Nike", 0, itemDTOsTC3 },
+                new object[] { null, null, 12, itemDTOsTC2 },
             };
 
             return allTests;
@@ -60,13 +61,12 @@ namespace AppForSEII2526.UT.ItemsController_test
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
         [MemberData(nameof(TestCasesFor_GetItemsForPurchase_OK))]
-        public async Task GetItemsForPurchase_filter_test(string? itemName, string? itemBrand, List<ItemForPurchaseDTO> expectedItems)
-        {
+        public async Task GetItemsForPurchase_filter_test(string? itemName, string? itemBrand, int minquantity, List<ItemForPurchaseDTO> expectedItems) {
             //Arrange
             var controller = new ItemsController(_context, null);
 
             //Act
-            var result = await controller.GetItemsForPurchase(itemName, itemBrand);
+            var result = await controller.GetItemsForPurchase(itemName, itemBrand, minquantity);
 
             //Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
