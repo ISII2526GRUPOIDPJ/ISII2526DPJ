@@ -87,15 +87,6 @@ namespace AppForSEII2526.UT.PlanController_test
             };
         }
 
-        // Test cases for no plans found
-        public static IEnumerable<object[]> TestCasesFor_GetPlan_NotFound()
-        {
-            return new List<object[]>
-            {
-                new object[] { 999 }, // ID that does not exist
-            };
-        }
-
         // Test that covers successful retrieval of plans
         [Theory]
         [Trait("LevelTesting", "Unit Testing")]
@@ -118,10 +109,9 @@ namespace AppForSEII2526.UT.PlanController_test
         }
 
         // Test that covers scenario when no plans are found
-        [Theory]
+        [Fact]
         [Trait("LevelTesting", "Unit Testing")]
-        [MemberData(nameof(TestCasesFor_GetPlan_NotFound))]
-        public async Task GetPlan_ReturnsNotFound_WhenNoPlansExist(int planId)
+        public async Task GetPlan_ReturnsNotFound_WhenNoPlansExist()
         {
             // Arrange
             var mock = new Mock<ILogger<PlanController>>();
@@ -129,7 +119,7 @@ namespace AppForSEII2526.UT.PlanController_test
             var controller = new PlanController(_context, logger);
 
             // Act
-            var result = await controller.GetPlan(planId);
+            var result = await controller.GetPlan(999);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
